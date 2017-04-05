@@ -529,7 +529,6 @@ def Install_programms():
 	Neofetch.apt_get_name ='neofetch'
 	Neofetch.check_version_cmd = 'neofetch'
 	Neofetch.notes = 'Notes... to do...'
-
 ## Fortune #####################################################
 	global Fortune
 	Fortune = NovProgram()
@@ -670,12 +669,7 @@ def Install_programms():
 	dave_s_conky = NovProgram()
 	dave_s_conky.program_name = 'dave_s_conky_v3_cfg'					#ime naj bo brez presledkov
 	dave_s_conky.description = 'my conky config file'					#neko besedilo za opis
-	dave_s_conky.extra_cmd = ['wget https://github.com/davidrihtarsic/dave_s_conky_config/archive/master.zip '\
-							  '--directory-prefix='+download_dir,
-							  'unzip '+download_dir+'master.zip -d '+download_dir,
-							  'cp '+download_dir+'dave_s_conky_config-master/dave_s_conky.conkyrc '+user+'/.config/conky/',
-							  'rm '+download_dir+'master.zip',
-							  'rm -R '+download_dir+'dave_s_conky*',
+	dave_s_conky.extra_cmd = ['wget "https://github.com/davidrihtarsic/BunsenLab/raw/master/dave_s_conky.conkyrc" -O ~/.config/conky/dave_s_conky.conkyrc',\
 							  'bl-conkyzen']					#se ene extra cmd ... ce je se kaj...
 	dave_s_conky.program_desktop = []				#vsebina v program.desktop
 	dave_s_conky.add_path_profile_variable  = ''
