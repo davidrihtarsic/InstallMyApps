@@ -497,7 +497,6 @@ def Install_programms():
 	Neofetch.apt_get_name ='neofetch'
 	Neofetch.check_version_cmd = 'neofetch'
 	Neofetch.notes = 'Notes... to do...'
-	VsiProgrami.append(Neofetch.program_name)
 ## Fortune #####################################################
 	global Fortune
 	Fortune = NovProgram()
@@ -655,8 +654,15 @@ def Install_programms():
 ## alias ll -> ls -alF #########################################
 	global ll
 	ll = NovProgram()
-	ll.program_name = 'alias_ll'					#ime naj bo brez presledkov
-	ll.description = 'priredi ll namesto uporabe ls -alF'					#neko besedilo za opis
+	ll.program_name = 'alias ll -> ls -alF'					#ime naj bo brez presledkov
+	ll.description = 'priredi ll namesto uporabe ls -alF\n'\
+					'nato so direktoriji videti takole:\n'\
+					'drwxr-xr-x 31 david david   4096 Apr  5 09:33 ./\n'\
+					'drwxr-xr-x  3 root  root    4096 Apr  1 18:08 ../\n'\
+					'drwxr-xr-x  3 david david   4096 Apr  3 19:05 Arduino/\n'\
+					'drwxr-xr-x  2 david david   4096 Apr  3 19:05 .arduino15/\n'\
+					'-rw-r--r--  1 david david      0 Jul 11  2015 .bash_aliases\n'
+					#neko besedilo za opis
 	ll.add_bash_parameter = ['\n#alias',"\nalias ll='ls -alF'"]			#text ki je za dodat v .bash 
 	ll.notes = ''
 	VsiProgrami.append(ll.program_name)
@@ -749,19 +755,6 @@ def Install_programms():
 	obmenu = NovProgram()
 	obmenu.program_name = 'openbox-menu'					#ime naj bo brez presledkov
 	obmenu.description = 'Naredi nov menu v OpenBox UI'		#neko besedilo za opis
-	# obmenu.apt_get_cmd = ''					#ce je kaka komanda prej za narest
-	# obmenu.apt_get_name = ''					#ime za apt-get
-	# obmenu.check_version_cmd = ''			#cmd za preverjanje verzije
-	# obmenu.deb_package_path = ''				#url ua BED (brez fila)
-	# obmenu.deb_package_file = ''				#file za katerikoli sistem
-	# obmenu.deb_package_file_32 = ''			#file za 32bit
-	# obmenu.deb_package_file_64 = ''			#file za 64bit
-	# obmenu.tar_package_path = ''				#url (brez fila)
-	# obmenu.tar_package_file = ''				#file za katerikoli sistem
-	# obmenu.tar_package_file_32 = ''			#file za 32bit
-	# obmenu.tar_package_file_64 = ''			#file za 64bit
-	# obmenu.tar_destination = ''				#kam naj od tara.. TAR paket
-	# obmenu.tar_extra_cmd = []				#extra commande, ce je se kaj za narest...
 	obmenu.extra_cmd = ['sudo git clone https://github.com/woho/openbox-menu.git '+opt_dir+'openbox-menu']#se ene extra cmd ... ce je se kaj...
 	obmenu.program_desktop = ['[Desktop Entry]',
 							'Version=1.0',
@@ -771,9 +764,7 @@ def Install_programms():
 							'Terminal=true',
 							'Type=Application',
 							'Categories=Settings;'
-							]				#vsebina v program.desktop
-	# obmenu.add_path_profile_variable  = '' 
-	# obmenu.add_bash_parameter = []			#text ki je za dodat v .bash 
+							] 
 	# obmenu.notes = ''
 	VsiProgrami.append(obmenu.program_name)
 
