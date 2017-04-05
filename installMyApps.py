@@ -263,6 +263,14 @@ class NovProgram(object):
 							f.write(text)
 						f.close()
 
+	def run_bash_cmds(self):
+		## Post INSTALL operations #####################################################
+		if len(self.extra_cmd) != 0:
+			for extra_cmd in self.extra_cmd:
+				key = raw_input('--> execute:'+extra_cmd+ ' [y/n]')
+				if key == 'y':
+					os.system(extra_cmd)
+	
 	def make_destop_file(self):
 		## Dodajanje program.desktop datoteke v /usr/share/applications/ ################
 		if len(self.program_desktop) != 0:
@@ -281,14 +289,6 @@ class NovProgram(object):
 						#sys.stdout.write(sudo_txt[0]+sudo_txt[1]+sudo_txt[2]+sudo_txt[3])
 						os.system(sudo_txt[0]+sudo_txt[1]+sudo_txt[2]+sudo_txt[3])
 	
-	def run_bash_cmds(self):
-		## Post INSTALL operations #####################################################
-		if len(self.extra_cmd) != 0:
-			for extra_cmd in self.extra_cmd:
-				key = raw_input('--> execute:'+extra_cmd+ ' [y/n]')
-				if key == 'y':
-					os.system(extra_cmd)
-
 	def version_check(self):
 		## KONEC INSTALACIJE samo se navodila in verzija check! ########################		
 		if self.check_version_cmd != '':
@@ -313,8 +313,8 @@ class NovProgram(object):
 			self.install_apt_cmd()
 			self.install_DEB_package()	
 			self.install_TAR_package()
-			self.add_PATH_parameter()
 			self.make_destop_file()
+			self.add_PATH_parameter()
 			self.run_bash_cmds()
 			self.add_BASH_parameter()
 			self.version_check()
@@ -622,35 +622,22 @@ def Install_programms():
 	Skype.deb_package_file_32 = 'skypeforlinux-32.deb'
 	VsiProgrami.append(Skype.program_name)
 ## OpenBoxMENU generatoe  ######################################
-	global obmenugen
-	obmenugen = NovProgram()
-	obmenugen.program_name = 'obmenugen'		#ime naj bo brez presledkov
-	obmenugen.description = 'Namenjeno avtomatskemu generiranju menuja v okolju OpenBox,\n'\
-							'katerega uporablja tudi BunsenLab. Program zgenerira menu\n'\
-							'iz vsebine datotek, ki jih najde v /usr/share/applications/*'
-	obmenugen.apt_get_cmd = ''					#ce je kaka komanda prej za narest
-	obmenugen.apt_get_name = ''					#ime za apt-get
-	obmenugen.check_version_cmd = ''			#cmd za preverjanje verzije
-	obmenugen.deb_package_path = ''				#url ua BED (brez fila)
-	obmenugen.deb_package_file = ''				#file za katerikoli sistem
-	obmenugen.deb_package_file_32 = ''			#file za 32bit
-	obmenugen.deb_package_file_64 = ''			#file za 64bit
-	obmenugen.tar_package_path = 'https://netcologne.dl.sourceforge.net/project/obmenugen/obmenugen/obmenugen-0.2beta/'				#url (brez fila)
-	obmenugen.tar_package_file = 'obmenugen-0.2beta.tar.bz2'				#file za katerikoli sistem
-	obmenugen.tar_package_file_32 = ''			#file za 32bit
-	obmenugen.tar_package_file_64 = ''			#file za 64bit
-	obmenugen.tar_destination = ''				#kam naj od tara.. TAR paket
-	obmenugen.tar_extra_cmd = ['sudo cp '+download_dir+'obmenugen/bin/obmenugen /usr/bin/',
-								'obmenugen -p',
-								'openbox --reconfigure',
-								'rm -R '+download_dir+'obmenugen']				#extra commande, ce je se kaj za narest...
-	obmenugen.extra_cmd = []					#se ene extra cmd ... ce je se kaj...
-	obmenugen.program_desktop = []				#vsebina v program.desktop
-	obmenugen.add_path_profile_variable  = '' 
-	obmenugen.notes = 'Najverjetneje boste morali sami urediti tudi nekaj podatkov v:\n'\
-						'~/.config/obmenugen/obmenugen.cfg\n'\
-						'Kot naprimer kateri terminalni simulator uporabljate in\n'\
-						'vas priljubljen urejevalnik besedil...'
+	# global obmenugen
+	# obmenugen = NovProgram()
+	# obmenugen.program_name = 'obmenugen'		#ime naj bo brez presledkov
+	# obmenugen.description = 'Namenjeno avtomatskemu generiranju menuja v okolju OpenBox,\n'\
+	# 						'katerega uporablja tudi BunsenLab. Program zgenerira menu\n'\
+	# 						'iz vsebine datotek, ki jih najde v /usr/share/applications/*'
+	# obmenugen.tar_package_path = 'https://netcologne.dl.sourceforge.net/project/obmenugen/obmenugen/obmenugen-0.2beta/'				#url (brez fila)
+	# obmenugen.tar_package_file = 'obmenugen-0.2beta.tar.bz2'				#file za katerikoli sistem
+	# obmenugen.tar_extra_cmd = ['sudo cp '+download_dir+'obmenugen/bin/obmenugen /usr/bin/',
+	# 							'obmenugen -p',
+	# 							'openbox --reconfigure',
+	# 							'rm -R '+download_dir+'obmenugen']				#extra commande, ce je se kaj za narest...
+	# obmenugen.notes = 'Najverjetneje boste morali sami urediti tudi nekaj podatkov v:\n'\
+	# 					'~/.config/obmenugen/obmenugen.cfg\n'\
+	# 					'Kot naprimer kateri terminalni simulator uporabljate in\n'\
+	# 					'vas priljubljen urejevalnik besedil...'
 	#VsiProgrami.append(obmenugen.program_name)
 ## conky #######################################################
 	global conky
@@ -783,7 +770,10 @@ def Install_programms():
 	obmenu = NovProgram()
 	obmenu.program_name = 'openbox-menu'					#ime naj bo brez presledkov
 	obmenu.description = 'Naredi nov menu v OpenBox UI'		#neko besedilo za opis
-	obmenu.extra_cmd = ['sudo git clone https://github.com/woho/openbox-menu.git '+opt_dir+'openbox-menu']#se ene extra cmd ... ce je se kaj...
+	obmenu.extra_cmd = ['mv ~/.config/openbox/menu.xml ~/.config/openbox/menu_original.xml',\
+						'wget "https://github.com/davidrihtarsic/BunsenLab/raw/master/OpenBox_menu.xml" -O ~/.config/openbox/menu.xml',\
+						'sudo git clone https://github.com/woho/openbox-menu.git '+opt_dir+'openbox-menu',\
+						'/opt/openbox-menu/obmenu.py']#se ene extra cmd ... ce je se kaj...
 	obmenu.program_desktop = ['[Desktop Entry]',
 							'Version=1.0',
 							'Name=openbox-menu',
