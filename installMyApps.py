@@ -701,6 +701,7 @@ def Install_programms():
 	# java_8.tar_package_file = ''				#file za katerikoli sistem
 	# java_8.tar_package_file_32 = ''			#file za 32bit
 	# http://download.oracle.com/otn-pub/java/jdk/8u121-b13/e9e7ea248e2c4826b92b3f075a80e441/jre-8u121-linux-x64.tar.gz
+	# asdf 
 	java_8.tar_package_path_64 = 'http://javadl.oracle.com/webapps/download/'				#url (brez fila)
 	java_8.tar_package_file_64 = 'AutoDL?BundleId=218823_e9e7ea248e2c4826b92b3f075a80e441'			#file za 64bit
 	java_8.tar_destination = '/usr/lib/jvm/'				#kam naj od tara.. TAR paket
