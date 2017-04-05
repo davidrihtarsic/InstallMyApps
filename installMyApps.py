@@ -487,6 +487,38 @@ def Install_programms():
 	#					'sudo mv ' + download_dir + 'nmon/nmon_x86_debian8 /usr/bin/nmon',
 	#					'sudo rm -R ' + download_dir+'nmon/']
 	VsiProgrami.append(nmon.program_name)
+## WAVEMON #############################################
+	global wavemon
+	wavemon = NovProgram()
+	wavemon.program_name = 'wavemon'					#ime naj bo brez presledkov
+	wavemon.description = 'Program za monitoring wireless omrezj'					#neko besedilo za opis
+	#wavemon.apt_get_cmd = ''					#ce je kaka komanda prej za narest
+	wavemon.apt_get_name = 'wavemon'					#ime za apt-get
+	# wavemon.check_version_cmd = ''			#cmd za preverjanje verzije
+	# wavemon.deb_package_path = ''				#url ua BED (brez fila)
+	# wavemon.deb_package_file = ''				#file za katerikoli sistem
+	# wavemon.deb_package_file_32 = ''			#file za 32bit
+	# wavemon.deb_package_file_64 = ''			#file za 64bit
+	# wavemon.tar_package_path = ''				#url (brez fila)
+	# wavemon.tar_package_file = ''				#file za katerikoli sistem
+	# wavemon.tar_package_file_32 = ''			#file za 32bit
+	# wavemon.tar_package_file_64 = ''			#file za 64bit
+	# wavemon.tar_destination = ''				#kam naj od tara.. TAR paket
+	# wavemon.tar_extra_cmd = []				#extra commande, ce je se kaj za narest...
+	# wavemon.extra_cmd = []					#se ene extra cmd ... ce je se kaj...
+	wavemon.program_desktop = ['[Desktop Entry]',
+							'Version=1.0',
+							'Name=WaveMon',
+							'Exec=sudo wavemon',
+							'Icon=wifi',
+							'Terminal=true',
+							'Type=Application',
+							'Categories=Network;'
+							]				#vsebina v program.desktop
+	# wavemon.add_path_profile_variable  = '' 
+	# wavemon.add_bash_parameter = []			#text ki je za dodat v .bash 
+	# wavemon.notes = ''
+	VsiProgrami.append(wavemon.program_name)
 ## Neofetch ####################################################
 	global Neofetch
 	Neofetch = NovProgram()
@@ -497,6 +529,7 @@ def Install_programms():
 	Neofetch.apt_get_name ='neofetch'
 	Neofetch.check_version_cmd = 'neofetch'
 	Neofetch.notes = 'Notes... to do...'
+
 ## Fortune #####################################################
 	global Fortune
 	Fortune = NovProgram()
@@ -811,35 +844,38 @@ Main()
 #while (editCmd.value != 'q'):
 while (key != 'q'):
 	key = raw_input('Cmd::')
+	programe_index=(i for i in xrange(30))
+	programe_index.next()
 	if key == '':
 		cls()
 		Main()
-	elif key == '1':	Update_Upgrade.install()	
-	elif key == '2':	Arduino.install()
-	elif key == '3':	qCAD.install()
-	elif key == '4':	FreeCAD.install()
-	elif key == '5':	Sublime.install()
-	elif key == '6':	Terminator.install()
-	elif key == '7':	Htop.install()
-	elif key == '8':	nmon.install()
-	elif key == '9':	Neofetch.install()
-	elif key == '10':	Fortune.install()
-	elif key == '11':	Cowsay.install()
-	elif key == '12':	Keymap.install()
-	elif key == '13':	LibreOffice.install()
-	elif key == '14':	Thunderbird.install()
-	elif key == '15':	GoogleChrome.install()
-	elif key == '16':	W3M.install()
-	elif key == '17':	Skype.install()
-	elif key == '18':	obmenugen.install()
-	elif key == '19':	conky.install()
-	elif key == '20':	dave_s_conky.install()
-	elif key == '21':	ll.install()
-	elif key == '22':	git.install()
-	elif key == '23':	java_8.install()
-	elif key == '24':	smartGit.install()
-	elif key == '25':	obmenu.install()
-	#elif key == '':	.install()
+	elif key == str(programe_index.next()):	Update_Upgrade.install()	
+	elif key == str(programe_index.next()):	Arduino.install()
+	elif key == str(programe_index.next()):	qCAD.install()
+	elif key == str(programe_index.next()):	FreeCAD.install()
+	elif key == str(programe_index.next()):	Sublime.install()
+	elif key == str(programe_index.next()):	Terminator.install()
+	elif key == str(programe_index.next()):	Htop.install()
+	elif key == str(programe_index.next()):	nmon.install()
+	elif key == str(programe_index.next()):	wavemon.install()
+	elif key == str(programe_index.next()):	Neofetch.install()
+	elif key == str(programe_index.next()):	Fortune.install()
+	elif key == str(programe_index.next()):	Cowsay.install()
+	elif key == str(programe_index.next()):	Keymap.install()
+	elif key == str(programe_index.next()):	LibreOffice.install()
+	elif key == str(programe_index.next()):	Thunderbird.install()
+	elif key == str(programe_index.next()):	GoogleChrome.install()
+	elif key == str(programe_index.next()):	W3M.install()
+	elif key == str(programe_index.next()):	Skype.install()
+	elif key == str(programe_index.next()):	obmenugen.install()
+	elif key == str(programe_index.next()):	conky.install()
+	elif key == str(programe_index.next()):	dave_s_conky.install()
+	elif key == str(programe_index.next()):	ll.install()
+	elif key == str(programe_index.next()):	git.install()
+	elif key == str(programe_index.next()):	java_8.install()
+	elif key == str(programe_index.next()):	smartGit.install()
+	elif key == str(programe_index.next()):	obmenu.install()
+	#elif key == 'str(programe_index.next()):	.install()
 	elif key == 'all':
 		Update_Upgrade.install()	
 		Arduino.install()
