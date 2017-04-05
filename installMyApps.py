@@ -7,7 +7,7 @@ cls()
 # PROGRAMI ##################################################
 # ImePrograma - AptCommand - DEB pachage - InstallFromSource
 #  todo...
-# Tole je nov text!!!
+
 user = os.path.expanduser('~')
 download_dir = user + '/Downloads/'
 opt_dir = '/opt/'
