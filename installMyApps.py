@@ -529,6 +529,7 @@ def Install_programms():
 	Neofetch.apt_get_name ='neofetch'
 	Neofetch.check_version_cmd = 'neofetch'
 	Neofetch.notes = 'Notes... to do...'
+	VsiProgrami.append(Neofetch.program_name)
 ## Fortune #####################################################
 	global Fortune
 	Fortune = NovProgram()
@@ -650,7 +651,7 @@ def Install_programms():
 						'~/.config/obmenugen/obmenugen.cfg\n'\
 						'Kot naprimer kateri terminalni simulator uporabljate in\n'\
 						'vas priljubljen urejevalnik besedil...'
-	VsiProgrami.append(obmenugen.program_name)
+	#VsiProgrami.append(obmenugen.program_name)
 ## conky #######################################################
 	global conky
 	conky = NovProgram()
@@ -861,7 +862,7 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	GoogleChrome.install()
 	elif key == str(programe_index.next()):	W3M.install()
 	elif key == str(programe_index.next()):	Skype.install()
-	elif key == str(programe_index.next()):	obmenugen.install()
+	#elif key == str(programe_index.next()):	obmenugen.install()
 	elif key == str(programe_index.next()):	conky.install()
 	elif key == str(programe_index.next()):	dave_s_conky.install()
 	elif key == str(programe_index.next()):	ll.install()
