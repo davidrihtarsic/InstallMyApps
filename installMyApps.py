@@ -561,11 +561,17 @@ def Install_programms():
 	global LibreOffice
 	LibreOffice = NovProgram()
 	LibreOffice.program_name = 'LibreOffice'
-	LibreOffice.description = 'To do...'
+	LibreOffice.description = 'Office suit for linux and other OS...'
 	LibreOffice.apt_get_name =''
 	LibreOffice.check_version_cmd = ''
-	LibreOffice.deb_package_path = ''
-	LibreOffice.deb_package_file = ''
+	LibreOffice.deb_package_path_64 = ''
+	LibreOffice.deb_package_file_64 = ''
+	LibreOffice.tar_package_path_64 = 'http://mirror.ba/tdf/libreoffice/stable/5.3.2/deb/x86_64/'
+	LibreOffice.tar_package_file_64 = 'LibreOffice_5.3.2_Linux_x86-64_deb.tar.gz'
+	LibreOffice.tar_destination ='/opt/'
+	LibreOffice.tar_extra_cmd = ['sudo dpkg -i /opt/LibreOffice_5.3.2.2_Linux_x86-64_deb/DEBS/*.deb']
+	LibreOffice.deb_package_path_32 = ''
+	LibreOffice.deb_package_file_32 = ''
 	VsiProgrami.append(LibreOffice.program_name)
 ## Thunderbird #################################################
 	global Thunderbird
