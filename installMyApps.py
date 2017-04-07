@@ -554,8 +554,9 @@ def Install_programms():
 ## Keymap ######################################################
 	global Keymap
 	Keymap = NovProgram()
-	Keymap.description='to do'
+	Keymap.description='remap tipke [dz] v "/"'
 	Keymap.program_name = 'Keymap'
+	Keymap.add_bash_parameter = ['\n #remap tipko [dz] - "/"','\n xmodmap -e "keycode 35 = slash"']			#text ki je za dodat v .bash 
 	VsiProgrami.append(Keymap.program_name)
 ## LibreOffice #################################################
 	global LibreOffice
@@ -579,9 +580,20 @@ def Install_programms():
 	Thunderbird.program_name = 'Thunderbird'
 	Thunderbird.description = 'Postni odjemalec...'
 	Thunderbird.apt_get_name ='thunderbird'
-	Thunderbird.check_version_cmd = ''
-	Thunderbird.deb_package_path = ''
-	Thunderbird.deb_package_file = ''
+	Thunderbird.tar_package_path_64 = 'https://download-installer.cdn.mozilla.net/pub/thunderbird/releases/45.8.0/linux-x86_64/en-US/'
+	Thunderbird.tar_package_file_64 = 'thunderbird-45.8.0.tar.bz2'
+	Thunderbird.tar_destination = '/opt/'
+	Thunderbird.program_desktop = ['[Desktop Entry]',
+							'Version=1.0',
+							'Name=Thunderbird',
+							'Exec=/opt/thunderbird/thunderbird',
+							'Icon=/usr/share/icons/Faenza/apps/32/thunderbird.png',
+							'Terminal=false',
+							'Type=Application',
+							'Categories=Network;'
+							]
+	Thunderbird.extra_cmd = ['sudo ln -s /opt/thunderbird/thunderbird /usr/bin/thunderbird']
+	Thunderbird.check_version_cmd = 'thunderbird -v'
 	VsiProgrami.append(Thunderbird.program_name)
 ## GoogleChrome ################################################
 	global GoogleChrome
@@ -613,7 +625,7 @@ def Install_programms():
 							'Type=Application',
 							'Categories=Network;'
 							]				#vsebina v program.desktop
-	W3M.notes = 'dodaj: alias w3mm="w3m www.google.com" --> ~/.bashrc'
+	W3M.add_bash_parameter = ["\n #alias w3mm da odpre duckduckgo.com","\n alias w3mm='w3m www.google.com'"]
 	VsiProgrami.append(W3M.program_name)
 ## Skype #######################################################
 	global Skype
@@ -885,11 +897,12 @@ while (key != 'q'):
 		GoogleChrome.install()
 		W3M.install()
 		Skype.install()
-		obmenugen.install()
+		#obmenugen.install()
 		conky.install()
 		dave_s_conky.install()
 		ll.install()
 		git.install()
+		java_8.install()
 		smartGit.install()
 		obmenu.install()
 	elif key == 'tehnika':	
