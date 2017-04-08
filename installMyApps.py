@@ -388,6 +388,14 @@ def Install_programms():
 							]
 	#Arduino.tar_extra_cmd = ['sudo ' + Arduino.tar_destination + 'arduino-1.8.1/install.sh']
 	Arduino.add_path_profile_variable  = Arduino.tar_destination + 'arduino-nightly/'
+	Arduino.notes = 'NASTAVITI JE POTREBNO "SERIAL PORT PERMITIONS"!\n'\
+					'poglej na: http://playground.arduino.cc/Linux/All#Permission\n'\
+					'1. -> ls -l /dev/ttyUSB* ali ls -l /dev/ttyACM*\n'\
+					'	dobimo:\n'\
+					'	crw-rw---- 1 root dialout 188, 0  5 apr 23.01 ttyACM0\n'\
+					'	kjer je "dailout" - group name\n'\
+					'2. -> sudo usermod -a -G group-name username\n'\
+					'3. log-OUT & log-IN'
 	VsiProgrami.append(Arduino.program_name)
 ## QCAD ########################################################
 	global qCAD
