@@ -5,7 +5,7 @@ import os
 
 cls()
 # PROGRAMI ##################################################
-#  asdfImePrograma  - AptCommand - DEB pachage - InstallFromSource
+#  Programa  - AptCommand - DEB pachage - InstallFromSource
 #  todo...
 
 user = os.path.expanduser('~')
@@ -557,7 +557,7 @@ def Install_programms():
 	Cowsay.check_version_cmd = 'cowsay -help'
 	Cowsay.deb_package_path = ''
 	Cowsay.deb_package_file = ''
-	Cowsay.add_bash_parameter = ["\nalias clr='clear;neofetch;fortune|cowsay'"]
+	Cowsay.add_bash_parameter = ["\nalias cls='clear;neofetch;fortune|cowsay'"]
 	Cowsay.notes = 'V terminatorju nastavite:\nPreferences -> Profiles -> Command\ncustom command: [ neofetch;fortune|cowsay;bash ]'
 	VsiProgrami.append(Cowsay.program_name)
 ## Keymap ######################################################
@@ -696,7 +696,7 @@ def Install_programms():
 ## alias ll -> ls -alF #########################################
 	global ll
 	ll = NovProgram()
-	ll.program_name = 'alias ll -> ls -alF'					#ime naj bo brez presledkov
+	ll.program_name = 'alias ll'					#ime naj bo brez presledkov
 	ll.description = 'priredi ll namesto uporabe ls -alF\n'\
 					'nato so direktoriji videti takole:\n'\
 					'drwxr-xr-x 31 david david   4096 Apr  5 09:33 ./\n'\
@@ -812,6 +812,15 @@ def Install_programms():
 							] 
 	# obmenu.notes = ''
 	VsiProgrami.append(obmenu.program_name)
+## alias WEATHER ###############################################
+	global weather
+	weather = NovProgram()
+	weather.program_name = 'alias weather'					#ime naj bo brez presledkov
+	weather.description = 'izpis vremena za tri dni v terminalnem oknu'
+					#neko besedilo za opis
+	weather.add_bash_parameter = ["\nalias weather='curl wttr.in/~begunje'"]			#text ki je za dodat v .bash 
+	weather.notes = ''
+	VsiProgrami.append(weather.program_name)
 
 Install_programms()
 
@@ -887,6 +896,7 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	java_8.install()
 	elif key == str(programe_index.next()):	smartGit.install()
 	elif key == str(programe_index.next()):	obmenu.install()
+	elif key == str(programe_index.next()):	weather.install()
 	#elif key == 'str(programe_index.next()):	.install()
 	elif key == 'all':
 		Update_Upgrade.install()	
@@ -914,6 +924,7 @@ while (key != 'q'):
 		java_8.install()
 		smartGit.install()
 		obmenu.install()
+		weather.install()
 	elif key == 'tehnika':	
 		Arduino.install()
 		qCAD.install()
