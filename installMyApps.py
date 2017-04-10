@@ -5,7 +5,7 @@ import os
 
 cls()
 # PROGRAMI ##################################################
-# ImePrograma - AptCommand - DEB pachage - InstallFromSource
+#  ImePrograma - AptCommand - DEB pachage - InstallFromSource
 #  todo...
 
 user = os.path.expanduser('~')
