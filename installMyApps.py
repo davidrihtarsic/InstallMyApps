@@ -5,7 +5,7 @@ import os
 
 cls()
 # PROGRAMI ##################################################
-#  asdfImePrograma - AptCommand - DEB pachage - InstallFromSource
+#  asdfImePrograma  - AptCommand - DEB pachage - InstallFromSource
 #  todo...
 
 user = os.path.expanduser('~')
