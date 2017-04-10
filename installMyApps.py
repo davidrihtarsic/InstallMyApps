@@ -557,6 +557,7 @@ def Install_programms():
 	Cowsay.check_version_cmd = 'cowsay -help'
 	Cowsay.deb_package_path = ''
 	Cowsay.deb_package_file = ''
+	Cowsay.add_bash_parameter = ["\nalias clr='clear;neofetch;fortune|cowsay'"]
 	Cowsay.notes = 'V terminatorju nastavite:\nPreferences -> Profiles -> Command\ncustom command: [ neofetch;fortune|cowsay;bash ]'
 	VsiProgrami.append(Cowsay.program_name)
 ## Keymap ######################################################
@@ -564,7 +565,7 @@ def Install_programms():
 	Keymap = NovProgram()
 	Keymap.description='remap tipke [dz] v "/"'
 	Keymap.program_name = 'Keymap'
-	Keymap.add_bash_parameter = ['\n #remap tipko [dz] - "/"','\n xmodmap -e "keycode 35 = slash"']			#text ki je za dodat v .bash 
+	Keymap.add_bash_parameter = ['\n#remap tipko [dz] - "/"','\nxmodmap -e "keycode 35 = slash"']			#text ki je za dodat v .bash 
 	VsiProgrami.append(Keymap.program_name)
 ## LibreOffice #################################################
 	global LibreOffice
