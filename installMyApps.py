@@ -804,8 +804,8 @@ def Install_programms():
 							  'bl-conkyzen']					#se ene extra cmd ... ce je se kaj...
 	dave_s_conky.program_desktop = []				#vsebina v program.desktop
 	dave_s_conky.add_path_profile_variable  = ''
-	dave_s_conky.add_bash_parameter = 	['\n# zazeni conky ob zagomu racunalnika...',
-										'\nconky --config='+user+'/.config/conky/dave_s_conky.conkyrc']
+	#dave_s_conky.add_bash_parameter = 	['\n# zazeni conky ob zagomu racunalnika...',
+	#									'\nconky --config='+user+'/.config/conky/dave_s_conky.conkyrc']
 	#add to .bashrc file =>'conky -config='+user+'/.config/conky/dave_s_conky.conkyrc' 
 	dave_s_conky.notes = ''
 	VsiProgrami.append(dave_s_conky.program_name)
