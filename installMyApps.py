@@ -325,7 +325,7 @@ class NovProgram(object):
 
 ## DEFINICIJA PROGRAMOV ZA INSTALACIJO #########################
 def Install_programms():
-## PRIMER PROGRAMA #############################################
+## HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP #####
 	#global Primer_programa
 	#Primer_programa = NovProgram()
 	#Primer_programa.program_name = ''
@@ -453,6 +453,34 @@ def Install_programms():
 	#	NOTES - ko se instalacijski postopek zakljuci se izpise neko besedilo, ki sporoci
 	#	uporabniku kaka nadaljna navodila. Naprimer, ce program potrebuje kake dodatne
 	#	nastavitve, kot v primeru terminatorja za prikaz podatkov o racunalniku z neofetch.
+	#VsiProgrami.append(Primer_programa.program_name)
+## Primer_programa ############################################
+	#global Primer_programa
+	#Primer_programa = NovProgram()
+	#Primer_programa.program_name = ''
+	#Primer_programa.description = ''
+	#Primer_programa.pre_install_cmds = []					
+	#Primer_programa.apt_get_name = ''
+	#Primer_programa.deb_package_path = ''
+	#Primer_programa.deb_package_file = ''
+	#Primer_programa.deb_package_path_32 = ''
+	#Primer_programa.deb_package_file_32 = ''
+	#Primer_programa.deb_package_path_64 = ''
+	#Primer_programa.deb_package_file_64 = ''
+	#Primer_programa.tar_package_path = ''
+	#Primer_programa.tar_package_file = ''
+	#Primer_programa.tar_package_path_32 = ''
+	#Primer_programa.tar_package_file_32 = ''
+	#Primer_programa.tar_package_path_64 = ''
+	#Primer_programa.tar_package_file_64 = ''
+	#Primer_programa.tar_destination = ''
+	#Primer_programa.tar_extra_cmds = []
+	#Primer_programa.program_desktop = []
+	#Primer_programa.add_path_profile_variable  = ''
+	#Primer_programa.extra_cmd = []
+	#Primer_programa.add_bash_parameter = []
+	#Primer_programa.check_version_cmd = ''
+	#Primer_programa.notes = ''
 	#VsiProgrami.append(Primer_programa.program_name)
 ## UPDATE & UPGRADE ############################################
 	global Update_Upgrade
