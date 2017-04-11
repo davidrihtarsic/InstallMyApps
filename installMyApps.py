@@ -937,7 +937,9 @@ def Install_programms():
 	VsiProgrami.append(Foxitreader.program_name)
 
 
-#tole
+
+#tole je proba
+
 Install_programms()
 
 def MakeProgrammsForm():
