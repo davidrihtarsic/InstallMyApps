@@ -893,7 +893,7 @@ def Install_programms():
 	weather.add_bash_parameter = ["\nalias weather='curl wttr.in/~begunje'"]			#text ki je za dodat v .bash 
 	weather.notes = ''
 	VsiProgrami.append(weather.program_name)
-## Primer_programa ############################################
+## Stellarium ############################################
 	global stellarium
 	stellarium = NovProgram()
 	stellarium.program_name = 'stellarium'
@@ -907,6 +907,35 @@ def Install_programms():
 	#stellarium.check_version_cmd = ''
 	#stellarium.notes = ''
 	VsiProgrami.append(stellarium.program_name)
+## Foxitreader ############################################
+	global Foxitreader
+	Foxitreader = NovProgram()
+	Foxitreader.program_name = 'Foxitreader'
+	Foxitreader.description = 'Program za urejanje ODF dokumentov'
+	Foxitreader.pre_install_cmds = []					
+	Foxitreader.apt_get_name = ''
+	Foxitreader.deb_package_path = ''
+	Foxitreader.deb_package_file = ''
+	Foxitreader.deb_package_path_32 = ''
+	Foxitreader.deb_package_file_32 = ''
+	Foxitreader.deb_package_path_64 = ''
+	Foxitreader.deb_package_file_64 = ''
+	Foxitreader.tar_package_path = ''
+	Foxitreader.tar_package_file = ''
+	Foxitreader.tar_package_path_32 = 'http://cdn09.foxitsoftware.com/pub/foxit/reader/desktop/linux/2.x/2.3/en_us/'
+	Foxitreader.tar_package_file_32 = 'FoxitReader2.3.0.2174_Server_x86_enu_Setup.run.tar.gz'
+	Foxitreader.tar_package_path_64 = ''
+	Foxitreader.tar_package_file_64 = ''
+	Foxitreader.tar_destination = ''
+	Foxitreader.tar_extra_cmds = ["~/Downloads/FoxitReader*"]
+	Foxitreader.program_desktop = []
+	Foxitreader.add_path_profile_variable  = ''
+	Foxitreader.extra_cmd = []
+	Foxitreader.add_bash_parameter = []
+	Foxitreader.check_version_cmd = ''
+	Foxitreader.notes = ''
+	VsiProgrami.append(Foxitreader.program_name)
+
 
 #tole sem dodal
 Install_programms()
@@ -985,6 +1014,7 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	obmenu.install()
 	elif key == str(programe_index.next()):	weather.install()
 	elif key == str(programe_index.next()):	stellarium.install()
+	elif key == str(programe_index.next()):	Foxitreader.install()
 	#elif key == 'str(programe_index.next()):	.install()
 	elif key == 'all':
 		Update_Upgrade.install()	
@@ -1014,6 +1044,7 @@ while (key != 'q'):
 		obmenu.install()
 		weather.install()
 		stellarium.install()
+		Foxitreader.install()
 	elif key == 'tehnika':	
 		Arduino.install()
 		qCAD.install()
