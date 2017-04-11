@@ -333,11 +333,15 @@ def Install_programms():
 	# Primer_programa.check_version_cmd = ''			#cmd za preverjanje verzije
 	# Primer_programa.deb_package_path = ''				#url ua BED (brez fila)
 	# Primer_programa.deb_package_file = ''				#file za katerikoli sistem
+	# Primer_programa.deb_package_path_32 = ''
 	# Primer_programa.deb_package_file_32 = ''			#file za 32bit
+	# Primer_programa.deb_package_path_64 = ''
 	# Primer_programa.deb_package_file_64 = ''			#file za 64bit
 	# Primer_programa.tar_package_path = ''				#url (brez fila)
 	# Primer_programa.tar_package_file = ''				#file za katerikoli sistem
+	# Primer_programa.tar_package_path_32 = ''			#file za 32bit
 	# Primer_programa.tar_package_file_32 = ''			#file za 32bit
+	# Primer_programa.tar_package_path_64 = ''			#file za 64bit
 	# Primer_programa.tar_package_file_64 = ''			#file za 64bit
 	# Primer_programa.tar_destination = ''				#kam naj od tara.. TAR paket
 	# Primer_programa.tar_extra_cmd = []				#extra commande, ce je se kaj za narest...
@@ -495,7 +499,7 @@ def Install_programms():
 	#					'sudo mv ' + download_dir + 'nmon/nmon_x86_debian8 /usr/bin/nmon',
 	#					'sudo rm -R ' + download_dir+'nmon/']
 	VsiProgrami.append(nmon.program_name)
-## WAVEMON #############################################
+## WAVEMON #####################################################
 	global wavemon
 	wavemon = NovProgram()
 	wavemon.program_name = 'wavemon'					#ime naj bo brez presledkov
