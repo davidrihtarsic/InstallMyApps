@@ -70,7 +70,7 @@ class NovProgram(object):
 		super(NovProgram, self).__init__()
 		self.program_name = ''
 		self.description = ''
-		self.apt_get_cmd = ''
+		self.pre_install_cmds = []
 		self.apt_get_name = ''
 		self.check_version_cmd = ''
 		self.deb_package_path = ''
@@ -86,7 +86,7 @@ class NovProgram(object):
 		self.tar_package_path_64 = ''
 		self.tar_package_file_64 = ''
 		self.tar_destination = ''
-		self.tar_extra_cmd = [] 	#extra commande, ce je se kaj za narest...
+		self.tar_extra_cmds = [] 	#extra commande, ce je se kaj za narest...
 		self.extra_cmd = []			#se ene extra cmd ... ce je se kaj...
 		self.program_desktop = []	#vsebina v program.desktop
 		self.add_path_profile_variable  = '' 
@@ -104,9 +104,11 @@ class NovProgram(object):
 
 	def install_apt_cmd(self):
 		## Instal from special apt-get command ... #####################################
-		if self.apt_get_cmd != '':
-			#ce je kaka komanda prej za izvrsit naj to naredi...
-			os.system('sudo apt-get ' + self.apt_get_cmd)
+		if len(self.pre_install_cmds) != 0:
+			for pre_cmd in self.pre_install_cmds:
+				key = raw_input('--> execute:'+pre_cmd+ ' [y/n]')
+				if key == 'y':
+					os.system(pre_cmd)
 		if self.apt_get_name != '':
 		## Instal from clasical apt-get commend... #####################################
 			#ce smo vpisali apt-get podatke potem...
@@ -227,9 +229,9 @@ class NovProgram(object):
 				#ja nic zej pa ce je treba se kako EXTRA CMD narest!!!
 				#naprimer kak make, make install, itd
 				#skratka izvrsimo komande, ki jih najdemo v :
-				#self.tar_extra_cmd = ['make','make install']
-			if len(self.tar_extra_cmd) != 0:	
-				for extra_cmd in self.tar_extra_cmd:
+				#self.tar_extra_cmds = ['make','make install']
+			if len(self.tar_extra_cmds) != 0:	
+				for extra_cmd in self.tar_extra_cmds:
 					key = raw_input('--> execute:'+extra_cmd+ ' [y/n]')
 					if key == 'y':
 						os.system(extra_cmd)
@@ -324,39 +326,141 @@ class NovProgram(object):
 ## DEFINICIJA PROGRAMOV ZA INSTALACIJO #########################
 def Install_programms():
 ## PRIMER PROGRAMA #############################################
-	# global Primer_programa
-	# Primer_programa = NovProgram()
-	# Primer_programa.program_name = ''					#ime naj bo brez presledkov
-	# Primer_programa.description = ''					#neko besedilo za opis
-	# Primer_programa.apt_get_cmd = ''					#ce je kaka komanda prej za narest
-	# Primer_programa.apt_get_name = ''					#ime za apt-get
-	# Primer_programa.check_version_cmd = ''			#cmd za preverjanje verzije
-	# Primer_programa.deb_package_path = ''				#url ua BED (brez fila)
-	# Primer_programa.deb_package_file = ''				#file za katerikoli sistem
-	# Primer_programa.deb_package_path_32 = ''
-	# Primer_programa.deb_package_file_32 = ''			#file za 32bit
-	# Primer_programa.deb_package_path_64 = ''
-	# Primer_programa.deb_package_file_64 = ''			#file za 64bit
-	# Primer_programa.tar_package_path = ''				#url (brez fila)
-	# Primer_programa.tar_package_file = ''				#file za katerikoli sistem
-	# Primer_programa.tar_package_path_32 = ''			#file za 32bit
-	# Primer_programa.tar_package_file_32 = ''			#file za 32bit
-	# Primer_programa.tar_package_path_64 = ''			#file za 64bit
-	# Primer_programa.tar_package_file_64 = ''			#file za 64bit
-	# Primer_programa.tar_destination = ''				#kam naj od tara.. TAR paket
-	# Primer_programa.tar_extra_cmd = []				#extra commande, ce je se kaj za narest...
-	# Primer_programa.extra_cmd = []					#se ene extra cmd ... ce je se kaj...
-	# Primer_programa.program_desktop = []				#vsebina v program.desktop
-	# Primer_programa.add_path_profile_variable  = '' 
-	# Primer_programa.add_bash_parameter = []			#text ki je za dodat v .bash 
-	# Primer_programa.notes = ''
-	# VsiProgrami.append(Primer_programa.program_name)
+	#global Primer_programa
+	#Primer_programa = NovProgram()
+	#Primer_programa.program_name = ''
+	# 	PROGRAME_NAME - ime programa, priporoca se, da je brez presledkov,
+	# 	ta besedlni niz se uporabi za prikaz imena programa v menu-ju in
+	# 	tudi za ime datoteke *.desktop (/usr/share/applications/ime_programa.desktop).
+	#	primer uporabe:
+	#	novProgram.program_name='firefox'					
+	#Primer_programa.description = ''
+	# 	DESCRIPTON - string se uporablja za nekaj uvodnega besedila v menuju.
+	#	primer uporabe:
+	#	novProgram.description=	'Ta program se uporablja za pisanje besedil.\n Uporabljamo'\
+	#				'pa ga lahko tudi ta urejanje nastavitev...' 
+	#Primer_programa.pre_install_cmds = []					
+	#	PRE_INSTALL_CMDS - niz stringov se izvrsi kakor ce bi jih vpisovali v terminal
+	#	eden za drugim. Izvrsijo se pred vsemi ostalimi ukazi (apt-get install, deb, tar).
+	#	Med vsakim navedenim nizom nas program tudi vprasa ali zelimo izvrsiti ukaz [y/n].
+	#	primer uporabe:
+	#	novProgram.pre_install_cmds = [	'sudo apt-get update',
+	#									'sudo apt-get upgrade']
+	#Primer_programa.apt_get_name = ''
+	#	APT_GET_NAME - to ime se uporabi v ukazu sudo apt-get install {apt_get_name}.
+	#	Predno se izvede ta ukaz gremo pogledat, katera verzija je na razpolago z
+	#	ukazom: sudo apt-cache policy. Tako se uporaabnik lahko odloci ali bo namestil
+	#	program s tem ukazom ali ne.
+	#	primer uporabe:
+	#	novProgram.apt_get_name = 'nano'
+	#Primer_programa.deb_package_path = ''
+	#	DEB_PACKAGE_PATH - pot datoteke na kateri se nahaja *deb paket. Ta se uporablja
+	#	v primeru, ko vrsta arhitekture ni pomembna ali pa paket ne podpira razlicnih
+	#	arhitektur.
+	#	primer uporabe:
+	#	novProgram.deb_package_path = 'https://download.sublimetext.com/'
+	#Primer_programa.deb_package_file = ''
+	#	DEB_PACKAGE_FILE - ime datoteke, ki se nahaja na prej omenjeni poti {deb_package_path}.
+	#	Ta string v tej spremenljivki se uporablja tudi za instalacijo deb paketa:
+	#	sudo dpkg -i {deb_package_file}. Presnete datoteke se na koncu postopka tudi izbrisejo.
+	#	primer uporabe:
+	#	novProgram.deb_package_file = 'sublime-text_build-all.deb'
+	#Primer_programa.deb_package_path_32 = ''
+	#	DEB_PACKAGE_PATH_32 - enako kot pri {deb_package_path}, le da se *.deb paket namesti le
+	#	ce imate 32-bitni sistem. 
+	#Primer_programa.deb_package_file_32 = ''
+	#	DEB_PACKAGE_FILE_32 - enako kot pri {deb_package_path}, le da se *.deb paket namesti le
+	#	ce imate 32-bitni sistem. 
+	#Primer_programa.deb_package_path_64 = ''
+	#	DEB_PACKAGE_PATH_64 - enako kot pri {deb_package_path}, le da se *.deb paket namesti le
+	#	ce imate 64-bitni sistem. 
+	#Primer_programa.deb_package_file_64 = ''
+	#	DEB_PACKAGE_FILE_64 - enako kot pri {deb_package_path}, le da se *.deb paket namesti le
+	#	ce imate 64-bitni sistem. 
+	#Primer_programa.tar_package_path = ''
+	#	TAR_PACKAGE_PATH - pot datoteke na kateri se nahaja *.tar.gz ali *.tar.xz paket. Ta se
+	#	uporablja v primeru, ko vrsta arhitekture ni pomembna ali pa paket ne podpira razlicnih
+	#	arhitektur.
+	#	primer uporabe:
+	#	novProgram.tar_package_path = 'https://qcad.org/archives/qcad/'
+	#Primer_programa.tar_package_file = ''
+	#	TAR_PACKAGE_FILE - ime datoteke, ki se nahaja na prej omenjeni poti {tar_package_path}.
+	#	Ta string v tej spremenljivki se uporablja tudi za razpakiranje *.tar paketa:
+	#	tar -xvf '+ download_dir+{tar_package_file}. Datoteke se razpakirajo v ~/Download/, ali
+	#	pa pot lahko tudi posebej dolocite v spremenljivki {tar_destination}. Presnete datoteke
+	#	se na koncu postopka tudi izbrisejo.
+	#	primer uporabe:
+	#	novProgram.tar_package_file = 'sublime-text_build-all.tar.gz'
+	#Primer_programa.tar_package_path_32 = ''
+	#	TAR_PACKAGE_PATH_32 - enako kot pri {tar_package_path}, le da se *.tar.* paket namesti le
+	#	ce imate 32-bitni sistem. 
+	#Primer_programa.tar_package_file_32 = ''
+	#	TAR_PACKAGE_FILE_32 - enako kot pri {tar_package_file}, le da se *.tar.* paket namesti le
+	#	ce imate 32-bitni sistem. 
+	#Primer_programa.tar_package_path_64 = ''
+	#	TAR_PACKAGE_PATH_64 - enako kot pri {tar_package_path}, le da se *.tar.* paket namesti le
+	#	ce imate 64-bitni sistem. 
+	#Primer_programa.tar_package_file_64 = ''
+	#	DEB_PACKAGE_FILE_64 - enako kot pri {deb_package_path}, le da se *.deb paket namesti le
+	#	ce imate 64-bitni sistem. 
+	#Primer_programa.tar_destination = ''
+	#	TAR_DESTINATION - direktorij, kamor zelite, da se *.tar.* paket od-tara. Ce direktorij se
+	#	ne obstaja, da bo instalacija sama ustvarila...
+	#	primer uporabe:
+	#	novProgram.tar_destiation = '/opt/'
+	#Primer_programa.tar_extra_cmds = []
+	#	TAR_EXTRA_CMDS - Po koncanem razpakiranju TAR datoteke lahko naredite se kake cmd, kot
+	# 	bi jih pisali v terminalu: naprimer kake instalacije ali kaj podobnega...
+	#	primer uporabe:
+	#	novProgram.tar_extra_cmds =['sudo rm /usr/bin/nmon',
+	#								'sudo chmod 777 '+opt_dir+'nmon/'+'nmon_x86_debian8',
+	#								'sudo ln -s '+opt_dir+'nmon/'+'nmon_x86_debian8 /usr/bin/nmon']
+	#Primer_programa.program_desktop = []
+	#	PROGRAM_DESKTOP - niz stringov, ki se bo vpisal v {program_name}.desktop file.
+	#	primer uporabe:
+	#	Arduino.program_desktop = [	'[Desktop Entry]',
+	#								'Version=1.0',
+	#								'Name=Arduino IDE',
+	#								'Exec=/opt/arduino-nightly/arduino',
+	#								'Icon=/opt/arduino-nightly/lib/icons/64x64/apps/arduino.png',
+	#								'Terminal=false',
+	#								'Type=Application',
+	#								'Categories=Development;Programming;'
+	#								]
+	#Primer_programa.add_path_profile_variable  = ''
+	#	ADD_PATH_PROFILE_VARIABLE - string, ki ga je potrebno vpisati v $PATH spremenljivko.
+	#	primer uporabe:
+	#	Arduino.add_path_profile_variable  = '/opt/arduino-nightly/
+	#Primer_programa.extra_cmd = []
+	#	EXTRA_CMD - niz ukazov, ki bi jih morali vtipkati v terminal po instalacijskem postopku.
+	#	Na tem mestu lahko dodate link v /usr/bin/ tako, da lahko zazenete program od koderkoli,
+	#	kakor smo to naredili za program thunderbird...
+	#	primer uporabe:
+	#	Thunderbird.extra_cmd = ['sudo ln -s /opt/thunderbird/thunderbird /usr/bin/thunderbird'] 
+	#Primer_programa.add_bash_parameter = []
+	#	ADD_BASH_PARAMETER - niz stringov (besedila), ki ga je potrebno dodati v datoteko:
+	#	~/.bashrc. Besedilo se doda na konec dokumenta. Skript vas vprasa za vsak niz posebej,
+	#	ce naj ga doda.
+	#	primer uporabe:
+	#	Keymap.add_bash_parameter = [	'\n#remap tipko [dz] - "/"',
+	#									'\nxmodmap -e "keycode 35 = slash"']
+	#Primer_programa.check_version_cmd = ''
+	#	CHECK_VERSION_CMD - string se izvrsi kot cmd ukaz v ternimalu in je namenjen
+	#	preverjanju verzije. Ta ukaz se izvede po instalaciji.
+	#	primer uporabe:
+	#	novProgram = 'nano --version' 
+	#Primer_programa.notes = ''
+	#	NOTES - ko se instalacijski postopek zakljuci se izpise neko besedilo, ki sporoci
+	#	uporabniku kaka nadaljna navodila. Naprimer, ce program potrebuje kake dodatne
+	#	nastavitve, kot v primeru terminatorja za prikaz podatkov o racunalniku z neofetch.
+	#VsiProgrami.append(Primer_programa.program_name)
 ## UPDATE & UPGRADE ############################################
 	global Update_Upgrade
 	Update_Upgrade = NovProgram()
 	Update_Upgrade.program_name = 'Update & Upgrade'
 	Update_Upgrade.description = 'Posodobite sistemske knjiznice...'
-	Update_Upgrade.apt_get_cmd = 'update && sudo apt-get upgrade'
+	Update_Upgrade.pre_install_cmds = [	'sudo apt-get update',
+										'sudo apt-get upgrade']
 	VsiProgrami.append(Update_Upgrade.program_name)
 ## ARDUINO #####################################################
 	global Arduino
@@ -390,7 +494,7 @@ def Install_programms():
 							'Type=Application',
 							'Categories=Development;Programming;'
 							]
-	#Arduino.tar_extra_cmd = ['sudo ' + Arduino.tar_destination + 'arduino-1.8.1/install.sh']
+	#Arduino.tar_extra_cmds = ['sudo ' + Arduino.tar_destination + 'arduino-1.8.1/install.sh']
 	Arduino.add_path_profile_variable  = Arduino.tar_destination + 'arduino-nightly/'
 	Arduino.notes = 'NASTAVITI JE POTREBNO "SERIAL PORT PERMITIONS"!\n'\
 					'poglej na: http://playground.arduino.cc/Linux/All#Permission\n'\
@@ -480,7 +584,7 @@ def Install_programms():
 	nmon.tar_package_file = 'nmon16d_x86.tar.gz'
 	nmon.tar_package_path = 'http://sourceforge.net/projects/nmon/files/'
 	nmon.tar_destination =  opt_dir+'nmon/'
-	nmon.tar_extra_cmd =['sudo rm /usr/bin/nmon',
+	nmon.tar_extra_cmds =['sudo rm /usr/bin/nmon',
 						'sudo chmod 777 '+opt_dir+'nmon/'+'nmon_x86_debian8',
 						'sudo ln -s '+opt_dir+'nmon/'+'nmon_x86_debian8 /usr/bin/nmon']
 	nmon.program_desktop = ['[Desktop Entry]',
@@ -492,10 +596,10 @@ def Install_programms():
 							'Type=Application',
 							'Categories=System;Development;Programming;'
 							]
-	#nmon.tar_extra_cmd = ['sudo mv ' + download_dir + 'nmon/nmon_x86_64_ubuntu15 /usr/bin/nmon',
+	#nmon.tar_extra_cmds = ['sudo mv ' + download_dir + 'nmon/nmon_x86_64_ubuntu15 /usr/bin/nmon',
 	#					'sudo rm -R ' + download_dir+'nmon/',
 	#					'sudo chmod 777 /usr/bin/nmod']
-	#nmon.tar_extra_cmd = ['sudo chmod 777 '+ download_dir + 'nmon/nmon_x86_debian8',
+	#nmon.tar_extra_cmds = ['sudo chmod 777 '+ download_dir + 'nmon/nmon_x86_debian8',
 	#					'sudo mv ' + download_dir + 'nmon/nmon_x86_debian8 /usr/bin/nmon',
 	#					'sudo rm -R ' + download_dir+'nmon/']
 	VsiProgrami.append(nmon.program_name)
@@ -504,20 +608,7 @@ def Install_programms():
 	wavemon = NovProgram()
 	wavemon.program_name = 'wavemon'					#ime naj bo brez presledkov
 	wavemon.description = 'Program za monitoring wireless omrezj'					#neko besedilo za opis
-	#wavemon.apt_get_cmd = ''					#ce je kaka komanda prej za narest
 	wavemon.apt_get_name = 'wavemon'					#ime za apt-get
-	# wavemon.check_version_cmd = ''			#cmd za preverjanje verzije
-	# wavemon.deb_package_path = ''				#url ua BED (brez fila)
-	# wavemon.deb_package_file = ''				#file za katerikoli sistem
-	# wavemon.deb_package_file_32 = ''			#file za 32bit
-	# wavemon.deb_package_file_64 = ''			#file za 64bit
-	# wavemon.tar_package_path = ''				#url (brez fila)
-	# wavemon.tar_package_file = ''				#file za katerikoli sistem
-	# wavemon.tar_package_file_32 = ''			#file za 32bit
-	# wavemon.tar_package_file_64 = ''			#file za 64bit
-	# wavemon.tar_destination = ''				#kam naj od tara.. TAR paket
-	# wavemon.tar_extra_cmd = []				#extra commande, ce je se kaj za narest...
-	# wavemon.extra_cmd = []					#se ene extra cmd ... ce je se kaj...
 	wavemon.program_desktop = ['[Desktop Entry]',
 							'Version=1.0',
 							'Name=WaveMon',
@@ -526,10 +617,7 @@ def Install_programms():
 							'Terminal=true',
 							'Type=Application',
 							'Categories=Network;'
-							]				#vsebina v program.desktop
-	# wavemon.add_path_profile_variable  = '' 
-	# wavemon.add_bash_parameter = []			#text ki je za dodat v .bash 
-	# wavemon.notes = ''
+							]
 	VsiProgrami.append(wavemon.program_name)
 ## Neofetch ####################################################
 	global Neofetch
@@ -537,7 +625,6 @@ def Install_programms():
 	Neofetch.program_name = 'Neofetch'
 	Neofetch.description = 'Logo in nekaj podatkov o racunaniku...!'
 	Neofetch.apt_get_add_ppa ='add-apt-repository ppa:dawidd0811/neofetch'
-	Neofetch.apt_get_cmd = ''
 	Neofetch.apt_get_name ='neofetch'
 	Neofetch.check_version_cmd = 'neofetch'
 	Neofetch.notes = 'Notes... to do...'
@@ -583,7 +670,7 @@ def Install_programms():
 	LibreOffice.tar_package_path_64 = 'http://mirror.ba/tdf/libreoffice/stable/5.3.2/deb/x86_64/'
 	LibreOffice.tar_package_file_64 = 'LibreOffice_5.3.2_Linux_x86-64_deb.tar.gz'
 	LibreOffice.tar_destination =''
-	LibreOffice.tar_extra_cmd = ['sudo dpkg -i '+ download_dir +'LibreOffice_5.3.2.2_Linux_x86-64_deb/DEBS/*.deb']
+	LibreOffice.tar_extra_cmds = ['sudo dpkg -i '+ download_dir +'LibreOffice_5.3.2.2_Linux_x86-64_deb/DEBS/*.deb']
 	LibreOffice.deb_package_path_32 = ''
 	LibreOffice.deb_package_file_32 = ''
 	VsiProgrami.append(LibreOffice.program_name)
@@ -625,10 +712,8 @@ def Install_programms():
 	W3M = NovProgram()
 	W3M.program_name = 'w3m'					#ime naj bo brez presledkov
 	W3M.description = 'Terminalni spletni brskalnik'		#neko besedilo za opis
-	# W3M.apt_get_cmd = ''					#ce je kaka komanda prej za narest
 	W3M.apt_get_name = 'w3m'					#ime za apt-get
 	W3M.check_version_cmd = 'w3m -v'			#cmd za preverjanje verzije
-	# W3M.extra_cmd = []					#se ene extra cmd ... ce je se kaj..
 	W3M.program_desktop = ['[Desktop Entry]',
 							'Version=1.0',
 							'Name=w3m',
@@ -661,7 +746,7 @@ def Install_programms():
 	# 						'iz vsebine datotek, ki jih najde v /usr/share/applications/*'
 	# obmenugen.tar_package_path = 'https://netcologne.dl.sourceforge.net/project/obmenugen/obmenugen/obmenugen-0.2beta/'				#url (brez fila)
 	# obmenugen.tar_package_file = 'obmenugen-0.2beta.tar.bz2'				#file za katerikoli sistem
-	# obmenugen.tar_extra_cmd = ['sudo cp '+download_dir+'obmenugen/bin/obmenugen /usr/bin/',
+	# obmenugen.tar_extra_cmds = ['sudo cp '+download_dir+'obmenugen/bin/obmenugen /usr/bin/',
 	# 							'obmenugen -p',
 	# 							'openbox --reconfigure',
 	# 							'rm -R '+download_dir+'obmenugen']				#extra commande, ce je se kaj za narest...
@@ -675,7 +760,6 @@ def Install_programms():
 	conky = NovProgram()
 	conky.program_name = 'conky'					#ime naj bo brez presledkov
 	conky.description = 'Prikaz nekaterih osnovnih podatkov sistema'					#neko besedilo za opis
-	conky.apt_get_cmd = ''					#ce je kaka komanda prej za narest
 	conky.apt_get_name = 'conky-all'					#ime za apt-get
 	conky.extra_cmd = ['mkdir '+user+'/.config/conky',
 						'ls -alF '+user+'/.config/conky']					#se ene extra cmd ... ce je se kaj...
@@ -718,23 +802,7 @@ def Install_programms():
 	git.program_name = 'git'					#ime naj bo brez presledkov
 	git.description = 'Protokol za skrbno spremljanje verzij\n'\
 					'razvojnih programov.'					#neko besedilo za opis
-	git.apt_get_cmd = ''					#ce je kaka komanda prej za narest
 	git.apt_get_name = 'git-core'					#ime za apt-get
-	#git.check_version_cmd = ''			#cmd za preverjanje verzije
-	#git.deb_package_path = ''				#url ua BED (brez fila)
-	#git.deb_package_file = ''				#file za katerikoli sistem
-	#git.deb_package_file_32 = ''			#file za 32bit
-	#git.deb_package_file_64 = ''			#file za 64bit
-	#git.tar_package_path = ''				#url (brez fila)
-	#git.tar_package_file = ''				#file za katerikoli sistem
-	#git.tar_package_file_32 = ''			#file za 32bit
-	#git.tar_package_file_64 = ''			#file za 64bit
-	#git.tar_destination = ''				#kam naj od tara.. TAR paket
-	#git.tar_extra_cmd = []				#extra commande, ce je se kaj za narest...
-	#git.extra_cmd = []					#se ene extra cmd ... ce je se kaj...
-	#git.program_desktop = []				#vsebina v program.desktop
-	#git.add_path_profile_variable  = '' 
-	#git.add_bash_parameter = []			#text ki je za dodat v .bash 
 	git.notes = ''
 	VsiProgrami.append(git.program_name)
 ## Java 8 ######################################################
@@ -742,46 +810,21 @@ def Install_programms():
 	java_8 = NovProgram()
 	java_8.program_name = 'java8'					#ime naj bo brez presledkov
 	java_8.description = ''					#neko besedilo za opis
-	# java_8.apt_get_cmd = ''					#ce je kaka komanda prej za narest
-	# java_8.apt_get_name = ''					#ime za apt-get
 	java_8.check_version_cmd = 'java -version'			#cmd za preverjanje verzije
-	# java_8.deb_package_path = ''				#url ua BED (brez fila)
-	# java_8.deb_package_file = ''				#file za katerikoli sistem
-	# java_8.deb_package_file_32 = ''			#file za 32bit
-	# java_8.deb_package_file_64 = ''			#file za 64bit
-	# java_8.tar_package_path = ''				#url (brez fila)
-	# java_8.tar_package_file = ''				#file za katerikoli sistem
-	# java_8.tar_package_file_32 = ''			#file za 32bit
-	# http://download.oracle.com/otn-pub/java/jdk/8u121-b13/e9e7ea248e2c4826b92b3f075a80e441/jre-8u121-linux-x64.tar.gz
-	# asdf 
 	java_8.tar_package_path_64 = 'http://javadl.oracle.com/webapps/download/'				#url (brez fila)
 	java_8.tar_package_file_64 = 'AutoDL?BundleId=218823_e9e7ea248e2c4826b92b3f075a80e441'			#file za 64bit
 	java_8.tar_destination = '/usr/lib/jvm/'				#kam naj od tara.. TAR paket
 	java_8.extra_cmd = ['sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jre1.8.0_121/bin/java 1',
 						'sudo update-alternatives --config java']					#se ene extra cmd ... ce je se kaj...
-	# java_8.program_desktop = []				#vsebina v program.desktop
-	# java_8.add_path_profile_variable  = '' 
-	# java_8.add_bash_parameter = []			#text ki je za dodat v .bash 
-	# java_8.notes = ''
 	VsiProgrami.append(java_8.program_name)
 ## SmartGIT ####################################################
 	global smartGit
 	smartGit = NovProgram()
 	smartGit.program_name = 'smartgit'					#ime naj bo brez presledkov
 	smartGit.description = 'Git GUI client'					#neko besedilo za opis
-	# smartGit.apt_get_cmd = ''					#ce je kaka komanda prej za narest
-	# smartGit.apt_get_name = ''					#ime za apt-get
-	# smartGit.check_version_cmd = ''			#cmd za preverjanje verzije
-	# smartGit.deb_package_path = ''				#url ua BED (brez fila)
-	# smartGit.deb_package_file = ''				#file za katerikoli sistem
-	# smartGit.deb_package_file_32 = ''			#file za 32bit
-	# smartGit.deb_package_file_64 = ''			#file za 64bit
 	smartGit.tar_package_path = 'https://www.syntevo.com/static/smart/download/smartgit/'				#url (brez fila)
 	smartGit.tar_package_file = 'smartgit-linux-17_0_3.tar.gz'				#file za katerikoli sistem
-	# smartGit.tar_package_file_32 = ''			#file za 32bit
-	# smartGit.tar_package_file_64 = ''			#file za 64bit
 	smartGit.tar_destination = opt_dir				#kam naj od tara.. TAR paket
-	# smartGit.tar_extra_cmd = []				#extra commande, ce je se kaj za narest...
 	smartGit.extra_cmd = ['sudo ln -s /opt/smartgit/bin/smartgit.sh /usr/bin/smartgit']					#se ene extra cmd ... ce je se kaj...
 	smartGit.program_desktop = ['[Desktop Entry]',
 							'Version=1.0',
@@ -791,10 +834,7 @@ def Install_programms():
 							'Terminal=false',
 							'Type=Application',
 							'Categories=Development;'
-							]					#vsebina v program.desktop
-	# smartGit.add_path_profile_variable  = '' 
-	# smartGit.add_bash_parameter = []			#text ki je za dodat v .bash 
-	# smartGit.notes = ''
+							]
 	VsiProgrami.append(smartGit.program_name)
 ## OpenBox menu ################################################
 	global obmenu
