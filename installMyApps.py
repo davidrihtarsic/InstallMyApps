@@ -908,6 +908,7 @@ def Install_programms():
 	#stellarium.notes = ''
 	VsiProgrami.append(stellarium.program_name)
 
+#tole sem dodal
 Install_programms()
 
 def MakeProgrammsForm():
