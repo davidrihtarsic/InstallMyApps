@@ -893,6 +893,20 @@ def Install_programms():
 	weather.add_bash_parameter = ["\nalias weather='curl wttr.in/~begunje'"]			#text ki je za dodat v .bash 
 	weather.notes = ''
 	VsiProgrami.append(weather.program_name)
+## Primer_programa ############################################
+	global stellarium
+	stellarium = NovProgram()
+	stellarium.program_name = 'stellarium'
+	stellarium.description = 'Zvezvde...'
+	#stellarium.pre_install_cmds = []					
+	stellarium.apt_get_name = 'stellarium'
+	
+	#stellarium.program_desktop = []
+	#stellarium.extra_cmd = []
+	#stellarium.add_bash_parameter = []
+	#stellarium.check_version_cmd = ''
+	#stellarium.notes = ''
+	VsiProgrami.append(stellarium.program_name)
 
 Install_programms()
 
@@ -969,6 +983,7 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	smartGit.install()
 	elif key == str(programe_index.next()):	obmenu.install()
 	elif key == str(programe_index.next()):	weather.install()
+	elif key == str(programe_index.next()):	stellarium.install()
 	#elif key == 'str(programe_index.next()):	.install()
 	elif key == 'all':
 		Update_Upgrade.install()	
@@ -997,11 +1012,13 @@ while (key != 'q'):
 		smartGit.install()
 		obmenu.install()
 		weather.install()
+		stellarium.install()
 	elif key == 'tehnika':	
 		Arduino.install()
 		qCAD.install()
 		FreeCAD.install()
 		Sublime.install()
+		stellarium.install()
 	elif key == 'sistem':
 		Update_Upgrade.install()	
 		Terminator.install()
