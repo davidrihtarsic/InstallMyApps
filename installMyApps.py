@@ -325,7 +325,7 @@ class NovProgram(object):
 
 ## DEFINICIJA PROGRAMOV ZA INSTALACIJO #########################
 def Install_programms():
-## HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP #####
+## HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP ######
 	#global Primer_programa
 	#Primer_programa = NovProgram()
 	#Primer_programa.program_name = ''
@@ -454,7 +454,7 @@ def Install_programms():
 	#	uporabniku kaka nadaljna navodila. Naprimer, ce program potrebuje kake dodatne
 	#	nastavitve, kot v primeru terminatorja za prikaz podatkov o racunalniku z neofetch.
 	#VsiProgrami.append(Primer_programa.program_name)
-## Primer_programa ############################################
+## Primer_programa #############################################
 	#global Primer_programa
 	#Primer_programa = NovProgram()
 	#Primer_programa.program_name = ''
@@ -490,6 +490,26 @@ def Install_programms():
 	Update_Upgrade.pre_install_cmds = [	'sudo apt-get update',
 										'sudo apt-get upgrade']
 	VsiProgrami.append(Update_Upgrade.program_name)
+## OpenBox menu ################################################
+	global obmenu
+	obmenu = NovProgram()
+	obmenu.program_name = 'openbox-menu'					#ime naj bo brez presledkov
+	obmenu.description = 'Naredi nov menu v OpenBox UI'		#neko besedilo za opis
+	obmenu.extra_cmd = ['mv ~/.config/openbox/menu.xml ~/.config/openbox/menu_original.xml',\
+						'wget "https://github.com/davidrihtarsic/BunsenLab/raw/master/OpenBox_menu.xml" -O ~/.config/openbox/menu.xml',\
+						'sudo git clone https://github.com/woho/openbox-menu.git '+opt_dir+'openbox-menu',\
+						'/opt/openbox-menu/obmenu.py']#se ene extra cmd ... ce je se kaj...
+	obmenu.program_desktop = ['[Desktop Entry]',
+							'Version=1.0',
+							'Name=openbox-menu',
+							'Exec=terminator -e /opt/openbox-menu/obmenu.py',
+							'Icon=openbox.png',
+							'Terminal=true',
+							'Type=Application',
+							'Categories=Settings;'
+							] 
+	# obmenu.notes = ''
+	VsiProgrami.append(obmenu.program_name)
 ## ARDUINO #####################################################
 	global Arduino
 	Arduino = NovProgram()
@@ -864,26 +884,6 @@ def Install_programms():
 							'Categories=Development;'
 							]
 	VsiProgrami.append(smartGit.program_name)
-## OpenBox menu ################################################
-	global obmenu
-	obmenu = NovProgram()
-	obmenu.program_name = 'openbox-menu'					#ime naj bo brez presledkov
-	obmenu.description = 'Naredi nov menu v OpenBox UI'		#neko besedilo za opis
-	obmenu.extra_cmd = ['mv ~/.config/openbox/menu.xml ~/.config/openbox/menu_original.xml',\
-						'wget "https://github.com/davidrihtarsic/BunsenLab/raw/master/OpenBox_menu.xml" -O ~/.config/openbox/menu.xml',\
-						'sudo git clone https://github.com/woho/openbox-menu.git '+opt_dir+'openbox-menu',\
-						'/opt/openbox-menu/obmenu.py']#se ene extra cmd ... ce je se kaj...
-	obmenu.program_desktop = ['[Desktop Entry]',
-							'Version=1.0',
-							'Name=openbox-menu',
-							'Exec=terminator -e /opt/openbox-menu/obmenu.py',
-							'Icon=openbox.png',
-							'Terminal=true',
-							'Type=Application',
-							'Categories=Settings;'
-							] 
-	# obmenu.notes = ''
-	VsiProgrami.append(obmenu.program_name)
 ## alias WEATHER ###############################################
 	global weather
 	weather = NovProgram()
@@ -893,7 +893,7 @@ def Install_programms():
 	weather.add_bash_parameter = ["\nalias weather='curl wttr.in/~begunje'"]			#text ki je za dodat v .bash 
 	weather.notes = ''
 	VsiProgrami.append(weather.program_name)
-## Stellarium ############################################
+## Stellarium ##################################################
 	global stellarium
 	stellarium = NovProgram()
 	stellarium.program_name = 'stellarium'
@@ -907,7 +907,7 @@ def Install_programms():
 	#stellarium.check_version_cmd = ''
 	#stellarium.notes = ''
 	VsiProgrami.append(stellarium.program_name)
-## Foxitreader ############################################
+## Foxitreader #################################################
 	global Foxitreader
 	Foxitreader = NovProgram()
 	Foxitreader.program_name = 'Foxitreader'
@@ -924,8 +924,8 @@ def Install_programms():
 	Foxitreader.tar_package_file = ''
 	Foxitreader.tar_package_path_32 = 'http://cdn09.foxitsoftware.com/pub/foxit/reader/desktop/linux/2.x/2.3/en_us/'
 	Foxitreader.tar_package_file_32 = 'FoxitReader2.3.0.2174_Server_x86_enu_Setup.run.tar.gz'
-	Foxitreader.tar_package_path_64 = ''
-	Foxitreader.tar_package_file_64 = ''
+	Foxitreader.tar_package_path_64 = 'http://cdn09.foxitsoftware.com/pub/foxit/reader/desktop/linux/2.x/2.3/en_us/'
+	Foxitreader.tar_package_file_64 = 'FoxitReader2.3.1.2182_Server_x64_enu_Setup.run.tar.gz'
 	Foxitreader.tar_destination = ''
 	Foxitreader.tar_extra_cmds = ["~/Downloads/FoxitReader*"]
 	Foxitreader.program_desktop = []
@@ -936,9 +936,6 @@ def Install_programms():
 	Foxitreader.notes = ''
 	VsiProgrami.append(Foxitreader.program_name)
 
-
-
-#tole je proba
 
 Install_programms()
 
@@ -989,6 +986,7 @@ while (key != 'q'):
 		cls()
 		Main()
 	elif key == str(programe_index.next()):	Update_Upgrade.install()	
+	elif key == str(programe_index.next()):	obmenu.install()
 	elif key == str(programe_index.next()):	Arduino.install()
 	elif key == str(programe_index.next()):	qCAD.install()
 	elif key == str(programe_index.next()):	FreeCAD.install()
@@ -1013,11 +1011,9 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	git.install()
 	elif key == str(programe_index.next()):	java_8.install()
 	elif key == str(programe_index.next()):	smartGit.install()
-	elif key == str(programe_index.next()):	obmenu.install()
 	elif key == str(programe_index.next()):	weather.install()
 	elif key == str(programe_index.next()):	stellarium.install()
 	elif key == str(programe_index.next()):	Foxitreader.install()
-	#elif key == 'str(programe_index.next()):	.install()
 	elif key == 'all':
 		Update_Upgrade.install()	
 		Arduino.install()
