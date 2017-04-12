@@ -902,17 +902,19 @@ def Install_programms():
 	Fritzing.tar_package_file = ''
 	Fritzing.tar_package_path_32 = 'http://fritzing.org/media/downloads/'
 	Fritzing.tar_package_file_32 = 'fritzing-0.9.3b.linux.i386.tar.bz2'
-	Fritzing.tar_package_path_64 = ''
-	Fritzing.tar_package_file_64 = ''
+	Fritzing.tar_package_path_64 = 'http://fritzing.org/download/0.9.3b/linux-64bit/'
+	Fritzing.tar_package_file_64 = 'fritzing-0.9.3b.linux.AMD64.tar.bz2'
 	Fritzing.tar_destination = opt_dir
-	Fritzing.tar_extra_cmds = []
+	Fritzing.tar_extra_cmds = [	'sudo mv /opt/fritzing-0.9.3b* /opt/fritzing-0.9.3b',
+								'sudo ln -s /opt/fritzing-0.9.3b/Fritzing /usr/bin/fritzing' 
+								]
 	Fritzing.program_desktop = ['[Desktop Entry]',
-										'Name=Fritzing',
-										'Exec=/opt/fritzing-0.9.3b.linux.i386/Fritzing',
-										'Icon=/opt/opt/fritzing-0.9.3b.linux.i386/icons/fritzing_icon.png',
-										'Terminal=false',
-										'Type=Application',
-										'Categories=Science;'
+								'Name=Fritzing',
+								'Exec=/opt/fritzing-0.9.3b/Fritzing',
+								'Icon=/opt/fritzing-0.9.3b/icons/fritzing_icon.png',
+								'Terminal=false',
+								'Type=Application',
+								'Categories=Science;Development;'
 									]
 	Fritzing.add_path_profile_variable  = ''
 	Fritzing.extra_cmd = []
