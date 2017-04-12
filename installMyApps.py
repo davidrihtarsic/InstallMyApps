@@ -934,6 +934,15 @@ def Install_programms():
 	#texmaker.check_version_cmd = ''
 	#texmaker.notes = ''
 	VsiProgrami.append(texmaker.program_name)
+## INKSCAPE ####################################################
+	global inkscape
+	inkscape = NovProgram()
+	inkscape.program_name = 'inkscape'
+	inkscape.description = 'Program za risanje vektorske grafike.'
+	inkscape.apt_get_name = 'inkscape'
+	#inkscape.notes = ''
+	VsiProgrami.append(inkscape.program_name)
+
 Install_programms()
 
 def MakeProgrammsForm():
@@ -1013,6 +1022,7 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	Foxitreader.install()
 	elif key == str(programe_index.next()):	Fritzing.install()
 	elif key == str(programe_index.next()):	texmaker.install()
+	elif key == str(programe_index.next()):	inkscape.install()
 	elif key == 'all':
 		Update_Upgrade.install()	
 		git.install()
@@ -1044,6 +1054,7 @@ while (key != 'q'):
 		stellarium.install()
 		Foxitreader.install()
 		texmaker.install()
+		inkscape.install()
 	elif key == 'tehnika':	
 		Arduino.install()
 		qCAD.install()
