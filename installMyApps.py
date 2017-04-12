@@ -431,6 +431,7 @@ def Install_programms():
 	#Primer_programa.check_version_cmd = ''
 	#Primer_programa.notes = ''
 	#VsiProgrami.append(Primer_programa.program_name)
+#------------------------------------------------SYSTEM PROGRAMS
 ## UPDATE & UPGRADE ############################################
 	global Update_Upgrade
 	Update_Upgrade = NovProgram()
@@ -633,6 +634,7 @@ def Install_programms():
 	weather.add_bash_parameter = ["\nalias weather='curl wttr.in/~begunje'"]			#text ki je za dodat v .bash 
 	weather.notes = ''
 	VsiProgrami.append(weather.program_name)
+#-------------------------------------------------OTHER PROGRAMS
 ## ARDUINO #####################################################
 	global Arduino
 	Arduino = NovProgram()
@@ -950,7 +952,7 @@ def Install_programms():
 	gimp.apt_get_name = 'gimp'
 	#gimp.notes = ''
 	VsiProgrami.append(gimp.program_name)
-## MyPaint ########################################################
+## MyPaint #####################################################
 	global mypaint
 	mypaint = NovProgram()
 	mypaint.program_name = 'mypaint'
@@ -980,7 +982,7 @@ def MakeHelpForm():
 				'           Terminator in Htop',
 				'----------------------------------------',
 				'ENTER      - Ta zaslon',
-				'q - exit',
+				'q          - exit',
 				]
 	formHelp = Form('MENU',40,2,55,formProgramms.dy)
 	t_Keys = []
