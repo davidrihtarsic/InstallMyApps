@@ -490,6 +490,27 @@ def Install_programms():
 	Update_Upgrade.pre_install_cmds = [	'sudo apt-get update',
 										'sudo apt-get upgrade']
 	VsiProgrami.append(Update_Upgrade.program_name)
+## GIT #########################################################
+	global git
+	git = NovProgram()
+	git.program_name = 'git'					#ime naj bo brez presledkov
+	git.description = 'Protokol za skrbno spremljanje verzij\n'\
+					'razvojnih programov.'					#neko besedilo za opis
+	git.apt_get_name = 'git-core'					#ime za apt-get
+	git.notes = ''
+	VsiProgrami.append(git.program_name)
+## Java 8 ######################################################
+	global java_8
+	java_8 = NovProgram()
+	java_8.program_name = 'java8'					#ime naj bo brez presledkov
+	java_8.description = ''					#neko besedilo za opis
+	java_8.check_version_cmd = 'java -version'			#cmd za preverjanje verzije
+	java_8.tar_package_path_64 = 'http://javadl.oracle.com/webapps/download/'				#url (brez fila)
+	java_8.tar_package_file_64 = 'AutoDL?BundleId=218823_e9e7ea248e2c4826b92b3f075a80e441'			#file za 64bit
+	java_8.tar_destination = '/usr/lib/jvm/'				#kam naj od tara.. TAR paket
+	java_8.extra_cmd = ['sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jre1.8.0_121/bin/java 1',
+						'sudo update-alternatives --config java']					#se ene extra cmd ... ce je se kaj...
+	VsiProgrami.append(java_8.program_name)
 ## OpenBox menu ################################################
 	global obmenu
 	obmenu = NovProgram()
@@ -510,99 +531,6 @@ def Install_programms():
 							] 
 	# obmenu.notes = ''
 	VsiProgrami.append(obmenu.program_name)
-## ARDUINO #####################################################
-	global Arduino
-	Arduino = NovProgram()
-	Arduino.program_name = 'ArduinoIDE'
-	Arduino.description = 'Arduino je mikrokrmilnik na maticni plosci, ki je zasnovan\n'\
-						'tako da bi bil postopek z uporabo elektronike v multidisci-\n'\
-						'plinarnih projektih, bolj dostopen. Strojno opremo sestavljajo\n'\
-						'odprtokodna oblika plosce in 8-bitni mikrokrmilnik Atmel AVR\n'\
-						'ali 32-bitni Atmel ARM. Programska oprema je sestavljena iz\n'\
-						'standardnega programskega jezika, prevajalnika in zagonskega\n'\
-						'nalagalnika, ki se izvaja na mikrokrmilniku. Razvojne plosce\n'\
-						'Arduino so naprodaj ze sestavljene ali pa v sestavi sam izvedbi.\n'\
-						'Mikrokrmilnik so razvili na soli oblikovanja v italijanskem\n'\
-						'mestu Ivrea in predstavlja enega zgodnjih mejnikov v gibanju\n'\
-						'odprtokodne strojne opreme.'
-	#Arduino.apt_get_name =''
-	Arduino.check_version_cmd = 'head -1 /opt/arduino*/revisions.txt'
-	Arduino.tar_package_path_64 = 'https://downloads.arduino.cc/'
-	Arduino.tar_package_file_64 = 'arduino-nightly-linux64.tar.xz'
-	Arduino.tar_package_path_32 = 'https://downloads.arduino.cc/'
-	Arduino.tar_package_file_32 = 'arduino-nightly-linux32.tar.xz'
-	#Arduino.tar_package_file_32 = 'arduino-1.8.1-linux32.tar.xz'
-	Arduino.tar_destination = opt_dir #default = home/$USER/Downloads/
-	Arduino.program_desktop = ['[Desktop Entry]',
-							'Version=1.0',
-							'Name=Arduino IDE',
-							'Exec=/opt/arduino-nightly/arduino',
-							'Icon=/opt/arduino-nightly/lib/icons/64x64/apps/arduino.png',
-							'Terminal=false',
-							'Type=Application',
-							'Categories=Development;Programming;'
-							]
-	#Arduino.tar_extra_cmds = ['sudo ' + Arduino.tar_destination + 'arduino-1.8.1/install.sh']
-	Arduino.add_path_profile_variable  = Arduino.tar_destination + 'arduino-nightly/'
-	Arduino.notes = 'NASTAVITI JE POTREBNO "SERIAL PORT PERMITIONS"!\n'\
-					'poglej na: http://playground.arduino.cc/Linux/All#Permission\n'\
-					'1. -> ls -l /dev/ttyUSB* ali ls -l /dev/ttyACM*\n'\
-					'	dobimo:\n'\
-					'	crw-rw---- 1 root dialout 188, 0  5 apr 23.01 ttyACM0\n'\
-					'	kjer je "dailout" - group name\n'\
-					'2. -> sudo usermod -a -G group-name username\n'\
-					'3. log-OUT & log-IN'
-	VsiProgrami.append(Arduino.program_name)
-## QCAD ########################################################
-	global qCAD
-	qCAD = NovProgram()
-	qCAD.program_name = 'qcad'
-	qCAD.description = 'Qcad je racunalnisko podprto orodje za 2D nacrtovanje in\n'\
-						'risanje. Zacetki razvoja segajo v leto 1999, ko je programsko\n'\
-						'orodje nastalo kot rezultat spinoff projekta izdelave CAD\n'\
-						'sistema. Z njim izdelamo tehnicne risbe (nacrti zgradb,\n'\
-						'njihovih notranjosti, mehanski deli, sheme, diagrami ipd.).\n'\
-						'Uporaben je na razlicnih tehniskih podrocjih: strojnistvo,\n'\
-						'lesarstvo, gradbenistvo, arhitektura, geodezija in elektrotehnika.'
-
-	qCAD.tar_package_path_64 = 'https://qcad.org/archives/qcad/'
-	qCAD.tar_package_file_64 = 'qcad-3.16.5-trial-linux-x86_64.tar.gz'
-	qCAD.tar_package_path_32 = 'https://qcad.org/archives/qcad/'
-	qCAD.tar_package_file_32 = 'qcad-3.16.5-trial-linux-x86_32.tar.gz'
-	qCAD.tar_destination = opt_dir
-	qCAD.program_desktop = ['[Desktop Entry]',
-							'Version=1.0',
-							'Name=QCAD',
-							'Exec=/opt/qcad-3.16.5-trial-linux-x86_'+str(qCAD.arhitecture_bit_num)+'/qcad',
-							'Icon=/opt/qcad-3.16.5-trial-linux-x86_'+str(qCAD.arhitecture_bit_num)+'/qcad_icon.png',
-							'Terminal=false',
-							'Type=Application',
-							'Categories=Graphics;'
-							]
-	qCAD.add_path_profile_variable = '/opt/qcad-3.16.5-trial-linux-x86_'+str(qCAD.arhitecture_bit_num)+'/'
-	VsiProgrami.append(qCAD.program_name)
-## FREECAD #####################################################
-	global FreeCAD
-	FreeCAD = NovProgram()
-	FreeCAD.program_name = 'FreeCAD'
-	FreeCAD.description = 'Orodje za tehnisko risanje.'
-	FreeCAD.apt_get_name ='freecad'
-	VsiProgrami.append(FreeCAD.program_name)
-## SUBLIME #####################################################
-	global Sublime
-	Sublime = NovProgram()
-	Sublime.program_name = 'Sublime'
-	Sublime.description = 'Sublime Text is a sophisticated text editor\n'\
-						'for code, markup and prose. You\'ll love the\n'\
-						'slick user interface, extraordinary features and\n'\
-						'amazing performance.'
-	Sublime.apt_get_name =''
-	Sublime.check_version_cmd = ''
-	Sublime.deb_package_path_64 = 'https://download.sublimetext.com/'
-	Sublime.deb_package_file_64 = 'sublime-text_build-3126_amd64.deb'
-	Sublime.deb_package_path_32 = 'https://download.sublimetext.com/'
-	Sublime.deb_package_file_32 = 'sublime-text_build-3126_i386.deb'
-	VsiProgrami.append(Sublime.program_name)
 ## Terminator ##################################################
 	global Terminator
 	Terminator = NovProgram()
@@ -706,6 +634,149 @@ def Install_programms():
 	Keymap.program_name = 'Keymap'
 	Keymap.add_bash_parameter = ['\n#remap tipko [dz] - "/"','\nxmodmap -e "keycode 35 = slash"']			#text ki je za dodat v .bash 
 	VsiProgrami.append(Keymap.program_name)
+## conky #######################################################
+	global conky
+	conky = NovProgram()
+	conky.program_name = 'conky'					#ime naj bo brez presledkov
+	conky.description = 'Prikaz nekaterih osnovnih podatkov sistema'					#neko besedilo za opis
+	conky.apt_get_name = 'conky-all'					#ime za apt-get
+	conky.extra_cmd = ['mkdir '+user+'/.config/conky',
+						'ls -alF '+user+'/.config/conky']					#se ene extra cmd ... ce je se kaj...
+	conky.program_desktop = []				#vsebina v program.desktop
+	conky.add_path_profile_variable  = '' 
+	conky.notes = ''
+	VsiProgrami.append(conky.program_name)
+## dave's conky ################################################
+	global dave_s_conky
+	dave_s_conky = NovProgram()
+	dave_s_conky.program_name = 'dave_s_conky_v3_cfg'					#ime naj bo brez presledkov
+	dave_s_conky.description = 'my conky config file'					#neko besedilo za opis
+	dave_s_conky.extra_cmd = ['wget "https://github.com/davidrihtarsic/BunsenLab/raw/master/dave_s_conky.conkyrc" -O ~/.config/conky/dave_s_conky.conkyrc',\
+							  'bl-conkyzen']					#se ene extra cmd ... ce je se kaj...
+	dave_s_conky.program_desktop = []				#vsebina v program.desktop
+	dave_s_conky.add_path_profile_variable  = ''
+	#dave_s_conky.add_bash_parameter = 	['\n# zazeni conky ob zagomu racunalnika...',
+	#									'\nconky --config='+user+'/.config/conky/dave_s_conky.conkyrc']
+	#add to .bashrc file =>'conky -config='+user+'/.config/conky/dave_s_conky.conkyrc' 
+	dave_s_conky.notes = ''
+	VsiProgrami.append(dave_s_conky.program_name)
+## alias ll -> ls -alF #########################################
+	global ll
+	ll = NovProgram()
+	ll.program_name = 'alias ll'					#ime naj bo brez presledkov
+	ll.description = 'priredi ll namesto uporabe ls -alF\n'\
+					'nato so direktoriji videti takole:\n'\
+					'drwxr-xr-x 31 david david   4096 Apr  5 09:33 ./\n'\
+					'drwxr-xr-x  3 root  root    4096 Apr  1 18:08 ../\n'\
+					'drwxr-xr-x  3 david david   4096 Apr  3 19:05 Arduino/\n'\
+					'drwxr-xr-x  2 david david   4096 Apr  3 19:05 .arduino15/\n'\
+					'-rw-r--r--  1 david david      0 Jul 11  2015 .bash_aliases\n'
+					#neko besedilo za opis
+	ll.add_bash_parameter = ['\n#alias',"\nalias ll='ls -alF'"]			#text ki je za dodat v .bash 
+	ll.notes = ''
+	VsiProgrami.append(ll.program_name)
+## alias WEATHER ###############################################
+	global weather
+	weather = NovProgram()
+	weather.program_name = 'alias weather'					#ime naj bo brez presledkov
+	weather.description = 'izpis vremena za tri dni v terminalnem oknu'
+					#neko besedilo za opis
+	weather.add_bash_parameter = ["\nalias weather='curl wttr.in/~begunje'"]			#text ki je za dodat v .bash 
+	weather.notes = ''
+	VsiProgrami.append(weather.program_name)
+## ARDUINO #####################################################
+	global Arduino
+	Arduino = NovProgram()
+	Arduino.program_name = 'ArduinoIDE'
+	Arduino.description = 'Arduino je mikrokrmilnik na maticni plosci, ki je zasnovan\n'\
+						'tako da bi bil postopek z uporabo elektronike v multidisci-\n'\
+						'plinarnih projektih, bolj dostopen. Strojno opremo sestavljajo\n'\
+						'odprtokodna oblika plosce in 8-bitni mikrokrmilnik Atmel AVR\n'\
+						'ali 32-bitni Atmel ARM. Programska oprema je sestavljena iz\n'\
+						'standardnega programskega jezika, prevajalnika in zagonskega\n'\
+						'nalagalnika, ki se izvaja na mikrokrmilniku. Razvojne plosce\n'\
+						'Arduino so naprodaj ze sestavljene ali pa v sestavi sam izvedbi.\n'\
+						'Mikrokrmilnik so razvili na soli oblikovanja v italijanskem\n'\
+						'mestu Ivrea in predstavlja enega zgodnjih mejnikov v gibanju\n'\
+						'odprtokodne strojne opreme.'
+	#Arduino.apt_get_name =''
+	Arduino.check_version_cmd = 'head -1 /opt/arduino*/revisions.txt'
+	Arduino.tar_package_path_64 = 'https://downloads.arduino.cc/'
+	Arduino.tar_package_file_64 = 'arduino-nightly-linux64.tar.xz'
+	Arduino.tar_package_path_32 = 'https://downloads.arduino.cc/'
+	Arduino.tar_package_file_32 = 'arduino-nightly-linux32.tar.xz'
+	#Arduino.tar_package_file_32 = 'arduino-1.8.1-linux32.tar.xz'
+	Arduino.tar_destination = opt_dir #default = home/$USER/Downloads/
+	Arduino.program_desktop = ['[Desktop Entry]',
+							'Version=1.0',
+							'Name=Arduino IDE',
+							'Exec=/opt/arduino-nightly/arduino',
+							'Icon=/opt/arduino-nightly/lib/icons/64x64/apps/arduino.png',
+							'Terminal=false',
+							'Type=Application',
+							'Categories=Development;Programming;'
+							]
+	#Arduino.tar_extra_cmds = ['sudo ' + Arduino.tar_destination + 'arduino-1.8.1/install.sh']
+	Arduino.add_path_profile_variable  = Arduino.tar_destination + 'arduino-nightly/'
+	Arduino.notes = 'NASTAVITI JE POTREBNO "SERIAL PORT PERMITIONS"!\n'\
+					'poglej na: http://playground.arduino.cc/Linux/All#Permission\n'\
+					'1. -> ls -l /dev/ttyUSB* ali ls -l /dev/ttyACM*\n'\
+					'	dobimo:\n'\
+					'	crw-rw---- 1 root dialout 188, 0  5 apr 23.01 ttyACM0\n'\
+					'	kjer je "dailout" - group name\n'\
+					'2. -> sudo usermod -a -G group-name username\n'\
+					'3. log-OUT & log-IN'
+	VsiProgrami.append(Arduino.program_name)
+## QCAD ########################################################
+	global qCAD
+	qCAD = NovProgram()
+	qCAD.program_name = 'qcad'
+	qCAD.description = 'Qcad je racunalnisko podprto orodje za 2D nacrtovanje in\n'\
+						'risanje. Zacetki razvoja segajo v leto 1999, ko je programsko\n'\
+						'orodje nastalo kot rezultat spinoff projekta izdelave CAD\n'\
+						'sistema. Z njim izdelamo tehnicne risbe (nacrti zgradb,\n'\
+						'njihovih notranjosti, mehanski deli, sheme, diagrami ipd.).\n'\
+						'Uporaben je na razlicnih tehniskih podrocjih: strojnistvo,\n'\
+						'lesarstvo, gradbenistvo, arhitektura, geodezija in elektrotehnika.'
+
+	qCAD.tar_package_path_64 = 'https://qcad.org/archives/qcad/'
+	qCAD.tar_package_file_64 = 'qcad-3.16.5-trial-linux-x86_64.tar.gz'
+	qCAD.tar_package_path_32 = 'https://qcad.org/archives/qcad/'
+	qCAD.tar_package_file_32 = 'qcad-3.16.5-trial-linux-x86_32.tar.gz'
+	qCAD.tar_destination = opt_dir
+	qCAD.program_desktop = ['[Desktop Entry]',
+							'Version=1.0',
+							'Name=QCAD',
+							'Exec=/opt/qcad-3.16.5-trial-linux-x86_'+str(qCAD.arhitecture_bit_num)+'/qcad',
+							'Icon=/opt/qcad-3.16.5-trial-linux-x86_'+str(qCAD.arhitecture_bit_num)+'/qcad_icon.png',
+							'Terminal=false',
+							'Type=Application',
+							'Categories=Graphics;'
+							]
+	qCAD.add_path_profile_variable = '/opt/qcad-3.16.5-trial-linux-x86_'+str(qCAD.arhitecture_bit_num)+'/'
+	VsiProgrami.append(qCAD.program_name)
+## FREECAD #####################################################
+	global FreeCAD
+	FreeCAD = NovProgram()
+	FreeCAD.program_name = 'FreeCAD'
+	FreeCAD.description = 'Orodje za tehnisko risanje.'
+	FreeCAD.apt_get_name ='freecad'
+	VsiProgrami.append(FreeCAD.program_name)
+## SUBLIME #####################################################
+	global Sublime
+	Sublime = NovProgram()
+	Sublime.program_name = 'Sublime'
+	Sublime.description = 'Sublime Text is a sophisticated text editor\n'\
+						'for code, markup and prose. You\'ll love the\n'\
+						'slick user interface, extraordinary features and\n'\
+						'amazing performance.'
+	Sublime.apt_get_name =''
+	Sublime.check_version_cmd = ''
+	Sublime.deb_package_path_64 = 'https://download.sublimetext.com/'
+	Sublime.deb_package_file_64 = 'sublime-text_build-3126_amd64.deb'
+	Sublime.deb_package_path_32 = 'https://download.sublimetext.com/'
+	Sublime.deb_package_file_32 = 'sublime-text_build-3126_i386.deb'
+	VsiProgrami.append(Sublime.program_name)
 ## LibreOffice #################################################
 	global LibreOffice
 	LibreOffice = NovProgram()
@@ -803,96 +874,25 @@ def Install_programms():
 	# 					'Kot naprimer kateri terminalni simulator uporabljate in\n'\
 	# 					'vas priljubljen urejevalnik besedil...'
 	#VsiProgrami.append(obmenugen.program_name)
-## conky #######################################################
-	global conky
-	conky = NovProgram()
-	conky.program_name = 'conky'					#ime naj bo brez presledkov
-	conky.description = 'Prikaz nekaterih osnovnih podatkov sistema'					#neko besedilo za opis
-	conky.apt_get_name = 'conky-all'					#ime za apt-get
-	conky.extra_cmd = ['mkdir '+user+'/.config/conky',
-						'ls -alF '+user+'/.config/conky']					#se ene extra cmd ... ce je se kaj...
-	conky.program_desktop = []				#vsebina v program.desktop
-	conky.add_path_profile_variable  = '' 
-	conky.notes = ''
-	VsiProgrami.append(conky.program_name)
-## dave's conky ################################################
-	global dave_s_conky
-	dave_s_conky = NovProgram()
-	dave_s_conky.program_name = 'dave_s_conky_v3_cfg'					#ime naj bo brez presledkov
-	dave_s_conky.description = 'my conky config file'					#neko besedilo za opis
-	dave_s_conky.extra_cmd = ['wget "https://github.com/davidrihtarsic/BunsenLab/raw/master/dave_s_conky.conkyrc" -O ~/.config/conky/dave_s_conky.conkyrc',\
-							  'bl-conkyzen']					#se ene extra cmd ... ce je se kaj...
-	dave_s_conky.program_desktop = []				#vsebina v program.desktop
-	dave_s_conky.add_path_profile_variable  = ''
-	#dave_s_conky.add_bash_parameter = 	['\n# zazeni conky ob zagomu racunalnika...',
-	#									'\nconky --config='+user+'/.config/conky/dave_s_conky.conkyrc']
-	#add to .bashrc file =>'conky -config='+user+'/.config/conky/dave_s_conky.conkyrc' 
-	dave_s_conky.notes = ''
-	VsiProgrami.append(dave_s_conky.program_name)
-## alias ll -> ls -alF #########################################
-	global ll
-	ll = NovProgram()
-	ll.program_name = 'alias ll'					#ime naj bo brez presledkov
-	ll.description = 'priredi ll namesto uporabe ls -alF\n'\
-					'nato so direktoriji videti takole:\n'\
-					'drwxr-xr-x 31 david david   4096 Apr  5 09:33 ./\n'\
-					'drwxr-xr-x  3 root  root    4096 Apr  1 18:08 ../\n'\
-					'drwxr-xr-x  3 david david   4096 Apr  3 19:05 Arduino/\n'\
-					'drwxr-xr-x  2 david david   4096 Apr  3 19:05 .arduino15/\n'\
-					'-rw-r--r--  1 david david      0 Jul 11  2015 .bash_aliases\n'
-					#neko besedilo za opis
-	ll.add_bash_parameter = ['\n#alias',"\nalias ll='ls -alF'"]			#text ki je za dodat v .bash 
-	ll.notes = ''
-	VsiProgrami.append(ll.program_name)
-## GIT #########################################################
-	global git
-	git = NovProgram()
-	git.program_name = 'git'					#ime naj bo brez presledkov
-	git.description = 'Protokol za skrbno spremljanje verzij\n'\
-					'razvojnih programov.'					#neko besedilo za opis
-	git.apt_get_name = 'git-core'					#ime za apt-get
-	git.notes = ''
-	VsiProgrami.append(git.program_name)
-## Java 8 ######################################################
-	global java_8
-	java_8 = NovProgram()
-	java_8.program_name = 'java8'					#ime naj bo brez presledkov
-	java_8.description = ''					#neko besedilo za opis
-	java_8.check_version_cmd = 'java -version'			#cmd za preverjanje verzije
-	java_8.tar_package_path_64 = 'http://javadl.oracle.com/webapps/download/'				#url (brez fila)
-	java_8.tar_package_file_64 = 'AutoDL?BundleId=218823_e9e7ea248e2c4826b92b3f075a80e441'			#file za 64bit
-	java_8.tar_destination = '/usr/lib/jvm/'				#kam naj od tara.. TAR paket
-	java_8.extra_cmd = ['sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jre1.8.0_121/bin/java 1',
-						'sudo update-alternatives --config java']					#se ene extra cmd ... ce je se kaj...
-	VsiProgrami.append(java_8.program_name)
 ## SmartGIT ####################################################
-	global smartGit
-	smartGit = NovProgram()
-	smartGit.program_name = 'smartgit'					#ime naj bo brez presledkov
-	smartGit.description = 'Git GUI client'					#neko besedilo za opis
-	smartGit.tar_package_path = 'https://www.syntevo.com/static/smart/download/smartgit/'				#url (brez fila)
-	smartGit.tar_package_file = 'smartgit-linux-17_0_3.tar.gz'				#file za katerikoli sistem
-	smartGit.tar_destination = opt_dir				#kam naj od tara.. TAR paket
-	smartGit.extra_cmd = ['sudo ln -s /opt/smartgit/bin/smartgit.sh /usr/bin/smartgit']					#se ene extra cmd ... ce je se kaj...
-	smartGit.program_desktop = ['[Desktop Entry]',
-							'Version=1.0',
-							'Name=SmartGit',
-							'Exec=smartgit',
-							'Icon=/opt/smartgit/bin/smartgit-32.png',
-							'Terminal=false',
-							'Type=Application',
-							'Categories=Development;'
-							]
-	VsiProgrami.append(smartGit.program_name)
-## alias WEATHER ###############################################
-	global weather
-	weather = NovProgram()
-	weather.program_name = 'alias weather'					#ime naj bo brez presledkov
-	weather.description = 'izpis vremena za tri dni v terminalnem oknu'
-					#neko besedilo za opis
-	weather.add_bash_parameter = ["\nalias weather='curl wttr.in/~begunje'"]			#text ki je za dodat v .bash 
-	weather.notes = ''
-	VsiProgrami.append(weather.program_name)
+	# global smartGit
+	# smartGit = NovProgram()
+	# smartGit.program_name = 'smartgit'					#ime naj bo brez presledkov
+	# smartGit.description = 'Git GUI client'					#neko besedilo za opis
+	# smartGit.tar_package_path = 'https://www.syntevo.com/static/smart/download/smartgit/'				#url (brez fila)
+	# smartGit.tar_package_file = 'smartgit-linux-17_0_3.tar.gz'				#file za katerikoli sistem
+	# smartGit.tar_destination = opt_dir				#kam naj od tara.. TAR paket
+	# smartGit.extra_cmd = ['sudo ln -s /opt/smartgit/bin/smartgit.sh /usr/bin/smartgit']					#se ene extra cmd ... ce je se kaj...
+	# smartGit.program_desktop = ['[Desktop Entry]',
+	# 						'Version=1.0',
+	# 						'Name=SmartGit',
+	# 						'Exec=smartgit',
+	# 						'Icon=/opt/smartgit/bin/smartgit-32.png',
+	# 						'Terminal=false',
+	# 						'Type=Application',
+	# 						'Categories=Development;'
+	# 						]
+	# VsiProgrami.append(smartGit.program_name)
 ## Stellarium ##################################################
 	global stellarium
 	stellarium = NovProgram()
@@ -986,11 +986,9 @@ while (key != 'q'):
 		cls()
 		Main()
 	elif key == str(programe_index.next()):	Update_Upgrade.install()	
+	elif key == str(programe_index.next()):	git.install()
+	elif key == str(programe_index.next()):	java_8.install()
 	elif key == str(programe_index.next()):	obmenu.install()
-	elif key == str(programe_index.next()):	Arduino.install()
-	elif key == str(programe_index.next()):	qCAD.install()
-	elif key == str(programe_index.next()):	FreeCAD.install()
-	elif key == str(programe_index.next()):	Sublime.install()
 	elif key == str(programe_index.next()):	Terminator.install()
 	elif key == str(programe_index.next()):	Htop.install()
 	elif key == str(programe_index.next()):	nmon.install()
@@ -999,19 +997,21 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	Fortune.install()
 	elif key == str(programe_index.next()):	Cowsay.install()
 	elif key == str(programe_index.next()):	Keymap.install()
+	elif key == str(programe_index.next()):	conky.install()
+	elif key == str(programe_index.next()):	dave_s_conky.install()
+	elif key == str(programe_index.next()):	ll.install()
+	elif key == str(programe_index.next()):	weather.install()
+	elif key == str(programe_index.next()):	Arduino.install()
+	elif key == str(programe_index.next()):	qCAD.install()
+	elif key == str(programe_index.next()):	FreeCAD.install()
+	elif key == str(programe_index.next()):	Sublime.install()
 	elif key == str(programe_index.next()):	LibreOffice.install()
 	elif key == str(programe_index.next()):	Thunderbird.install()
 	elif key == str(programe_index.next()):	GoogleChrome.install()
 	elif key == str(programe_index.next()):	W3M.install()
 	elif key == str(programe_index.next()):	Skype.install()
 	#elif key == str(programe_index.next()):	obmenugen.install()
-	elif key == str(programe_index.next()):	conky.install()
-	elif key == str(programe_index.next()):	dave_s_conky.install()
-	elif key == str(programe_index.next()):	ll.install()
-	elif key == str(programe_index.next()):	git.install()
-	elif key == str(programe_index.next()):	java_8.install()
-	elif key == str(programe_index.next()):	smartGit.install()
-	elif key == str(programe_index.next()):	weather.install()
+	#elif key == str(programe_index.next()):	smartGit.install()
 	elif key == str(programe_index.next()):	stellarium.install()
 	elif key == str(programe_index.next()):	Foxitreader.install()
 	elif key == 'all':
