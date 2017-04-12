@@ -860,7 +860,7 @@ def Install_programms():
 	global Foxitreader
 	Foxitreader = NovProgram()
 	Foxitreader.program_name = 'Foxitreader'
-	Foxitreader.description = 'Program za urejanje ODF dokumentov'
+	Foxitreader.description = 'Program za urejanje PDF dokumentov'
 	Foxitreader.pre_install_cmds = []					
 	Foxitreader.apt_get_name = ''
 	Foxitreader.deb_package_path = ''
@@ -885,6 +885,41 @@ def Install_programms():
 	Foxitreader.notes = ''
 	VsiProgrami.append(Foxitreader.program_name)
 
+## Fritzing #############################################
+	global Fritzing
+	Fritzing = NovProgram()
+	Fritzing.program_name = 'Fritzing'
+	Fritzing.description = 'Program za risanje vezij oziroma elektrotehniskih shem'
+	Fritzing.pre_install_cmds = []					
+	Fritzing.apt_get_name = ''
+	Fritzing.deb_package_path = ''
+	Fritzing.deb_package_file = ''
+	Fritzing.deb_package_path_32 = ''
+	Fritzing.deb_package_file_32 = ''
+	Fritzing.deb_package_path_64 = ''
+	Fritzing.deb_package_file_64 = ''
+	Fritzing.tar_package_path = ''
+	Fritzing.tar_package_file = ''
+	Fritzing.tar_package_path_32 = 'http://fritzing.org/media/downloads/'
+	Fritzing.tar_package_file_32 = 'fritzing-0.9.3b.linux.i386.tar.bz2'
+	Fritzing.tar_package_path_64 = ''
+	Fritzing.tar_package_file_64 = ''
+	Fritzing.tar_destination = opt_dir
+	Fritzing.tar_extra_cmds = []
+	Fritzing.program_desktop = ['[Desktop Entry]',
+										'Name=Fritzing',
+										'Exec=/opt/fritzing-0.9.3b.linux.i386/Fritzing',
+										'Icon=/opt/opt/fritzing-0.9.3b.linux.i386/icons/fritzing_icon.png',
+										'Terminal=false',
+										'Type=Application',
+										'Categories=Science;'
+									]
+	Fritzing.add_path_profile_variable  = ''
+	Fritzing.extra_cmd = []
+	Fritzing.add_bash_parameter = []
+	Fritzing.check_version_cmd = ''
+	Fritzing.notes = ''
+	VsiProgrami.append(Fritzing.program_name)
 
 Install_programms()
 
@@ -963,6 +998,7 @@ while (key != 'q'):
 	#elif key == str(programe_index.next()):	smartGit.install()
 	elif key == str(programe_index.next()):	stellarium.install()
 	elif key == str(programe_index.next()):	Foxitreader.install()
+	elif key == str(programe_index.next()):	Fritzing.install()
 	elif key == 'all':
 		Update_Upgrade.install()	
 		git.install()
@@ -999,6 +1035,7 @@ while (key != 'q'):
 		FreeCAD.install()
 		Sublime.install()
 		stellarium.install()
+		Fritzing.install()
 	elif key == 'sistem':
 		Update_Upgrade.install()	
 		Terminator.install()
