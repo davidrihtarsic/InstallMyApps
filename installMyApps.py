@@ -942,6 +942,14 @@ def Install_programms():
 	inkscape.apt_get_name = 'inkscape'
 	#inkscape.notes = ''
 	VsiProgrami.append(inkscape.program_name)
+## GIMP ########################################################
+	global gimp
+	gimp = NovProgram()
+	gimp.program_name = 'gimp'
+	gimp.description = 'Program za risanje, obdelavo slik, ...'
+	gimp.apt_get_name = 'gimp'
+	#gimp.notes = ''
+	VsiProgrami.append(gimp.program_name)
 
 Install_programms()
 
@@ -1023,6 +1031,7 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	Fritzing.install()
 	elif key == str(programe_index.next()):	texmaker.install()
 	elif key == str(programe_index.next()):	inkscape.install()
+	elif key == str(programe_index.next()):	gimp.install()
 	elif key == 'all':
 		Update_Upgrade.install()	
 		git.install()
@@ -1055,6 +1064,7 @@ while (key != 'q'):
 		Foxitreader.install()
 		texmaker.install()
 		inkscape.install()
+		gimp.install()
 	elif key == 'tehnika':	
 		Arduino.install()
 		qCAD.install()
