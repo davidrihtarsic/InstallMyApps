@@ -950,6 +950,14 @@ def Install_programms():
 	gimp.apt_get_name = 'gimp'
 	#gimp.notes = ''
 	VsiProgrami.append(gimp.program_name)
+## MyPaint ########################################################
+	global mypaint
+	mypaint = NovProgram()
+	mypaint.program_name = 'mypaint'
+	mypaint.description = 'Program za prostorocno risanje.'
+	mypaint.apt_get_name = 'mypaint'
+	#mypaint.notes = ''
+	VsiProgrami.append(mypaint.program_name)
 
 Install_programms()
 
@@ -1032,6 +1040,7 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	texmaker.install()
 	elif key == str(programe_index.next()):	inkscape.install()
 	elif key == str(programe_index.next()):	gimp.install()
+	elif key == str(programe_index.next()):	mypaint.install()
 	elif key == 'all':
 		Update_Upgrade.install()	
 		git.install()
@@ -1065,6 +1074,7 @@ while (key != 'q'):
 		texmaker.install()
 		inkscape.install()
 		gimp.install()
+		mypaint.install()
 	elif key == 'tehnika':	
 		Arduino.install()
 		qCAD.install()
