@@ -879,7 +879,7 @@ def Install_programms():
 	Foxitreader.tar_extra_cmds = ["~/Downloads/FoxitReader*"]
 	Foxitreader.program_desktop = []
 	Foxitreader.add_path_profile_variable  = ''
-	Foxitreader.extra_cmd = []
+	Foxitreader.extra_cmd = ['sudo ln -s ~/opt/foxitsoftware/foxitreader/FoxitReader.sh /usr/bin/foxitreader']
 	Foxitreader.add_bash_parameter = []
 	Foxitreader.check_version_cmd = ''
 	Foxitreader.notes = ''
