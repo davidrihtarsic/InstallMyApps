@@ -884,8 +884,7 @@ def Install_programms():
 	Foxitreader.check_version_cmd = ''
 	Foxitreader.notes = ''
 	VsiProgrami.append(Foxitreader.program_name)
-
-## Fritzing #############################################
+## Fritzing ####################################################
 	global Fritzing
 	Fritzing = NovProgram()
 	Fritzing.program_name = 'Fritzing'
@@ -922,7 +921,19 @@ def Install_programms():
 	Fritzing.check_version_cmd = ''
 	Fritzing.notes = ''
 	VsiProgrami.append(Fritzing.program_name)
-
+## Texmaker ####################################################
+	global texmaker
+	texmaker = NovProgram()
+	texmaker.program_name = 'texmaker'
+	texmaker.description = 'Program za pisanje besedil v TeX formatu.'
+	#texmaker.pre_install_cmds = ['sudo apt-get -f install texlive-full texmaker']					
+	texmaker.apt_get_name = 'texlive-full texmaker'
+	#texmaker.program_desktop = []
+	#texmaker.extra_cmd = []
+	#texmaker.add_bash_parameter = []
+	#texmaker.check_version_cmd = ''
+	#texmaker.notes = ''
+	VsiProgrami.append(texmaker.program_name)
 Install_programms()
 
 def MakeProgrammsForm():
@@ -1001,6 +1012,7 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	stellarium.install()
 	elif key == str(programe_index.next()):	Foxitreader.install()
 	elif key == str(programe_index.next()):	Fritzing.install()
+	elif key == str(programe_index.next()):	texmaker.install()
 	elif key == 'all':
 		Update_Upgrade.install()	
 		git.install()
@@ -1031,6 +1043,7 @@ while (key != 'q'):
 		#smartGit.install()
 		stellarium.install()
 		Foxitreader.install()
+		texmaker.install()
 	elif key == 'tehnika':	
 		Arduino.install()
 		qCAD.install()
