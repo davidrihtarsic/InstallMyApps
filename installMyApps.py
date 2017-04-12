@@ -4,9 +4,6 @@ import sys
 import os
 
 cls()
-# PROGRAMI ##################################################
-#  Programa  - AptCommand - DEB pachage - InstallFromSource
-#  todo...
 
 user = os.path.expanduser('~')
 download_dir = user + '/Downloads/'
@@ -14,54 +11,6 @@ opt_dir = '/opt/'
 menu_desktop = '/usr/share/applications/'
 profile_dir = '/etc/profile.d/'
 VsiProgrami = []
-
-## REVISION ####################################################
-version = 3.3
-		# dodan alias ll za ls -alF
-		# install funkcija razbita na podfunkcije...
-	## version = 3.1
-		# dodano arduino.desktop
-	##version = 3.0
-		# dodan concky :)
-	## version = 2.9.1
-		# dodan program za avtomatsko kreiranje menuja
-		# v OpenBox okolju (za BunsenLab) 
-	## version = 2.9
-		# dodana pot za 32 bit ... ker se nekateri programi
-		# programi razlikujejo... tako za TAR in DEB.
-	## version = 2.8
-		# program.desktop se naredi le ce se ni tega file-a	
-	## version = 2.7
-		## popravljeno dodajanje v $PATH tako,
-		# da se to doda v ~/.bashrc in se prej pregledamo
-		# ce besedilo slucajno ze obstaja
-		## popravljeno vnasanje program.desktop tako,
-		# da te sedaj vprasa po SUDO... in ni potrebno vec
-		# cele skripte zaganjati s sudo ukazom...
-	## version = 2.6
-		# popravljen link 32bit za sublime...	
-	## version = 2.5
-		# popravljene so bile nastavitve za instalacijo Arduinota
-		# sedaj se odTara v /opt/ in doda PATR... in to = to
-	## version = 2.4
-		# dodani 32 paketi za nekatere programe...
-	## version = 2.3
-		# narejena podpora za tar tako, da uposteva 64 in 32 bit arhitekturo
-	## version = 2.2
-		# narejena podpora za 64 / 32 bit za DEB packages...
-## BUGS REPORT #################################################
-	## issue:35
-		# lahko bi preverjal katera verzija Linuxsa je namescena
-		# cat /etc/*ease
-	## issue:34 SOLVED!
-		# skripto je potrebno zagnati kot "root", ker te za nekatere
-		# ukaze ne vprasa po sudo geslu... to se da resiti.. navodila
-		# na : hm/ne/vem/vec.kje
-	## issue: 33
-		# ni se programa LibreOffice
-	## issue: 32 
-		# ni se programa neofetch
-		#	
 
 ## POSTOPEK INSTALACIJE ########################################
 class NovProgram(object):
