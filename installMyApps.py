@@ -961,6 +961,34 @@ def Install_programms():
 	#mypaint.notes = ''
 	VsiProgrami.append(mypaint.program_name)
 
+## Audacity #############################################
+	global audacity
+	audacity = NovProgram()
+	audacity.program_name = 'audacity'
+	audacity.description = 'Audacity is free, open source, cross-platform audio software for multi-track recording and editing.'					
+	audacity.apt_get_name = 'audacity'
+	#audacity.notes = ''
+	VsiProgrami.append(audacity.program_name)
+
+## Evince PDF  #############################################
+	global evince
+	evince = NovProgram()
+	evince.program_name = 'evince'
+	evince.description = 'Evince is a document viewer for multiple document formats. The goal of evince is to replace the multiple document viewers that exist on the GNOME Desktop with a single simple application. Evince is specifically designed to support the file following formats: PDF, Postscript, djvu, tiff, dvi, XPS, SyncTex support with gedit, comics books (cbr,cbz,cb7 and cbt).'					
+	evince.apt_get_name = 'evince'
+	#evince.notes = ''
+	VsiProgrami.append(evince.program_name)
+
+## K3b  #############################################
+	global k3b
+	k3b = NovProgram()
+	k3b.program_name = 'k3b'
+	k3b.description = 'K3b is a simple, yet powerful and highly-configurable graphical optical disk burning application for audio, video, data projects and more!'					
+	k3b.apt_get_name = 'k3b'
+	##k3b.notes = ''
+	VsiProgrami.append(k3b.program_name)
+
+
 Install_programms()
 
 def MakeProgrammsForm():
@@ -1043,6 +1071,9 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	inkscape.install()
 	elif key == str(programe_index.next()):	gimp.install()
 	elif key == str(programe_index.next()):	mypaint.install()
+	elif key == str(programe_index.next()):	audacity.install()
+	elif key == str(programe_index.next()):	evince.install()
+	elif key == str(programe_index.next()):	k3b.install()
 	elif key == 'all':
 		Update_Upgrade.install()	
 		git.install()
@@ -1077,6 +1108,9 @@ while (key != 'q'):
 		inkscape.install()
 		gimp.install()
 		mypaint.install()
+		audacity.install()
+		evince.install()
+		k3b.install()
 	elif key == 'tehnika':	
 		Arduino.install()
 		qCAD.install()
