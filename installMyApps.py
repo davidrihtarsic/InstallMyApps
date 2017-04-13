@@ -249,15 +249,26 @@ class NovProgram(object):
 		
 	def show_notes(self):
 		if self.notes != '':
-			sys.stdout.write(self.notes+'\n')
+			sys.stdout.write(self.notes+'\n')	
 
+				
 	def install(self):
 		sys.stdout.write(	 '###########################################################\n'
 							+'## Postopek instalacije programa \n'
 							+'## ' + self.program_name+'\n'
 							+'-----------------------------------------------------------\n')
 		if self.description != '':
-			sys.stdout.write(self.description+'\n'
+			new_start = 0
+			last_presledek = 0
+			for n in range (1, len(self.description)):
+				presledek = self.description.find(' ',last_presledek+1,n)
+				if (presledek > new_start + 59):
+					print(self.description[new_start:last_presledek])
+					new_start = last_presledek +1	
+				else:
+					if (presledek > 0):
+					    last_presledek=presledek		
+			sys.stdout.write(self.description[new_start:]+'\n'
 							+'###########################################################\n')
 		key = raw_input('--> Nadaljuj z namestitvijo? [y/n]')
 		if key == 'y':
@@ -444,7 +455,7 @@ def Install_programms():
 	global git
 	git = NovProgram()
 	git.program_name = 'git'					#ime naj bo brez presledkov
-	git.description = 'Protokol za skrbno spremljanje verzij\n'\
+	git.description = 'Protokol za skrbno spremljanje verzij'\
 					'razvojnih programov.'					#neko besedilo za opis
 	git.apt_get_name = 'git-core'					#ime za apt-get
 	git.notes = ''
@@ -453,7 +464,7 @@ def Install_programms():
 	global java_8
 	java_8 = NovProgram()
 	java_8.program_name = 'java8'					#ime naj bo brez presledkov
-	java_8.description = ''					#neko besedilo za opis
+	java_8.description = 'Namesti novejso verzijo java 8'					#neko besedilo za opis
 	java_8.check_version_cmd = 'java -version'			#cmd za preverjanje verzije
 	java_8.tar_package_path_64 = 'http://javadl.oracle.com/webapps/download/'				#url (brez fila)
 	java_8.tar_package_file_64 = 'AutoDL?BundleId=218823_e9e7ea248e2c4826b92b3f075a80e441'			#file za 64bit
@@ -569,7 +580,7 @@ def Install_programms():
 	global Cowsay
 	Cowsay = NovProgram()
 	Cowsay.program_name = 'Cowsay'
-	Cowsay.description = 'To do...'
+	Cowsay.description = 'Namesti pametno kravo...'
 	Cowsay.apt_get_name ='cowsay'
 	Cowsay.check_version_cmd = 'cowsay -help'
 	Cowsay.deb_package_path = ''
@@ -614,14 +625,8 @@ def Install_programms():
 	global ll
 	ll = NovProgram()
 	ll.program_name = 'alias ll'					#ime naj bo brez presledkov
-	ll.description = 'priredi ll namesto uporabe ls -alF\n'\
-					'nato so direktoriji videti takole:\n'\
-					'drwxr-xr-x 31 david david   4096 Apr  5 09:33 ./\n'\
-					'drwxr-xr-x  3 root  root    4096 Apr  1 18:08 ../\n'\
-					'drwxr-xr-x  3 david david   4096 Apr  3 19:05 Arduino/\n'\
-					'drwxr-xr-x  2 david david   4096 Apr  3 19:05 .arduino15/\n'\
-					'-rw-r--r--  1 david david      0 Jul 11  2015 .bash_aliases\n'
-					#neko besedilo za opis
+	ll.description = 'priredi ll namesto uporabe ls -alF - ukaz se uporablja za bolj detajlni prikaz vsebine v direktoriju'
+						#neko besedilo za opis
 	ll.add_bash_parameter = ['\n#alias',"\nalias ll='ls -alF'"]			#text ki je za dodat v .bash 
 	ll.notes = ''
 	VsiProgrami.append(ll.program_name)
@@ -639,16 +644,16 @@ def Install_programms():
 	global Arduino
 	Arduino = NovProgram()
 	Arduino.program_name = 'ArduinoIDE'
-	Arduino.description = 'Arduino je mikrokrmilnik na maticni plosci, ki je zasnovan\n'\
-						'tako da bi bil postopek z uporabo elektronike v multidisci-\n'\
-						'plinarnih projektih, bolj dostopen. Strojno opremo sestavljajo\n'\
-						'odprtokodna oblika plosce in 8-bitni mikrokrmilnik Atmel AVR\n'\
-						'ali 32-bitni Atmel ARM. Programska oprema je sestavljena iz\n'\
-						'standardnega programskega jezika, prevajalnika in zagonskega\n'\
-						'nalagalnika, ki se izvaja na mikrokrmilniku. Razvojne plosce\n'\
-						'Arduino so naprodaj ze sestavljene ali pa v sestavi sam izvedbi.\n'\
-						'Mikrokrmilnik so razvili na soli oblikovanja v italijanskem\n'\
-						'mestu Ivrea in predstavlja enega zgodnjih mejnikov v gibanju\n'\
+	Arduino.description = 'Arduino je mikrokrmilnik na maticni plosci, ki je zasnovan '\
+						'tako da bi bil postopek z uporabo elektronike v multidisci'\
+						'plinarnih projektih, bolj dostopen. Strojno opremo sestavljajo '\
+						'odprtokodna oblika plosce in 8-bitni mikrokrmilnik Atmel AVR '\
+						'ali 32-bitni Atmel ARM. Programska oprema je sestavljena iz '\
+						'standardnega programskega jezika, prevajalnika in zagonskega '\
+						'nalagalnika, ki se izvaja na mikrokrmilniku. Razvojne plosce '\
+						'Arduino so naprodaj ze sestavljene ali pa v sestavi sam izvedbi. '\
+						'Mikrokrmilnik so razvili na soli oblikovanja v italijanskem '\
+						'mestu Ivrea in predstavlja enega zgodnjih mejnikov v gibanju '\
 						'odprtokodne strojne opreme.'
 	#Arduino.apt_get_name =''
 	Arduino.check_version_cmd = 'head -1 /opt/arduino*/revisions.txt'
@@ -682,12 +687,12 @@ def Install_programms():
 	global qCAD
 	qCAD = NovProgram()
 	qCAD.program_name = 'qcad'
-	qCAD.description = 'Qcad je racunalnisko podprto orodje za 2D nacrtovanje in\n'\
-						'risanje. Zacetki razvoja segajo v leto 1999, ko je programsko\n'\
-						'orodje nastalo kot rezultat spinoff projekta izdelave CAD\n'\
-						'sistema. Z njim izdelamo tehnicne risbe (nacrti zgradb,\n'\
-						'njihovih notranjosti, mehanski deli, sheme, diagrami ipd.).\n'\
-						'Uporaben je na razlicnih tehniskih podrocjih: strojnistvo,\n'\
+	qCAD.description = 'Qcad je racunalnisko podprto orodje za 2D nacrtovanje in '\
+						'risanje. Zacetki razvoja segajo v leto 1999, ko je programsko '\
+						'orodje nastalo kot rezultat spinoff projekta izdelave CAD '\
+						'sistema. Z njim izdelamo tehnicne risbe (nacrti zgradb, '\
+						'njihovih notranjosti, mehanski deli, sheme, diagrami ipd.). '\
+						'Uporaben je na razlicnih tehniskih podrocjih: strojnistvo, '\
 						'lesarstvo, gradbenistvo, arhitektura, geodezija in elektrotehnika.'
 
 	qCAD.tar_package_path_64 = 'https://qcad.org/archives/qcad/'
@@ -717,9 +722,9 @@ def Install_programms():
 	global Sublime
 	Sublime = NovProgram()
 	Sublime.program_name = 'Sublime'
-	Sublime.description = 'Sublime Text is a sophisticated text editor\n'\
-						'for code, markup and prose. You\'ll love the\n'\
-						'slick user interface, extraordinary features and\n'\
+	Sublime.description = 'Sublime Text is a sophisticated text editor '\
+						'for code, markup and prose. You\'ll love the '\
+						'slick user interface, extraordinary features and '\
 						'amazing performance.'
 	Sublime.apt_get_name =''
 	Sublime.check_version_cmd = ''
