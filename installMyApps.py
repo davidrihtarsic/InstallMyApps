@@ -887,6 +887,7 @@ def Install_programms():
 	Foxitreader.notes = ''
 	VsiProgrami.append(Foxitreader.program_name)
 ## Fritzing ####################################################
+    #32 bit BL tested
 	global Fritzing
 	Fritzing = NovProgram()
 	Fritzing.program_name = 'Fritzing'
@@ -977,6 +978,7 @@ def Install_programms():
 	#evince.notes = ''
 	VsiProgrami.append(evince.program_name)
 ## K3b  ########################################################
+	#32 bit BL tested
 	global k3b
 	k3b = NovProgram()
 	k3b.program_name = 'k3b'
