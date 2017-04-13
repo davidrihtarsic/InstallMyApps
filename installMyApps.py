@@ -948,7 +948,7 @@ def Install_programms():
 	global gimp
 	gimp = NovProgram()
 	gimp.program_name = 'gimp'
-	-	gimp.description = 'Program za risanje, obdelavo slik, ...'
+	gimp.description = 'Program za risanje, obdelavo slik, ...'
 	gimp.apt_get_name = 'gimp'
 	#gimp.notes = ''
 	VsiProgrami.append(gimp.program_name)
