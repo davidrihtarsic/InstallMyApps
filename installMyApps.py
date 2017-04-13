@@ -11,7 +11,7 @@ opt_dir = '/opt/'
 menu_desktop = '/usr/share/applications/'
 profile_dir = '/etc/profile.d/'
 VsiProgrami = []
-
+n_systemPrograms = 16
 ## POSTOPEK INSTALACIJE ########################################
 class NovProgram(object):
 	"""docstring for NovProgram"""
@@ -992,28 +992,46 @@ def Install_programms():
 
 Install_programms()
 
-def MakeProgrammsForm():
-	global formProgramms
-	formProgramms = Form('Izberi program',3,2 ,28,len(VsiProgrami)+4)
+def MakeSystemProgrammsForm():
+	dy = max(n_systemPrograms,len(VsiProgrami)-n_systemPrograms)
+	global formSystemPrograms
+	formSystemPrograms = Form('System Programs',3,2 ,28,dy+4)
 	global editPrigramms
 	editPrigramms =[]
-	for n in range(0, len(VsiProgrami)):
-		editPrigramms.append(Edit('(' + str(n+1) + ')', formProgramms.x+3 ,formProgramms.y + n + 2))
-		editPrigramms[n].new_value(VsiProgrami[n])
-MakeProgrammsForm()
+	global NthProgram
+	for NthProgram in range(0, n_systemPrograms):
+		editPrigramms.append(Edit('(' + str(NthProgram+1) + ')', formSystemPrograms.x+3 ,formSystemPrograms.y + NthProgram + 2))
+		editPrigramms[NthProgram].new_value(VsiProgrami[NthProgram])
+
+def MakeOtherProgrammsForm():
+	dx = formSystemPrograms.x+formSystemPrograms.dx
+	dy = max(n_systemPrograms,len(VsiProgrami)-n_systemPrograms)
+	global formOtherPrograms
+	formOtherPrograms = Form('Other Programs', dx+3,2 ,28,dy+4)
+	for NthProgram in range(n_systemPrograms, len(VsiProgrami)):
+		editPrigramms.append(Edit('(' + str(NthProgram+1) + ')', formOtherPrograms.x+3 ,formOtherPrograms.y + NthProgram - n_systemPrograms + 2))
+		editPrigramms[NthProgram].new_value(VsiProgrami[NthProgram])
+
+MakeSystemProgrammsForm()
+MakeOtherProgrammsForm()
 
 def MakeHelpForm():
-	HotKeys = [	'1..16      - Izberi posamezni program',
-				'all        - Izberi vse programe',
-				'tehnika    - Izbere programe za tehniko:',
-				'           Arduino, qCAD, FreeCAD in Sublime',
-				'sistem     - Izbere sistemske programe:',
-				'           Terminator in Htop',
-				'----------------------------------------',
-				'ENTER      - Ta zaslon',
-				'q          - exit',
+	HotKeys = [	'n      - CHOOSE PROGRAM',
+				'all    - INSTALL ALL',
+				'tit    - INSTALL:',
+				'		+ Arduino',
+				'		+ qCAD',
+				'		+ FreeCAD',
+				'		+ Sublime',
+				'system - INSTALL:',
+				'		+ Htop',
+				'		+ Terminator',
+				'--------------------------',
+				'ENTER  - MAIN MENU',
+				'q      - EXIT',
 				]
-	formHelp = Form('MENU',40,2,55,formProgramms.dy)
+	x = formOtherPrograms.x + formOtherPrograms.dx + 3
+	formHelp = Form('MENU',x,2,33,formSystemPrograms.dy)
 	t_Keys = []
 	for n in range(0, len(HotKeys)):
 		t_Keys.append(Text(HotKeys[n],formHelp.x+3,formHelp.y+n+2))
@@ -1021,8 +1039,11 @@ def MakeHelpForm():
 # MAIN PROGRAM ##############################################
 def Main():
 	MakeHelpForm()
-	MakeProgrammsForm()
-	setCursor(1,formProgramms.y + formProgramms.dy + 4)
+	MakeSystemProgrammsForm()
+	MakeOtherProgrammsForm()
+	y1 = formSystemPrograms.y + formSystemPrograms.dy + 4
+	y2 = formOtherPrograms.y + formOtherPrograms.dy + 4
+	setCursor(1,max(y1,y2))
 	#global editCmd
 	#editCmd = Edit('Cmd',1,20)
 	#editCmd.value = ''
@@ -1030,11 +1051,11 @@ def Main():
 key = ''
 cls()
 Main()
+Main()
 #while (editCmd.value != 'q'):
 while (key != 'q'):
 	key = raw_input('Cmd::')
-	programe_index=(i for i in xrange(50
-		))
+	programe_index=(i for i in xrange(50))
 	programe_index.next()
 	if key == '':
 		cls()
@@ -1113,14 +1134,14 @@ while (key != 'q'):
 		audacity.install()
 		evince.install()
 		k3b.install()
-	elif key == 'tehnika':	
+	elif key == 'tit':	
 		Arduino.install()
 		qCAD.install()
 		FreeCAD.install()
 		Sublime.install()
 		stellarium.install()
 		Fritzing.install()
-	elif key == 'sistem':
+	elif key == 'system':
 		Update_Upgrade.install()	
 		Terminator.install()
 		Htop.install()
