@@ -942,13 +942,52 @@ def Install_programms():
 	inkscape.program_name = 'inkscape'
 	inkscape.description = 'Program za risanje vektorske grafike.'
 	inkscape.apt_get_name = 'inkscape'
-	inkscape.notes = ''
+	#inkscape.notes = ''
 	VsiProgrami.append(inkscape.program_name)
 ## GIMP ########################################################
 	global gimp
 	gimp = NovProgram()
 	gimp.program_name = 'gimp'
-	VsiProgrami.append(k3b.program_name)
+	-	gimp.description = 'Program za risanje, obdelavo slik, ...'
+-	gimp.apt_get_name = 'gimp'
+-	#gimp.notes = ''
+-	VsiProgrami.append(gimp.program_name)
+-## MyPaint #####################################################
+-	global mypaint
+-	mypaint = NovProgram()
+-	mypaint.program_name = 'mypaint'
+-	mypaint.description = 'Program za prostorocno risanje.'
+-	mypaint.apt_get_name = 'mypaint'
+-	#mypaint.notes = ''
+-	VsiProgrami.append(mypaint.program_name)
+-
+-## Audacity #############################################
+-	global audacity
+-	audacity = NovProgram()
+-	audacity.program_name = 'audacity'
+-	audacity.description = 'Audacity is free, open source, cross-platform audio software for multi-track recording and editing.'					
+-	audacity.apt_get_name = 'audacity'
+-	#audacity.notes = ''
+-	VsiProgrami.append(audacity.program_name)
+-
+-## Evince PDF  #############################################
+-	global evince
+-	evince = NovProgram()
+-	evince.program_name = 'evince'
+-	evince.description = 'Evince is a document viewer for multiple document formats. The goal of evince is to replace the multiple document viewers that exist on the GNOME Desktop with a single simple application. Evince is specifically designed to support the file following formats: PDF, Postscript, djvu, tiff, dvi, XPS, SyncTex support with gedit, comics books (cbr,cbz,cb7 and cbt).'					
+-	evince.apt_get_name = 'evince'
+-	#evince.notes = ''
+-	VsiProgrami.append(evince.program_name)
+-
+-## K3b  #############################################
+-	global k3b
+-	k3b = NovProgram()
+-	k3b.program_name = 'k3b'
+-	k3b.description = 'K3b is a simple, yet powerful and highly-configurable graphical optical disk burning application for audio, video, data projects and more!'					
+-	k3b.apt_get_name = 'k3b'
+-	##k3b.notes = ''
+ 	VsiProgrami.append(k3b.program_name)
+	
 
 
 
