@@ -15,7 +15,7 @@ escapeColorCmd = '\x1B[38;5;130m'
 thisAppOutput = escapeColorCmd+'--> '
 confirmText = escapeColorDefault+' [y/n]:'
 VsiProgrami = []
-n_systemPrograms = 17
+n_systemPrograms = 18
 ## POSTOPEK INSTALACIJE ########################################
 class NovProgram(object):
 	"""docstring for NovProgram"""
@@ -200,8 +200,8 @@ class NovProgram(object):
 					sys.stdout.write(thisAppOutput+'Pot: '+ self.add_path_profile_variable +' ze dodana v : '+ user + '/.bashrc...'+escapeColorDefault+'\n')
 				else:
 					with open(user + '/.bashrc','a') as f:
-						f.write('\n#dodajanje '+self.program_name+' poti v path'+escapeColorDefault+'\n')
-						f.write('export PATH=$PATH:'+self.add_path_profile_variable+''+escapeColorDefault+'\n')
+						f.write('\n#dodajanje '+self.program_name+' poti v path\n')
+						f.write('export PATH=$PATH:'+self.add_path_profile_variable+'\n')
 						f.close()
 
 	def add_BASH_parameter(self):
@@ -652,6 +652,15 @@ def Install_programms():
 	FileZilla.apt_get_name = 'FileZilla'
 	##FileZilla.notes = ''
  	VsiProgrami.append(FileZilla.program_name)
+## python-serial #############################################18
+	#test OK @ BL 64bit (David)
+	global python_serial
+	python_serial = NovProgram()
+	python_serial.program_name = 'python-serial'
+	python_serial.description = 'This module encapsulates the access for the serial port. It provides backends for Python running on Windows, OSX, Linux, BSD (possibly any POSIX compliant system) and IronPython. The module named "serial" automatically selects the appropriate backend.'
+	python_serial.apt_get_name = 'python-serial'
+	##python-serial.notes = ''
+ 	VsiProgrami.append(python_serial.program_name)
 #-------------------------------------------------OTHER PROGRAMS
 ## ARDUINO #####################################################
 	global Arduino
@@ -1004,6 +1013,30 @@ def Install_programms():
 	k3b.apt_get_name = 'k3b'
 	##k3b.notes = ''
  	VsiProgrami.append(k3b.program_name)
+## bCNC ########################################################
+	#test OK @ BL 64-bit (David)
+	global bCNC
+	bCNC = NovProgram()
+	bCNC.program_name = 'bCNC'
+	bCNC.description = 'An advanced fully featured g-code sender for GRBL. bCNC is a cross platform program (Windows, Linux, Mac) written in python. The sender is robust and fast able to work nicely with old or slow hardware like Rasperry PI (As it was validated by the GRBL mainter on heavy testing).'
+	bCNC.tar_extra_cmds = []
+	bCNC.program_desktop = []
+	bCNC.add_path_profile_variable  = '/opt/bCNC/'
+	bCNC.extra_cmd = [	'wget --spider -v https://github.com/vlachoudis/bCNC/archive/master.zip',
+						'wget "https://github.com/vlachoudis/bCNC/archive/master.zip" -O ~/Downloads/bCNC.zip',
+					 	'unzip ~/Downloads/bCNC.zip -d ~/Downloads/',
+					 	'rm -v ~/Downloads/bCNC.zip',
+					 	'sudo mv ~/Downloads/bCNC-master /opt/bCNC',
+					 	#'sudo ln -s /opt/bCNC/bCNC /usr/bin/bCNC',
+					 	'sudo printf "\nCategories=Development;" >> /opt/bCNC/bCNC.desktop',
+					 	'sudo printf "\nExec=/opt/bCNC/bCNC" >> /opt/bCNC/bCNC.desktop',
+					 	'sudo printf "\nIcon=/opt/bCNC/bCNC.png" >> /opt/bCNC/bCNC.desktop',
+					 	'sudo cp /opt/bCNC/bCNC.desktop /usr/share/applications/bCNC.desktop'
+					 ]
+	bCNC.add_bash_parameter = []
+	bCNC.check_version_cmd = ''
+	bCNC.notes = 'Najverjetneje se boste morali narediti log-out in nato log-in, da bodo nastavitve zacele veljati.'
+	VsiProgrami.append(bCNC.program_name)
 
 Install_programms()
 
@@ -1093,6 +1126,7 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	ll.install()
 	elif key == str(programe_index.next()):	weather.install()
 	elif key == str(programe_index.next()):	FileZilla.install()
+	elif key == str(programe_index.next()):	python_serial.install()
 	#---------------------------------------OTHET PROGRAMS
 	elif key == str(programe_index.next()):	Arduino.install()
 	elif key == str(programe_index.next()):	qCAD.install()
@@ -1113,6 +1147,7 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	audacity.install()
 	elif key == str(programe_index.next()):	evince.install()
 	elif key == str(programe_index.next()):	k3b.install()
+	elif key == str(programe_index.next()):	bCNC.install()
 	elif key == 'all':
 		#---SYSTEM PROGRAMS
 		Update_Upgrade.install()	
@@ -1132,6 +1167,7 @@ while (key != 'q'):
 		ll.install()
 		weather.install()
 		FileZilla.install()
+		python_serial.install()
 		#---OTHER PROGRAMS
 		Arduino.install()
 		qCAD.install()
@@ -1151,6 +1187,7 @@ while (key != 'q'):
 		audacity.install()
 		evince.install()
 		k3b.install()
+		bCNC.install()
 	elif key == 'tit':	
 		Arduino.install()
 		qCAD.install()
