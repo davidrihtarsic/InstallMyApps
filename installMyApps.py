@@ -10,8 +10,12 @@ download_dir = user + '/Downloads/'
 opt_dir = '/opt/'
 menu_desktop = '/usr/share/applications/'
 profile_dir = '/etc/profile.d/'
+escapeColorDefault = '\x1B[39m'
+escapeColorCmd = '\x1B[38;5;130m'
+thisAppOutput = escapeColorCmd+'--> '
+confirmText = escapeColorDefault+' [y/n]:'
 VsiProgrami = []
-n_systemPrograms = 16
+n_systemPrograms = 17
 ## POSTOPEK INSTALACIJE ########################################
 class NovProgram(object):
 	"""docstring for NovProgram"""
@@ -55,15 +59,15 @@ class NovProgram(object):
 		## Instal from special apt-get command ... #####################################
 		if len(self.pre_install_cmds) != 0:
 			for pre_cmd in self.pre_install_cmds:
-				key = raw_input('--> execute:'+pre_cmd+ ' [y/n]')
+				key = raw_input(thisAppOutput+'execute:'+pre_cmd+ confirmText)
 				if key == 'y':
 					os.system(pre_cmd)
 		if self.apt_get_name != '':
 		## Instal from clasical apt-get commend... #####################################
 			#ce smo vpisali apt-get podatke potem...
-			sys.stdout.write('--> Preverjam apt-get paket: ' + self.apt_get_name +'\n' )
+			sys.stdout.write(thisAppOutput+'Preverjam apt-get paket: ' + self.apt_get_name +escapeColorDefault+'\n' )
 			os.system('apt-cache policy ' + self.apt_get_name)
-			key = raw_input('--> Namestim preko apt-get... ? [y/n]')
+			key = raw_input(thisAppOutput+'Namestim preko apt-get... ?'+confirmText)
 			if key == 'y':
 				os.system('sudo apt-get install ' + self.apt_get_name)
 
@@ -75,15 +79,15 @@ class NovProgram(object):
 		(self.deb_package_file_32 != '' and self.arhitecture_32bit )):
 			#Najprej poglejmo kaksno arhitekturo imamo
 			if (self.deb_package_file_64 != '' and self.arhitecture_64bit ):
-				sys.stdout.write('--> Kaze, da imate 64bit arhitekturo...\n')
+				sys.stdout.write(thisAppOutput+'Kaze, da imate 64bit arhitekturo...'+escapeColorDefault+'\n')
 				temp_deb_package_path = self.deb_package_path_64
 				temp_deb_package_file = self.deb_package_file_64
 			elif (self.deb_package_file_32 != '' and self.arhitecture_32bit):
-				sys.stdout.write('--> Kaze, da imate 32bit arhitekturo...\n')
+				sys.stdout.write(thisAppOutput+'Kaze, da imate 32bit arhitekturo...'+escapeColorDefault+'\n')
 				temp_deb_package_path = self.deb_package_path_32
 				temp_deb_package_file = self.deb_package_file_32
 			else:
-				sys.stdout.write('--> Ne glede na arhitekturo...\n')
+				sys.stdout.write(thisAppOutput+'Ne glede na arhitekturo...'+escapeColorDefault+'\n')
 				temp_deb_package_path = self.deb_package_path
 				temp_deb_package_file = self.deb_package_file
 				#-------------------------------------------------
@@ -92,28 +96,28 @@ class NovProgram(object):
 			#ce ne pojdi na internet...
 			if not os.path.isfile(download_dir+temp_deb_package_file):
 				#ce file ne obstaja gremo gledat na internet...
-				sys.stdout.write('--> Preverjam DEB package...\n')
+				sys.stdout.write(thisAppOutput+'Preverjam DEB package...'+escapeColorDefault+'\n')
 				os.system('wget --spider -v '+temp_deb_package_path+temp_deb_package_file)
-				key = raw_input('--> Prenesi v '+download_dir+ '? [y/n]:')
+				key = raw_input(thisAppOutput+'Prenesi v '+download_dir+ confirmText)
 				if key == 'y':
 					os.system('wget '+ temp_deb_package_path + temp_deb_package_file + ' --directory-prefix='+download_dir )
 			#pokazi direktorij Download
 			if os.path.isfile(download_dir+temp_deb_package_file):
-				sys.stdout.write('--> Nasel:\n')
+				sys.stdout.write(thisAppOutput+'Nasel:'+escapeColorDefault+'\n')
 				os.system('ls -all ' + download_dir)
-				key = raw_input('--> Namesti DEB package: ' + temp_deb_package_file + ' [y/n]:')
+				key = raw_input(thisAppOutput+'Namesti DEB package: ' + temp_deb_package_file + confirmText)
 				if key == 'y':
 					os.system('sudo dpkg -i ' + download_dir + temp_deb_package_file)
-					sys.stdout.write('--> Namestitev koncana...\n')	
-				key = raw_input('--> Izbrisi datoteko:'
-								+ download_dir + temp_deb_package_file
-								+ ' [y/n]:')
+					sys.stdout.write(thisAppOutput+'Namestitev koncana...'+escapeColorDefault+'\n')	
+				key = raw_input(thisAppOutput+'Izbrisi datoteko:'
+								+ download_dir + temp_deb_package_file+'*'
+								+ confirmText)
 				if key == 'y':
-					os.system('rm ' + download_dir + temp_deb_package_file)
-					sys.stdout.write('--> Izprisano:\n')
-					os.system('ls -all ' + download_dir)
+					os.system('rm -v ' + download_dir + temp_deb_package_file)
+					#sys.stdout.write(thisAppOutput+'Izprisano:'+escapeColorDefault+'\n')
+					#os.system('ls -all ' + download_dir)
 			else:
-				sys.stdout.write('--> Paketa: '+ temp_deb_package_file +' nismo nasli...\n')
+				sys.stdout.write(thisAppOutput+'Paketa: '+ temp_deb_package_file +' nismo nasli...'+escapeColorDefault+'\n')
 
 	def install_TAR_package(self):
 		## Install form TAR **** special !!! ###########################################
@@ -122,40 +126,40 @@ class NovProgram(object):
 		(self.tar_package_file_32 != '' and self.arhitecture_32bit )):
 			#Najprej poglejmo kaksno arhitekturo imamo
 			if (self.tar_package_file_64 != '' and self.arhitecture_64bit ):
-				sys.stdout.write('--> Kaze, da imate 64bit arhitekturo...\n')
+				sys.stdout.write(thisAppOutput+'Kaze, da imate 64bit arhitekturo...'+escapeColorDefault+'\n')
 				temp_tar_package_path = self.tar_package_path_64
 				temp_tar_package_file = self.tar_package_file_64
 			elif (self.tar_package_file_32 != '' and self.arhitecture_32bit):
-				sys.stdout.write('--> Kaze, da imate 32bit arhitekturo...\n')
+				sys.stdout.write(thisAppOutput+'Kaze, da imate 32bit arhitekturo...'+escapeColorDefault+'\n')
 				temp_tar_package_path = self.tar_package_path_32
 				temp_tar_package_file = self.tar_package_file_32
 			else:
-				sys.stdout.write('--> Ne glede na arhitekturo...\n')
+				sys.stdout.write(thisAppOutput+'Ne glede na arhitekturo...'+escapeColorDefault+'\n')
 				temp_tar_package_path = self.tar_package_path
 				temp_tar_package_file = self.tar_package_file
 			#Najprej zloadas tar file ... izi bizi...
-			if not os.path.isfile(download_dir+self.tar_package_file):
+			if not os.path.isfile(download_dir+temp_tar_package_file):
 				#ce file ne obstaja gremo gledat na internet...
-				sys.stdout.write('--> Preverjam TAR package...\n')
+				sys.stdout.write(thisAppOutput+'Preverjam TAR package...'+escapeColorDefault+'\n')
 				os.system('wget --spider -v '+temp_tar_package_path+temp_tar_package_file)
-				key = raw_input('--> Prenesi v '+download_dir+ '? [y/n]:')
+				key = raw_input(thisAppOutput+'Prenesi v '+download_dir+ '?'+confirmText)
 				if key == 'y':
 					os.system('wget '+ temp_tar_package_path + temp_tar_package_file + ' --directory-prefix='+download_dir )
 			#pokazi direktorij Download
 			if os.path.isfile(download_dir+temp_tar_package_file):
-				sys.stdout.write('--> Nasel:\n')
+				sys.stdout.write(thisAppOutput+'Nasel:'+escapeColorDefault+'\n')
 				os.system('ls -all ' + download_dir)
 				if self.tar_destination == '':
-					key = raw_input('--> Razpakiraj TAR package: '
+					key = raw_input(thisAppOutput+'Razpakiraj TAR package: '
 									+ temp_tar_package_file +
-									' v ' + download_dir + '?  [y/n]:')
+									' v ' + download_dir + '?'+confirmText)
 					if key == 'y':
 						os.system('tar -xvf '+ download_dir+temp_tar_package_file 
 								+' --directory '+ download_dir)
 				else:
-					key = raw_input('--> Razpakiraj TAR package: '
+					key = raw_input(thisAppOutput+'Razpakiraj TAR package: '
 									+ temp_tar_package_file +
-									' v ' + self.tar_destination + '?  [y/n]:')
+									' v ' + self.tar_destination + '?'+confirmText)
 					if key == 'y':
 						if not os.path.isdir(self.tar_destination):
 							#ce dir se ne obstaja ga ustvari...
@@ -163,15 +167,15 @@ class NovProgram(object):
 						os.system('sudo tar -xvf '+download_dir+temp_tar_package_file
 									+' --directory '+ self.tar_destination)
 				# Izbrisi kar smo zloadali... da pocistimo za seboj...
-				key = raw_input('--> Izbrisi datoteko:'
-									+ download_dir + temp_tar_package_file
-									+ ' [y/n]:')
+				key = raw_input(thisAppOutput+'Izbrisi datoteko:'
+									+ download_dir + temp_tar_package_file+'*'
+									+ confirmText)
 				if key == 'y':
-					os.system('rm ' + download_dir + temp_tar_package_file)
-					sys.stdout.write('--> Izbrisano:\n')
-					os.system('ls -all ' + download_dir)
+					os.system('rm -v ' + download_dir + temp_tar_package_file+'*')
+					#sys.stdout.write(thisAppOutput+'Izbrisano:'+escapeColorDefault+'\n')
+					#os.system('ls -all ' + download_dir)
 			else:
-				sys.stdout.write('--> Datoteke: '+download_dir+temp_tar_package_file+' nismo nasli...\n')
+				sys.stdout.write(thisAppOutput+'Datoteke: '+download_dir+temp_tar_package_file+' nismo nasli...'+escapeColorDefault+'\n')
 
 			## INSTALATION SOURCE CODE #######################################################
 				# ok sedaj naj bi bilo razpakirano... kjerkoli pac ze...
@@ -181,7 +185,7 @@ class NovProgram(object):
 				#self.tar_extra_cmds = ['make','make install']
 			if len(self.tar_extra_cmds) != 0:	
 				for extra_cmd in self.tar_extra_cmds:
-					key = raw_input('--> execute:'+extra_cmd+ ' [y/n]')
+					key = raw_input(thisAppOutput+'execute:'+extra_cmd+confirmText)
 					if key == 'y':
 						os.system(extra_cmd)
 
@@ -190,24 +194,24 @@ class NovProgram(object):
 		#sudo sh -c 'echo "export PATH=\$PATH:/opt/arduino-1.8.1" >> /etc/profile.d/arduino_path.sh'	
 		if len(self.add_path_profile_variable) != 0:
 			# ce in nastavljeno pot... to dodamo v $PATH
-			key = raw_input('--> Dodaj pot:'+ self.add_path_profile_variable + ' v $PATH ? [y/n]')
+			key = raw_input(thisAppOutput+'Dodaj pot:'+ self.add_path_profile_variable + ' v $PATH ?'+confirmText)
 			if key == 'y':
 				if (open(user + '/.bashrc', 'r').read().find(self.add_path_profile_variable)>0):
-					sys.stdout.write('--> Pot: '+ self.add_path_profile_variable +' ze dodana v : '+ user + '/.bashrc...\n')
+					sys.stdout.write(thisAppOutput+'Pot: '+ self.add_path_profile_variable +' ze dodana v : '+ user + '/.bashrc...'+escapeColorDefault+'\n')
 				else:
 					with open(user + '/.bashrc','a') as f:
-						f.write('\n#dodajanje '+self.program_name+' poti v path\n')
-						f.write('export PATH=$PATH:'+self.add_path_profile_variable+'\n')
+						f.write('\n#dodajanje '+self.program_name+' poti v path'+escapeColorDefault+'\n')
+						f.write('export PATH=$PATH:'+self.add_path_profile_variable+''+escapeColorDefault+'\n')
 						f.close()
 
 	def add_BASH_parameter(self):
 		if len(self.add_bash_parameter) != 0:
 			# ce in nastavljeno pot... to dodamo v $PATH
 			for text in self.add_bash_parameter:
-				key = raw_input('--> Dodaj text: '+ text + ' v ~/.bashrc ? [y/n]')
+				key = raw_input(thisAppOutput+'Dodaj text: '+ text + ' v ~/.bashrc ?'+confirmText)
 				if key == 'y':
 					if (open(user + '/.bashrc', 'r').read().find(text)>0):
-						sys.stdout.write('--> Text: '+ text +' ze dodano v : '+ user + '/.bashrc...\n')
+						sys.stdout.write(thisAppOutput+'Text: '+ text +' ze dodano v : '+ user + '/.bashrc...'+escapeColorDefault+'\n')
 					else:
 						# tu naj gremo cez vse nize v parametru...
 						with open(user + '/.bashrc','a') as f:
@@ -218,7 +222,7 @@ class NovProgram(object):
 		## Post INSTALL operations #####################################################
 		if len(self.extra_cmd) != 0:
 			for extra_cmd in self.extra_cmd:
-				key = raw_input('--> execute:'+extra_cmd+ ' [y/n]')
+				key = raw_input(thisAppOutput+'execute:'+extra_cmd+ confirmText)
 				if key == 'y':
 					os.system(extra_cmd)
 	
@@ -227,7 +231,7 @@ class NovProgram(object):
 		if len(self.program_desktop) != 0:
 			# test ce je kaj not: sys.stdout.write(self.program_desktop[0])
 			# sudo sh -c 'echo "export PATH=\$PATH:/opt/arduino-1.8.1" >> /etc/profile.d/arduino_path.sh'
-			key = raw_input('--> Naredi menu:'+ menu_desktop + self.program_name+ '.desktop [y/n]')
+			key = raw_input(thisAppOutput+'Naredi menu:'+ menu_desktop + self.program_name+ '.desktop ?'+confirmText)
 			if key == 'y':
 				#naredi le ce fajl ne obstaja...
 				if not os.path.isfile(menu_desktop + self.program_name+ '.desktop'):
@@ -244,18 +248,18 @@ class NovProgram(object):
 		## KONEC INSTALACIJE samo se navodila in verzija check! ########################		
 		if self.check_version_cmd != '':
 			#ce smo vpisali preverjanje verzije -> POTEM
-			sys.stdout.write('--> Preverjam verzijo...\n')
+			sys.stdout.write(thisAppOutput+'Preverjam verzijo...'+escapeColorDefault+'\n')
 			os.system(self.check_version_cmd)
 		
 	def show_notes(self):
 		if self.notes != '':
-			sys.stdout.write(self.notes+'\n')	
+			sys.stdout.write(thisAppOutput+self.notes+''+escapeColorDefault+'\n')	
 
 				
 	def install(self):
 		sys.stdout.write(	 '###########################################################\n'
 							+'## Postopek instalacije programa \n'
-							+'## ' + self.program_name+'\n'
+							+'## '+escapeColorCmd+ self.program_name+''+escapeColorDefault+'\n'
 							+'-----------------------------------------------------------\n')
 		if self.description != '':
 			new_start = 0
@@ -263,14 +267,14 @@ class NovProgram(object):
 			for n in range (1, len(self.description)):
 				presledek = self.description.find(' ',last_presledek+1,n)
 				if (presledek > new_start + 59):
-					print(self.description[new_start:last_presledek])
+					print(escapeColorDefault+self.description[new_start:last_presledek])
 					new_start = last_presledek +1	
 				else:
 					if (presledek > 0):
 					    last_presledek=presledek		
-			sys.stdout.write(self.description[new_start:]+'\n'
+			sys.stdout.write(escapeColorDefault+self.description[new_start:]+''+escapeColorDefault+'\n'
 							+'###########################################################\n')
-		key = raw_input('--> Nadaljuj z namestitvijo? [y/n]')
+		key = raw_input(thisAppOutput+'Nadaljuj z namestitvijo?'+confirmText)
 		if key == 'y':
 			self.install_apt_cmd()
 			self.install_DEB_package()	
@@ -281,7 +285,7 @@ class NovProgram(object):
 			self.add_BASH_parameter()
 			self.version_check()
 			self.show_notes()		
-			sys.stdout.write('--> Pritisni [ENTER] za nadaljevanje...\n')
+			sys.stdout.write(thisAppOutput+'Pritisni [ENTER] za nadaljevanje...'+escapeColorDefault+'\n')
 
 ## DEFINICIJA PROGRAMOV ZA INSTALACIJO #########################
 def Install_programms():
@@ -443,7 +447,7 @@ def Install_programms():
 	#Primer_programa.notes = ''
 	#VsiProgrami.append(Primer_programa.program_name)
 #------------------------------------------------SYSTEM PROGRAMS
-## UPDATE & UPGRADE ############################################
+## UPDATE & UPGRADE ###########################################1
 	global Update_Upgrade
 	Update_Upgrade = NovProgram()
 	Update_Upgrade.program_name = 'Update & Upgrade'
@@ -451,7 +455,7 @@ def Install_programms():
 	Update_Upgrade.pre_install_cmds = [	'sudo apt-get update',
 										'sudo apt-get upgrade']
 	VsiProgrami.append(Update_Upgrade.program_name)
-## GIT #########################################################
+## GIT ########################################################2
 	global git
 	git = NovProgram()
 	git.program_name = 'git'					#ime naj bo brez presledkov
@@ -460,7 +464,7 @@ def Install_programms():
 	git.apt_get_name = 'git-core'					#ime za apt-get
 	git.notes = ''
 	VsiProgrami.append(git.program_name)
-## Java 8 ######################################################
+## Java 8 #####################################################3
 	global java_8
 	java_8 = NovProgram()
 	java_8.program_name = 'java8'					#ime naj bo brez presledkov
@@ -472,7 +476,7 @@ def Install_programms():
 	java_8.extra_cmd = ['sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jre1.8.0_121/bin/java 1',
 						'sudo update-alternatives --config java']					#se ene extra cmd ... ce je se kaj...
 	VsiProgrami.append(java_8.program_name)
-## OpenBox menu ################################################
+## OpenBox menu ###############################################4
 	global obmenu
 	obmenu = NovProgram()
 	obmenu.program_name = 'openbox-menu'					#ime naj bo brez presledkov
@@ -492,7 +496,7 @@ def Install_programms():
 							] 
 	# obmenu.notes = ''
 	VsiProgrami.append(obmenu.program_name)
-## Terminator ##################################################
+## Terminator #################################################5
 	global Terminator
 	Terminator = NovProgram()
 	Terminator.program_name = 'Terminator'
@@ -502,7 +506,7 @@ def Install_programms():
 	Terminator.deb_package_path = ''
 	Terminator.deb_package_file = ''
 	VsiProgrami.append(Terminator.program_name)
-## Htop ########################################################
+## Htop #######################################################6
 	global Htop
 	Htop = NovProgram()
 	Htop.program_name = 'Htop'
@@ -512,7 +516,7 @@ def Install_programms():
 	Htop.deb_package_path = ''
 	Htop.deb_package_file = ''
 	VsiProgrami.append(Htop.program_name)
-## NMON ########################################################
+## NMON #######################################################7
 	global nmon
 	nmon = NovProgram()
 	nmon.program_name = 'nmon'
@@ -521,7 +525,7 @@ def Install_programms():
 	nmon.tar_package_file = 'nmon16d_x86.tar.gz'
 	nmon.tar_package_path = 'http://sourceforge.net/projects/nmon/files/'
 	nmon.tar_destination =  opt_dir+'nmon/'
-	nmon.tar_extra_cmds =['sudo rm /usr/bin/nmon',
+	nmon.tar_extra_cmds =['sudo rm -v /usr/bin/nmon',
 						'sudo chmod 777 '+opt_dir+'nmon/'+'nmon_x86_debian8',
 						'sudo ln -s '+opt_dir+'nmon/'+'nmon_x86_debian8 /usr/bin/nmon']
 	nmon.program_desktop = ['[Desktop Entry]',
@@ -540,7 +544,7 @@ def Install_programms():
 	#					'sudo mv ' + download_dir + 'nmon/nmon_x86_debian8 /usr/bin/nmon',
 	#					'sudo rm -R ' + download_dir+'nmon/']
 	VsiProgrami.append(nmon.program_name)
-## WAVEMON #####################################################
+## WAVEMON ####################################################8
 	global wavemon
 	wavemon = NovProgram()
 	wavemon.program_name = 'wavemon'					#ime naj bo brez presledkov
@@ -556,7 +560,7 @@ def Install_programms():
 							'Categories=Network;'
 							]
 	VsiProgrami.append(wavemon.program_name)
-## Neofetch ####################################################
+## Neofetch ###################################################9
 	global Neofetch
 	Neofetch = NovProgram()
 	Neofetch.program_name = 'Neofetch'
@@ -566,7 +570,7 @@ def Install_programms():
 	Neofetch.check_version_cmd = 'neofetch'
 	Neofetch.notes = 'Notes... to do...'
 	VsiProgrami.append(Neofetch.program_name)
-## Fortune #####################################################
+## Fortune ###################################################10
 	global Fortune
 	Fortune = NovProgram()
 	Fortune.program_name = 'Fortune'
@@ -576,7 +580,7 @@ def Install_programms():
 	Fortune.deb_package_path = ''
 	Fortune.deb_package_file = ''
 	VsiProgrami.append(Fortune.program_name)
-## COWSAY ######################################################
+## COWSAY ####################################################11
 	global Cowsay
 	Cowsay = NovProgram()
 	Cowsay.program_name = 'Cowsay'
@@ -588,14 +592,14 @@ def Install_programms():
 	Cowsay.add_bash_parameter = ["\nalias cls='clear;neofetch;fortune|cowsay'"]
 	Cowsay.notes = 'V terminatorju nastavite:\nPreferences -> Profiles -> Command\ncustom command: [ neofetch;fortune|cowsay;bash ]'
 	VsiProgrami.append(Cowsay.program_name)
-## Keymap ######################################################
+## Keymap ####################################################12
 	global Keymap
 	Keymap = NovProgram()
 	Keymap.description='remap tipke [dz] v "/"'
 	Keymap.program_name = 'Keymap'
 	Keymap.add_bash_parameter = ['\n#remap tipko [dz] - "/"','\nxmodmap -e "keycode 35 = slash"']			#text ki je za dodat v .bash 
 	VsiProgrami.append(Keymap.program_name)
-## conky #######################################################
+## conky #####################################################13
 	global conky
 	conky = NovProgram()
 	conky.program_name = 'conky'					#ime naj bo brez presledkov
@@ -607,7 +611,7 @@ def Install_programms():
 	conky.add_path_profile_variable  = '' 
 	conky.notes = ''
 	VsiProgrami.append(conky.program_name)
-## dave's conky ################################################
+## dave's conky ##############################################14
 	global dave_s_conky
 	dave_s_conky = NovProgram()
 	dave_s_conky.program_name = 'dave_s_conky_v3_cfg'					#ime naj bo brez presledkov
@@ -621,7 +625,7 @@ def Install_programms():
 	#add to .bashrc file =>'conky -config='+user+'/.config/conky/dave_s_conky.conkyrc' 
 	dave_s_conky.notes = ''
 	VsiProgrami.append(dave_s_conky.program_name)
-## alias ll -> ls -alF #########################################
+## alias ll -> ls -alF #######################################15
 	global ll
 	ll = NovProgram()
 	ll.program_name = 'alias ll'					#ime naj bo brez presledkov
@@ -630,7 +634,7 @@ def Install_programms():
 	ll.add_bash_parameter = ['\n#alias',"\nalias ll='ls -alF'"]			#text ki je za dodat v .bash 
 	ll.notes = ''
 	VsiProgrami.append(ll.program_name)
-## alias WEATHER ###############################################
+## alias WEATHER #############################################16
 	global weather
 	weather = NovProgram()
 	weather.program_name = 'alias weather'					#ime naj bo brez presledkov
@@ -639,6 +643,15 @@ def Install_programms():
 	weather.add_bash_parameter = ["\nalias weather='curl wttr.in/~begunje'"]			#text ki je za dodat v .bash 
 	weather.notes = ''
 	VsiProgrami.append(weather.program_name)
+## FileZilla #################################################17
+	# NOT testet yet ... - was preinstalled on BL
+	global FileZilla
+	FileZilla = NovProgram()
+	FileZilla.program_name = 'FileZilla'
+	FileZilla.description = 'FileZilla is open source software distributed free of charge under the terms of the GNU General Public License'					
+	FileZilla.apt_get_name = 'FileZilla'
+	##FileZilla.notes = ''
+ 	VsiProgrami.append(FileZilla.program_name)
 #-------------------------------------------------OTHER PROGRAMS
 ## ARDUINO #####################################################
 	global Arduino
@@ -991,9 +1004,6 @@ def Install_programms():
 	k3b.apt_get_name = 'k3b'
 	##k3b.notes = ''
  	VsiProgrami.append(k3b.program_name)
-	
-
-
 
 Install_programms()
 
@@ -1065,6 +1075,7 @@ while (key != 'q'):
 	if key == '':
 		cls()
 		Main()
+	#---------------------------------------SYSTEM PROGRAMS	
 	elif key == str(programe_index.next()):	Update_Upgrade.install()	
 	elif key == str(programe_index.next()):	git.install()
 	elif key == str(programe_index.next()):	java_8.install()
@@ -1081,6 +1092,8 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	dave_s_conky.install()
 	elif key == str(programe_index.next()):	ll.install()
 	elif key == str(programe_index.next()):	weather.install()
+	elif key == str(programe_index.next()):	FileZilla.install()
+	#---------------------------------------OTHET PROGRAMS
 	elif key == str(programe_index.next()):	Arduino.install()
 	elif key == str(programe_index.next()):	qCAD.install()
 	elif key == str(programe_index.next()):	FreeCAD.install()
@@ -1090,8 +1103,6 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	GoogleChrome.install()
 	elif key == str(programe_index.next()):	W3M.install()
 	elif key == str(programe_index.next()):	Skype.install()
-	#elif key == str(programe_index.next()):	obmenugen.install()
-	#elif key == str(programe_index.next()):	smartGit.install()
 	elif key == str(programe_index.next()):	stellarium.install()
 	elif key == str(programe_index.next()):	Foxitreader.install()
 	elif key == str(programe_index.next()):	Fritzing.install()
@@ -1103,6 +1114,7 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	evince.install()
 	elif key == str(programe_index.next()):	k3b.install()
 	elif key == 'all':
+		#---SYSTEM PROGRAMS
 		Update_Upgrade.install()	
 		git.install()
 		java_8.install()
@@ -1119,6 +1131,8 @@ while (key != 'q'):
 		dave_s_conky.install()
 		ll.install()
 		weather.install()
+		FileZilla.install()
+		#---OTHER PROGRAMS
 		Arduino.install()
 		qCAD.install()
 		FreeCAD.install()
@@ -1128,8 +1142,6 @@ while (key != 'q'):
 		GoogleChrome.install()
 		W3M.install()
 		Skype.install()
-		#obmenugen.install()
-		#smartGit.install()
 		stellarium.install()
 		Foxitreader.install()
 		texmaker.install()
