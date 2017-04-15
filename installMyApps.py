@@ -1076,6 +1076,19 @@ def Install_programms():
 	bCNC.notes = 'Najverjetneje se boste morali narediti log-out in nato log-in, da bodo nastavitve zacele veljati.'
 	VsiProgrami.append(bCNC.program_name)
 
+# lmms  ########################################################
+	#32 bit BL tested
+	global lmms
+	lmms = NovProgram()
+	lmms.program_name = 'lmms'
+	lmms.description = 'Open source digital audio workstation'					
+	lmms.apt_get_name = 'lmms'
+	lmms.notes ="Dokumentacija za program se nahaja na naslovu: https://lmms.io/documentation/"
+ 	VsiProgrami.append(lmms.program_name)
+
+
+
+
 Install_programms()
 
 def MakeSystemProgrammsForm():
@@ -1187,6 +1200,7 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	k3b.install()
 	elif key == str(programe_index.next()):	FreeFileSync.install()
 	elif key == str(programe_index.next()):	bCNC.install()
+	elif key == str(programe_index.next()):	lmms.install()
 	elif key == 'all':
 		#---SYSTEM PROGRAMS
 		Update_Upgrade.install()	
@@ -1228,6 +1242,7 @@ while (key != 'q'):
 		k3b.install()
 		FreeFileSync.install()
 		bCNC.install()
+		lmms.install()
 	elif key == 'tit':	
 		Arduino.install()
 		qCAD.install()
