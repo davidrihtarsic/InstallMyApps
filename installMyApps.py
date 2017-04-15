@@ -669,7 +669,7 @@ def Install_programms():
     #	- desktopfile ERROR -> FIX: Categories=(~~Accessories~~)Utility;
     #	- desktopfile ICON added
     #ne dela dobro na 32bit BL: Ni v kategoriji Acesories, pri zapisanju javi da nima dovoljenja, 
-    global FreeFileSync
+	global FreeFileSync
 	FreeFileSync = NovProgram()
 	FreeFileSync.program_name = 'FreeFileSync'
 	FreeFileSync.description = 'FreeFileSync is a free Open Source software that helps you synchronize files and synchronize folders for Windows, Linux and macOS. It is designed to save your time setting up and running backup jobs while having nice visual feedback along the way.'
