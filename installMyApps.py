@@ -669,6 +669,12 @@ def Install_programms():
     #	- desktopfile ERROR -> FIX: Categories=(~~Accessories~~)Utility;
     #	- desktopfile ICON added
     #ne dela dobro na 32bit BL: Ni v kategoriji Acesories, pri zapisanju javi da nima dovoljenja, 
+    #Test INFO @ LB32bit (David Laptop)
+    #	- instalacija OK
+    #	- noce shranit nastavitev...
+    #	- "permission denided"
+    #	- programa nisem usposobil... zato verjetno ne dobim error-ja vsakic ko odprem in zaprem program
+    #	- nabrs je resitev v dovoljenu mape.. "sudo chmod g+w /opt/FreeFileSync/"
 	global FreeFileSync
 	FreeFileSync = NovProgram()
 	FreeFileSync.program_name = 'FreeFileSync'
