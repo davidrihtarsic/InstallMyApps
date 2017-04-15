@@ -768,6 +768,8 @@ def Install_programms():
 	Thunderbird.program_name = 'Thunderbird'
 	Thunderbird.description = 'Postni odjemalec...'
 	Thunderbird.apt_get_name ='thunderbird'
+	Thunderbird.tar_package_path_32 = 'https://download-installer.cdn.mozilla.net/pub/thunderbird/releases/52.0/linux-i686/sl/'
+	Thunderbird.tar_package_file_32 = 'thunderbird-52.0.tar.bz2'
 	Thunderbird.tar_package_path_64 = 'https://download-installer.cdn.mozilla.net/pub/thunderbird/releases/45.8.0/linux-x86_64/en-US/'
 	Thunderbird.tar_package_file_64 = 'thunderbird-45.8.0.tar.bz2'
 	Thunderbird.tar_destination = '/opt/'
@@ -1004,6 +1006,42 @@ def Install_programms():
 	k3b.apt_get_name = 'k3b'
 	##k3b.notes = ''
  	VsiProgrami.append(k3b.program_name)
+## FreeFileSync ####################################################
+    #ne dela dobro na 32bit BL: Ni v kategoriji Acesories, pri zapisanju javi da nima dovoljenja, 
+	global FreeFileSync
+	FreeFileSync = NovProgram()
+	FreeFileSync.program_name = 'FreeFileSync'
+	FreeFileSync.description = 'FreeFileSync is a free Open Source software that helps you synchronize files and synchronize folders for Windows, Linux and macOS. It is designed to save your time setting up and running backup jobs while having nice visual feedback along the way.'
+	FreeFileSync.pre_install_cmds = []					
+	FreeFileSync.apt_get_name = ''
+	FreeFileSync.deb_package_path = ''
+	FreeFileSync.deb_package_file = ''
+	FreeFileSync.deb_package_path_32 = ''
+	FreeFileSync.deb_package_file_32 = ''
+	FreeFileSync.deb_package_path_64 = ''
+	FreeFileSync.deb_package_file_64 = ''
+	FreeFileSync.tar_package_path = ''
+	FreeFileSync.tar_package_file = ''
+	FreeFileSync.tar_package_path_32 = 'http://download1585.mediafireuserdownload.com/pflftx8uycjg/ll0cyc23jhfu2nc/'
+	FreeFileSync.tar_package_file_32 = 'FreeFileSync_8.10_Debian_8.7_32-bit.tar.gz'
+	FreeFileSync.tar_package_path_64 = 'http://download1023.mediafireuserdownload.com/wv2p3zq7bvcg/tgfaafd2amd5zd2/'
+	FreeFileSync.tar_package_file_64 = 'FreeFileSync_8.10_Debian_8.7_64-bit.tar.gz'
+	FreeFileSync.tar_destination = opt_dir
+	FreeFileSync.tar_extra_cmds = [	]
+	FreeFileSync.program_desktop = ['[Desktop Entry]',
+								'Name=FreeFileSync',
+								'Exec=/opt/FreeFileSync/FreeFileSync',
+								'Terminal=false',
+								'Type=Application',
+								'Categories=Accessories;'
+									]
+	FreeFileSync.add_path_profile_variable  = ''
+	FreeFileSync.extra_cmd = []
+	FreeFileSync.add_bash_parameter = []
+	FreeFileSync.check_version_cmd = ''
+	FreeFileSync.notes = ''
+	VsiProgrami.append(FreeFileSync.program_name)
+ 	
 
 Install_programms()
 
@@ -1113,6 +1151,7 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	audacity.install()
 	elif key == str(programe_index.next()):	evince.install()
 	elif key == str(programe_index.next()):	k3b.install()
+	elif key == str(programe_index.next()):	FreeFileSync.install()
 	elif key == 'all':
 		#---SYSTEM PROGRAMS
 		Update_Upgrade.install()	
@@ -1151,6 +1190,7 @@ while (key != 'q'):
 		audacity.install()
 		evince.install()
 		k3b.install()
+		FreeFileSync.install()
 	elif key == 'tit':	
 		Arduino.install()
 		qCAD.install()
