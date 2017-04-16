@@ -1087,7 +1087,6 @@ def Install_programms():
 	bCNC.check_version_cmd = ''
 	bCNC.notes = 'Najverjetneje se boste morali narediti log-out in nato log-in, da bodo nastavitve zacele veljati.'
 	VsiProgrami.append(bCNC.program_name)
-
 # lmms  ########################################################
 	#32 bit BL tested
 	global lmms
