@@ -817,11 +817,8 @@ def Install_programms():
 	LibreOffice.tar_package_path_64 = 'http://mirror.ba/tdf/libreoffice/stable/5.3.2/deb/x86_64/'
 	LibreOffice.tar_package_file_64 = 'LibreOffice_5.3.2_Linux_x86-64_deb.tar.gz'
 	LibreOffice.tar_destination =''
-	LibreOffice.tar_extra_cmds = ['sudo dpkg -i '+ download_dir +'LibreOffice_5.3.2.2_Linux_x'+'*.deb/DEBS/*.deb']
+	LibreOffice.tar_extra_cmds = ['sudo dpkg -i '+ download_dir +'LibreOffice_5.3.2.2_Linux_x'+*.deb +'/DEBS/*.deb']
 	VsiProgrami.append(LibreOffice.program_name)
-
-
-
 
 ## Thunderbird #################################################
 	global Thunderbird
