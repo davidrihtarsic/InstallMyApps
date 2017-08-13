@@ -689,10 +689,10 @@ def Install_programms():
 	FreeFileSync.deb_package_file_64 = ''
 	FreeFileSync.tar_package_path = ''
 	FreeFileSync.tar_package_file = ''
-	FreeFileSync.tar_package_path_32 = 'http://download1585.mediafireuserdownload.com/pflftx8uycjg/ll0cyc23jhfu2nc/'
-	FreeFileSync.tar_package_file_32 = 'FreeFileSync_8.10_Debian_8.7_32-bit.tar.gz'
-	FreeFileSync.tar_package_path_64 = 'http://download1023.mediafireuserdownload.com/wv2p3zq7bvcg/tgfaafd2amd5zd2/'
-	FreeFileSync.tar_package_file_64 = 'FreeFileSync_8.10_Debian_8.7_64-bit.tar.gz'
+	FreeFileSync.tar_package_path_32 = 'https://www.freefilesync.org/download/'
+	FreeFileSync.tar_package_file_32 = 'FreeFileSync_9.3_Debian_9.1_32-bit.tar.gz'
+	FreeFileSync.tar_package_path_64 = 'https://www.freefilesync.org/download/'
+	FreeFileSync.tar_package_file_64 = 'FreeFileSync_9.3_Debian_9.1_64-bit.tar.gz'
 	FreeFileSync.tar_destination = opt_dir
 	FreeFileSync.tar_extra_cmds = [	]
 	FreeFileSync.program_desktop = ['[Desktop Entry]',

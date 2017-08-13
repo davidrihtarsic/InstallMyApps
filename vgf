@@ -1,0 +1,8 @@
+total 88
+drwxr-xr-x 3 david david  4096 Apr 15 15:32 ./
+drwxr-xr-x 7 david david  4096 Apr  9 19:35 ../
+drwxr-xr-x 8 david david  4096 Apr 15 16:55 .git/
+-rwxr-xr-x 1 david david 58928 Apr 15 15:56 installMyApps.py*
+-rw-r--r-- 1 david david  1914 Apr  3 19:20 myTUI.py
+-rw-r--r-- 1 david david  4196 Apr 15 15:32 myTUI.pyc
+-rw-r--r-- 1 david david    69 Apr  3 19:20 README.md
