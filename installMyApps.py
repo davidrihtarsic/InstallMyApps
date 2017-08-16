@@ -1088,7 +1088,7 @@ def Install_programms():
 	bCNC.check_version_cmd = ''
 	bCNC.notes = 'Najverjetneje se boste morali narediti log-out in nato log-in, da bodo nastavitve zacele veljati.'
 	VsiProgrami.append(bCNC.program_name)
-# lmms  ########################################################
+## lmms  #######################################################
 	#32 bit BL tested
 	global lmms
 	lmms = NovProgram()
@@ -1097,9 +1097,26 @@ def Install_programms():
 	lmms.apt_get_name = 'lmms'
 	lmms.notes ="Dokumentacija za program se nahaja na naslovu: https://lmms.io/documentation/"
  	VsiProgrami.append(lmms.program_name)
-
-
-
+## ECLIPSEC ####################################################
+	#testing...  @ BL 64-bit (David)
+	# instalacija dela...
+	global eclipse
+	eclipse = NovProgram()
+	eclipse.program_name = 'eclipse'
+	eclipse.description = 'Programsko okolje ...'
+	eclipse.tar_package_path_32 = 'http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/oomph/epp/oxygen/R/'
+	eclipse.tar_package_file_32 = 'eclipse-inst-linux32.tar.gz'
+	eclipse.tar_package_path_64 = 'http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/oomph/epp/oxygen/R/'
+	eclipse.tar_package_file_64 = 'eclipse-inst-linux64.tar.gz'
+	eclipse.tar_extra_cmds = [	'sudo ~/Downloads/eclipse-installer/eclipse-inst',
+								'sudo chown david -R /opt/eclipse/']
+	eclipse.program_desktop = []
+	#eclipse.add_path_profile_variable  = '/opt/eclipse/'
+	eclipse.extra_cmd = []
+	eclipse.add_bash_parameter = []
+	eclipse.check_version_cmd = ''
+	eclipse.notes = ''
+	VsiProgrami.append(eclipse.program_name)
 
 Install_programms()
 
@@ -1213,6 +1230,7 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	k3b.install()
 	elif key == str(programe_index.next()):	bCNC.install()
 	elif key == str(programe_index.next()):	lmms.install()
+	elif key == str(programe_index.next()):	eclipse.install()
 	elif key == 'all':
 		#---SYSTEM PROGRAMS
 		Update_Upgrade.install()	
@@ -1255,6 +1273,7 @@ while (key != 'q'):
 		k3b.install()
 		bCNC.install()
 		lmms.install()
+		eclipse.install()
 	elif key == 'tit':	
 		Arduino.install()
 		qCAD.install()
