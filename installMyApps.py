@@ -526,8 +526,8 @@ def Install_programms():
 	nmon.tar_package_path = 'http://sourceforge.net/projects/nmon/files/'
 	nmon.tar_destination =  opt_dir+'nmon/'
 	nmon.tar_extra_cmds =['sudo rm -v /usr/bin/nmon',
-						'sudo chmod 777 '+opt_dir+'nmon/'+'nmon_x86_debian8',
-						'sudo ln -s '+opt_dir+'nmon/'+'nmon_x86_debian8 /usr/bin/nmon']
+						'sudo chmod 777 '+opt_dir+'nmon/'+'nmon_x86_64_debian8',
+						'sudo ln -s '+opt_dir+'nmon/'+'nmon_x86_64_debian8 /usr/bin/nmon']
 	nmon.program_desktop = ['[Desktop Entry]',
 							'Version=1.0',
 							'Name=nmon',
