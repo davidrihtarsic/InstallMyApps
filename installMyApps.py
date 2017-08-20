@@ -689,9 +689,9 @@ def Install_programms():
 	FreeFileSync.deb_package_file_64 = ''
 	FreeFileSync.tar_package_path = ''
 	FreeFileSync.tar_package_file = ''
-	FreeFileSync.tar_package_path_32 = 'https://www.freefilesync.org/download/'
+	FreeFileSync.tar_package_path_32 = 'http://download846.mediafireuserdownload.com/t6dkqzhd6ghg/qhpiwpcuhaul3ex/'
 	FreeFileSync.tar_package_file_32 = 'FreeFileSync_9.0_Debian_8.7_64-bit.tar.gz'
-	FreeFileSync.tar_package_path_64 = 'https://www.freefilesync.org/download/'
+	FreeFileSync.tar_package_path_64 = 'http://download846.mediafireuserdownload.com/t6dkqzhd6ghg/qhpiwpcuhaul3ex/'
 	FreeFileSync.tar_package_file_64 = 'FreeFileSync_9.0_Debian_8.7_64-bit.tar.gz'
 	FreeFileSync.tar_destination = opt_dir
 	FreeFileSync.tar_extra_cmds = [	]
@@ -704,7 +704,8 @@ def Install_programms():
 								'Categories=Utility;'
 									]
 	FreeFileSync.add_path_profile_variable  = ''
-	FreeFileSync.extra_cmd = ['sudo chmod ugo+rwx /opt/FreeFileSync/GlobalSettings.xml']
+	FreeFileSync.extra_cmd = [	'sudo touch /opt/FreeFileSync/GlobalSettings.xml',
+								'sudo chmod ugo+rwx /opt/FreeFileSync/GlobalSettings.xml']
 	FreeFileSync.add_bash_parameter = []
 	FreeFileSync.check_version_cmd = ''
 	FreeFileSync.notes = ''
