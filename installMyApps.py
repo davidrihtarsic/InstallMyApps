@@ -704,8 +704,9 @@ def Install_programms():
 								'Categories=Utility;'
 									]
 	FreeFileSync.add_path_profile_variable  = ''
-	FreeFileSync.extra_cmd = [	'sudo touch /opt/FreeFileSync/GlobalSettings.xml',
-								'sudo chmod ugo+rwx /opt/FreeFileSync/GlobalSettings.xml']
+	#FreeFileSync.extra_cmd = [	'sudo touch /opt/FreeFileSync/GlobalSettings.xml',
+	#							'sudo chmod ugo+rwx /opt/FreeFileSync/GlobalSettings.xml']
+	FreeFileSync.extra_cmd = [	'sudo chown david /opt/FreeFileSync/']	
 	FreeFileSync.add_bash_parameter = []
 	FreeFileSync.check_version_cmd = ''
 	FreeFileSync.notes = ''
