@@ -690,9 +690,9 @@ def Install_programms():
 	FreeFileSync.tar_package_path = ''
 	FreeFileSync.tar_package_file = ''
 	FreeFileSync.tar_package_path_32 = 'https://www.freefilesync.org/download/'
-	FreeFileSync.tar_package_file_32 = 'FreeFileSync_9.3_Debian_9.1_32-bit.tar.gz'
+	FreeFileSync.tar_package_file_32 = 'FreeFileSync_9.0_Debian_8.7_64-bit.tar.gz'
 	FreeFileSync.tar_package_path_64 = 'https://www.freefilesync.org/download/'
-	FreeFileSync.tar_package_file_64 = 'FreeFileSync_9.3_Debian_9.1_64-bit.tar.gz'
+	FreeFileSync.tar_package_file_64 = 'FreeFileSync_9.0_Debian_8.7_64-bit.tar.gz'
 	FreeFileSync.tar_destination = opt_dir
 	FreeFileSync.tar_extra_cmds = [	]
 	FreeFileSync.program_desktop = ['[Desktop Entry]',
@@ -1112,6 +1112,15 @@ def Install_programms():
 								'sudo chown david -R /opt/eclipse/']
 	eclipse.program_desktop = []
 	#eclipse.add_path_profile_variable  = '/opt/eclipse/'
+	eclipse.program_desktop = ['[Desktop Entry]',
+						'Version=1.0',
+						'Name=eclipse IDE',
+						'Exec=sudo /opt/eclipse/eclipse/eclipse',
+						'Icon=/opt/eclipse/eclipse/icon.xpm',
+						'Terminal=false',
+						'Type=Application',
+						'Categories=Development;Programming;'
+						]
 	eclipse.extra_cmd = []
 	eclipse.add_bash_parameter = []
 	eclipse.check_version_cmd = ''
