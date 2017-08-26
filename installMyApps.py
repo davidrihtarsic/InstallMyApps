@@ -816,12 +816,11 @@ def Install_programms():
 	LibreOffice.tar_package_file_32 = 'LibreOffice_5.3.2_Linux_x86_deb.tar.gz'
 	LibreOffice.deb_package_path_64 = ''
 	LibreOffice.deb_package_file_64 = ''
-	LibreOffice.tar_package_path_64 = 'http://mirror.ba/tdf/libreoffice/stable/5.3.2/deb/x86_64/'
-	LibreOffice.tar_package_file_64 = 'LibreOffice_5.3.2_Linux_x86-64_deb.tar.gz'
+	LibreOffice.tar_package_path_64 = 'http://ftp.igh.cnrs.fr/pub/tdf/libreoffice/stable/5.4.0/deb/x86_64/'
+	LibreOffice.tar_package_file_64 = 'LibreOffice_5.4.0_Linux_x86-64_deb.tar.gz'
 	LibreOffice.tar_destination =''
-	LibreOffice.tar_extra_cmds = ['sudo dpkg -i '+ download_dir +'LibreOffice_5.3.2.2_Linux_x*_deb/DEBS/*.deb']
+	LibreOffice.tar_extra_cmds = ['sudo dpkg -i '+ download_dir +'LibreOffice_*_Linux_*_deb/DEBS/*.deb']
 	VsiProgrami.append(LibreOffice.program_name)
-
 ## Thunderbird #################################################
 	global Thunderbird
 	Thunderbird = NovProgram()
@@ -1128,6 +1127,11 @@ def Install_programms():
 	eclipse.check_version_cmd = ''
 	eclipse.notes = ''
 	VsiProgrami.append(eclipse.program_name)
+## GUVCview - program za snemanje z WEB camero #################
+	# sudo apt-get install guvcview
+## SIRIL - leplenje slik/video v fotografijo - za astronomijo ##
+	# download https://free-astro.org/download/siril_0.9.6-2_amd64-jessie.deb
+
 
 Install_programms()
 
