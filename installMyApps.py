@@ -753,6 +753,7 @@ def Install_programms():
 							]
 	#Arduino.tar_extra_cmds = ['sudo ' + Arduino.tar_destination + 'arduino-1.8.1/install.sh']
 	Arduino.add_path_profile_variable  = Arduino.tar_destination + 'arduino-nightly/'
+	Arduino.extra_cmd = ['sudo usermod -a -G dialout david']
 	Arduino.notes = 'NASTAVITI JE POTREBNO "SERIAL PORT PERMITIONS"!\n'\
 					'poglej na: http://playground.arduino.cc/Linux/All#Permission\n'\
 					'1. -> ls -l /dev/ttyUSB* ali ls -l /dev/ttyACM*\n'\
