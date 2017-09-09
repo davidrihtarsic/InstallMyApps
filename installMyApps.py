@@ -463,6 +463,13 @@ def Install_programms():
 					'razvojnih programov.'					#neko besedilo za opis
 	git.apt_get_name = 'git-core'					#ime za apt-get
 	git.notes = ''
+	git.extra_cmd = ['git clone https://github.com/davidrihtarsic/InstallMyApps.git ~/Files/GitHub_noSync/InstallMyApps',
+					 'git clone https://github.com/davidrihtarsic/myLinuxNotes.git ~/Files/GitHub_noSync/myLinuxNotes',
+					 'git clone https://github.com/davidrihtarsic/Korad3005p.git ~/Files/GitHub_noSync/Korad3005p',
+					 'git clone https://github.com/davidrihtarsic/BunsenLab.git ~/Files/GitHub_noSync/BunsenLab',
+					 'git clone https://github.com/davidrihtarsic/RobDuino.git ~/Files/GitHub_noSync/RobDuino',
+					 'git clone https://github.com/davidrihtarsic/ArduinoCNC-DCmotors.git ~/Files/GitHub_noSync/ArduinoCNC-DCmotors'
+					 ]
 	VsiProgrami.append(git.program_name)
 ## Java 8 #####################################################3
 	global java_8
@@ -691,8 +698,8 @@ def Install_programms():
 	FreeFileSync.tar_package_file = ''
 	FreeFileSync.tar_package_path_32 = 'http://download846.mediafireuserdownload.com/t6dkqzhd6ghg/qhpiwpcuhaul3ex/'
 	FreeFileSync.tar_package_file_32 = 'FreeFileSync_9.0_Debian_8.7_64-bit.tar.gz'
-	FreeFileSync.tar_package_path_64 = 'http://download846.mediafireuserdownload.com/t6dkqzhd6ghg/qhpiwpcuhaul3ex/'
-	FreeFileSync.tar_package_file_64 = 'FreeFileSync_9.0_Debian_8.7_64-bit.tar.gz'
+	FreeFileSync.tar_package_path_64 = 'http://download1523.mediafireuserdownload.com/h8fro3oopifg/a96gf3almx3t2ac/'
+	FreeFileSync.tar_package_file_64 = 'FreeFileSync_9.1_Debian_8.8_64-bit.tar.gz'
 	FreeFileSync.tar_destination = opt_dir
 	FreeFileSync.tar_extra_cmds = [	]
 	FreeFileSync.program_desktop = ['[Desktop Entry]',
@@ -804,6 +811,10 @@ def Install_programms():
 	Sublime.deb_package_file_64 = 'sublime-text_build-3126_amd64.deb'
 	Sublime.deb_package_path_32 = 'https://download.sublimetext.com/'
 	Sublime.deb_package_file_32 = 'sublime-text_build-3126_i386.deb'
+	Sublime.extra_cmd = [	'sudo update-alternatives --install /usr/bin/bl-text-editor bl-text-editor /usr/bin/subl 50',
+							'sudo update-alternatives --set bl-text-editor /usr/bin/subl',
+							'update-alternatives --display bl-text-editor'
+										]
 	VsiProgrami.append(Sublime.program_name)
 ## LibreOffice #################################################
 	global LibreOffice
