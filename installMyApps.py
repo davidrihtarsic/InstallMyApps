@@ -5,8 +5,9 @@ import os
 
 cls()
 
-user = os.path.expanduser('~')
-download_dir = user + '/Downloads/'
+user_path = os.path.expanduser('~')
+user = user_path[user_path.rfind("/")+1:]
+download_dir = user_path + '/Downloads/'
 opt_dir = '/opt/'
 menu_desktop = '/usr/share/applications/'
 profile_dir = '/etc/profile.d/'
@@ -196,10 +197,10 @@ class NovProgram(object):
 			# ce in nastavljeno pot... to dodamo v $PATH
 			key = raw_input(thisAppOutput+'Dodaj pot:'+ self.add_path_profile_variable + ' v $PATH ?'+confirmText)
 			if key == 'y':
-				if (open(user + '/.bashrc', 'r').read().find(self.add_path_profile_variable)>0):
-					sys.stdout.write(thisAppOutput+'Pot: '+ self.add_path_profile_variable +' ze dodana v : '+ user + '/.bashrc...'+escapeColorDefault+'\n')
+				if (open(user_path + '/.bashrc', 'r').read().find(self.add_path_profile_variable)>0):
+					sys.stdout.write(thisAppOutput+'Pot: '+ self.add_path_profile_variable +' ze dodana v : '+ user_path + '/.bashrc...'+escapeColorDefault+'\n')
 				else:
-					with open(user + '/.bashrc','a') as f:
+					with open(user_path + '/.bashrc','a') as f:
 						f.write('\n#dodajanje '+self.program_name+' poti v path\n')
 						f.write('export PATH=$PATH:'+self.add_path_profile_variable+'\n')
 						f.close()
@@ -210,11 +211,11 @@ class NovProgram(object):
 			for text in self.add_bash_parameter:
 				key = raw_input(thisAppOutput+'Dodaj text: '+ text + ' v ~/.bashrc ?'+confirmText)
 				if key == 'y':
-					if (open(user + '/.bashrc', 'r').read().find(text)>0):
-						sys.stdout.write(thisAppOutput+'Text: '+ text +' ze dodano v : '+ user + '/.bashrc...'+escapeColorDefault+'\n')
+					if (open(user_path + '/.bashrc', 'r').read().find(text)>0):
+						sys.stdout.write(thisAppOutput+'Text: '+ text +' ze dodano v : '+ user_path + '/.bashrc...'+escapeColorDefault+'\n')
 					else:
 						# tu naj gremo cez vse nize v parametru...
-						with open(user + '/.bashrc','a') as f:
+						with open(user_path + '/.bashrc','a') as f:
 							f.write(text)
 						f.close()
 
@@ -612,8 +613,8 @@ def Install_programms():
 	conky.program_name = 'conky'					#ime naj bo brez presledkov
 	conky.description = 'Prikaz nekaterih osnovnih podatkov sistema'					#neko besedilo za opis
 	conky.apt_get_name = 'conky-all'					#ime za apt-get
-	conky.extra_cmd = ['mkdir '+user+'/.config/conky',
-						'ls -alF '+user+'/.config/conky']					#se ene extra cmd ... ce je se kaj...
+	conky.extra_cmd = ['mkdir '+ user_path +'/.config/conky',
+						'ls -alF '+ user_path +'/.config/conky']					#se ene extra cmd ... ce je se kaj...
 	conky.program_desktop = []				#vsebina v program.desktop
 	conky.add_path_profile_variable  = '' 
 	conky.notes = ''
@@ -628,8 +629,8 @@ def Install_programms():
 	dave_s_conky.program_desktop = []				#vsebina v program.desktop
 	dave_s_conky.add_path_profile_variable  = ''
 	#dave_s_conky.add_bash_parameter = 	['\n# zazeni conky ob zagomu racunalnika...',
-	#									'\nconky --config='+user+'/.config/conky/dave_s_conky.conkyrc']
-	#add to .bashrc file =>'conky -config='+user+'/.config/conky/dave_s_conky.conkyrc' 
+	#									'\nconky --config='+ user_path +'/.config/conky/dave_s_conky.conkyrc']
+	#add to .bashrc file =>'conky -config='+ user_path +'/.config/conky/dave_s_conky.conkyrc' 
 	dave_s_conky.notes = ''
 	VsiProgrami.append(dave_s_conky.program_name)
 ## alias ll -> ls -alF #######################################15
@@ -1193,6 +1194,8 @@ def MakeHelpForm():
 
 # MAIN PROGRAM ##############################################
 def Main():
+	print user
+	key = raw_input('test')
 	MakeHelpForm()
 	MakeSystemProgrammsForm()
 	MakeOtherProgrammsForm()
