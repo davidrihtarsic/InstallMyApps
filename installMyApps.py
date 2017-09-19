@@ -714,7 +714,7 @@ def Install_programms():
 	FreeFileSync.add_path_profile_variable  = ''
 	#FreeFileSync.extra_cmd = [	'sudo touch /opt/FreeFileSync/GlobalSettings.xml',
 	#							'sudo chmod ugo+rwx /opt/FreeFileSync/GlobalSettings.xml']
-	FreeFileSync.extra_cmd = [	'sudo chown david /opt/FreeFileSync/']	
+	FreeFileSync.extra_cmd = [	'sudo chown '+ user +' /opt/FreeFileSync/']	
 	FreeFileSync.add_bash_parameter = []
 	FreeFileSync.check_version_cmd = ''
 	FreeFileSync.notes = ''
@@ -754,7 +754,7 @@ def Install_programms():
 							]
 	#Arduino.tar_extra_cmds = ['sudo ' + Arduino.tar_destination + 'arduino-1.8.1/install.sh']
 	Arduino.add_path_profile_variable  = Arduino.tar_destination + 'arduino-nightly/'
-	Arduino.extra_cmd = ['sudo usermod -a -G dialout david']
+	Arduino.extra_cmd = ['sudo usermod -a -G dialout '+ user]
 	Arduino.notes = 'NASTAVITI JE POTREBNO "SERIAL PORT PERMITIONS"!\n'\
 					'poglej na: http://playground.arduino.cc/Linux/All#Permission\n'\
 					'1. -> ls -l /dev/ttyUSB* ali ls -l /dev/ttyACM*\n'\
@@ -1123,7 +1123,7 @@ def Install_programms():
 	eclipse.tar_package_path_64 = 'http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/oomph/epp/oxygen/R/'
 	eclipse.tar_package_file_64 = 'eclipse-inst-linux64.tar.gz'
 	eclipse.tar_extra_cmds = [	'sudo ~/Downloads/eclipse-installer/eclipse-inst',
-								'sudo chown david -R /opt/eclipse/']
+								'sudo chown '+ user +' -R /opt/eclipse/']
 	eclipse.program_desktop = []
 	#eclipse.add_path_profile_variable  = '/opt/eclipse/'
 	eclipse.program_desktop = ['[Desktop Entry]',
@@ -1182,6 +1182,12 @@ def MakeHelpForm():
 				'system - INSTALL:',
 				'		+ Htop',
 				'		+ Terminator',
+				'pef 	- INSTALL:',
+				'		+ Arduino IDE',
+				'		+ Fritzing',
+				'		+ Sublime',
+				"		+ dave's conky",
+				'		+ openbox-menu',
 				'--------------------------',
 				'ENTER  - MAIN MENU',
 				'q      - EXIT',
@@ -1194,8 +1200,6 @@ def MakeHelpForm():
 
 # MAIN PROGRAM ##############################################
 def Main():
-	print user
-	key = raw_input('test')
 	MakeHelpForm()
 	MakeSystemProgrammsForm()
 	MakeOtherProgrammsForm()
@@ -1316,6 +1320,12 @@ while (key != 'q'):
 		Terminator.install()
 		Htop.install()
 		nmon.install()
+	elif key == 'pef':
+		Arduino.install()
+		Fritzing.install()
+		Sublime.install()
+		dave_s_conky.install()
+		obmenu.install()
 	else:	
 		os.system(key)
 	#Main()
