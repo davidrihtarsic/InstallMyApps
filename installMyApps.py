@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from myTUI import Form, Edit, Text, cls, putText, setCursor
+from myTUI import Form, Edit, Text, cls, setCursor
 import sys
 import os
 

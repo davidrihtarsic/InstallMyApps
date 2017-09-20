@@ -4,9 +4,17 @@ from time import sleep
 clr0 = '\x1B[39m'
 clr1 = '\x1B[38;5;130m'
 
-def pt(x,y,text):
+def putText(x,y,text):
 	sys.stdout.write("\x1b7\x1b[%d;%df%s\x1b8" % (y, x, text))
 	sys.stdout.flush()
+
+def setCursor(x,y):
+	sys.stdout.write("\x1B[%d;%dH" % (y,x))
+	sys.stdout.flush()
+
+def systemCmd(cmd):
+	sys.stdout.write(cmd)
+
 def cls():
 	print('\033c')
 
@@ -25,20 +33,20 @@ class Form(object):
 		_x2 = self.x+self.dx
 		_y1 = self.y
 		_y2 = self.y+self.dy
-		pt(_x1,_y1,'+')
+		putText(_x1,_y1,'+')
 		for i in range(_x1+1, _x2-1):#draw hor. lines '='
-			pt(i, _y1,'=')
-			pt(i, _y2-1,'=')
+			putText(i, _y1,'=')
+			putText(i, _y2-1,'=')
 		i+=1
-		pt(i,_y1,'+')
+		putText(i,_y1,'+')
 		for i in range (_y1+1, _y2-1):#draw vert. lines '|'
-			pt (_x1, i,'|')
-			pt (_x2-1, i,'|')
+			putText(_x1, i,'|')
+			putText(_x2-1, i,'|')
 		i+=1
-		pt (_x1, i,'+')
-		pt (_x2-1, i,'+')
-		pt(_x1+2, _y1 , clr1+'['+self.text+']'+clr0)
-		pt(_x2-5, _y1, '[-ox]')
+		putText(_x1, i,'+')
+		putText(_x2-1, i,'+')
+		putText(_x1+2, _y1 , clr1+'['+self.text+']'+clr0)
+		putText(_x2-5, _y1, '[-ox]')
 class Edit(object):
 	"""docstring for Edit"""
 	#Edit premakne kurzor , tako da ga lahko uporabljas tudi, ce moras tja kaj izpisatu
@@ -52,7 +60,7 @@ class Edit(object):
 		self.draw()
 
 	def draw(self):
-		pt(self.x, self.y, clr1+self.text+clr0+':'+self.value)
+		putText(self.x, self.y, clr1+self.text+clr0+':'+self.value)
 		if self.enabled:
 			sys.stdout.write("\x1B[%d;%dH" % (self.y,self.x+len(self.text)+1))
 			sys.stdout.flush()
@@ -62,7 +70,7 @@ class Edit(object):
 		self.value  = val
 		if len(_val)>len(val):
 			for n in range(0,len(_val)):
-				pt(self.x+len(self.text)+n+1,self.y,' ')
+				putText(self.x+len(self.text)+n+1,self.y,' ')
 		self.draw()
 
 	def set_new_value(self):
@@ -79,7 +87,7 @@ class Text(object):
 		self.y = y
 		self.draw()
 	def draw(self):
-		pt(self.x, self.y, self.text)
+		putText(self.x, self.y, self.text)
 	def new_text(self,val):
 		self.text  = val
 		self.draw()
