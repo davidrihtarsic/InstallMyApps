@@ -807,16 +807,20 @@ def Install_programms():
 						'for code, markup and prose. You\'ll love the '\
 						'slick user interface, extraordinary features and '\
 						'amazing performance.'
-	Sublime.apt_get_name =''
-	Sublime.check_version_cmd = ''
-	Sublime.deb_package_path_64 = 'https://download.sublimetext.com/'
-	Sublime.deb_package_file_64 = 'sublime-text_build-3126_amd64.deb'
-	Sublime.deb_package_path_32 = 'https://download.sublimetext.com/'
-	Sublime.deb_package_file_32 = 'sublime-text_build-3126_i386.deb'
-	Sublime.extra_cmd = [	'sudo update-alternatives --install /usr/bin/bl-text-editor bl-text-editor /usr/bin/subl 50',
-							'sudo update-alternatives --set bl-text-editor /usr/bin/subl',
-							'update-alternatives --display bl-text-editor'
-										]
+	Sublime.pre_install_cmds = [	'wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -',
+									'echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list',
+									'sudo apt-get update'
+								]
+	Sublime.apt_get_name ='sublime-text'
+	Sublime.check_version_cmd = 'subl --version'
+	#Sublime.deb_package_path_64 = 'https://download.sublimetext.com/'
+	#Sublime.deb_package_file_64 = 'sublime-text_build-3126_amd64.deb'
+	#Sublime.deb_package_path_32 = 'https://download.sublimetext.com/'
+	#Sublime.deb_package_file_32 = 'sublime-text_build-3126_i386.deb'
+	#Sublime.extra_cmd = [	'sudo update-alternatives --install /usr/bin/bl-text-editor bl-text-editor /usr/bin/subl 50',
+	#						'sudo update-alternatives --set bl-text-editor /usr/bin/subl',
+	#						'update-alternatives --display bl-text-editor'
+	#									]
 	VsiProgrami.append(Sublime.program_name)
 ## LibreOffice #################################################
 	global LibreOffice
