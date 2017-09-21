@@ -817,10 +817,10 @@ def Install_programms():
 	#Sublime.deb_package_file_64 = 'sublime-text_build-3126_amd64.deb'
 	#Sublime.deb_package_path_32 = 'https://download.sublimetext.com/'
 	#Sublime.deb_package_file_32 = 'sublime-text_build-3126_i386.deb'
-	#Sublime.extra_cmd = [	'sudo update-alternatives --install /usr/bin/bl-text-editor bl-text-editor /usr/bin/subl 50',
-	#						'sudo update-alternatives --set bl-text-editor /usr/bin/subl',
-	#						'update-alternatives --display bl-text-editor'
-	#									]
+	Sublime.extra_cmd = [	'sudo update-alternatives --install /usr/bin/bl-text-editor bl-text-editor /usr/bin/subl 50',
+							'sudo update-alternatives --set bl-text-editor /usr/bin/subl',
+							'update-alternatives --display bl-text-editor'
+						]
 	VsiProgrami.append(Sublime.program_name)
 ## LibreOffice #################################################
 	global LibreOffice
