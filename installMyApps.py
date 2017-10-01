@@ -524,7 +524,24 @@ def Install_programms():
 	Htop.deb_package_path = ''
 	Htop.deb_package_file = ''
 	VsiProgrami.append(Htop.program_name)
-## NMON #######################################################7
+## Piped View##################################################7
+	global Pv
+	Pv = NovProgram()
+	Pv.program_name = 'Piped View - pv'
+	Pv.description = 	'pv  shows  the  progress  of data through a pipeline by giving'\
+						'information such as time elapsed, percentage completed (with'\
+						'progress  bar), current throughput rate, total data transferred,'\
+						' and ETA.'
+	Pv.apt_get_name ='pv'
+	Pv.check_version_cmd = 'pv --version'
+	Pv.notes =  'Nacin uporabe:\n'\
+				'> sudo -s\n'\
+				'> pv <NekIsoFile.iso> /dev/sdb\n'\
+				'857MiB 0:01:05 [13.1MiB/s] [===================>] 100%\n'\
+				'> exit\n'\
+				'>'
+	VsiProgrami.append(Pv.program_name)	
+## NMON #######################################################8
 	global nmon
 	nmon = NovProgram()
 	nmon.program_name = 'nmon'
@@ -552,7 +569,7 @@ def Install_programms():
 	#					'sudo mv ' + download_dir + 'nmon/nmon_x86_debian8 /usr/bin/nmon',
 	#					'sudo rm -R ' + download_dir+'nmon/']
 	VsiProgrami.append(nmon.program_name)
-## WAVEMON ####################################################8
+## WAVEMON ####################################################9
 	global wavemon
 	wavemon = NovProgram()
 	wavemon.program_name = 'wavemon'					#ime naj bo brez presledkov
@@ -568,7 +585,7 @@ def Install_programms():
 							'Categories=Network;'
 							]
 	VsiProgrami.append(wavemon.program_name)
-## Neofetch ###################################################9
+## Neofetch ##################################################10
 	global Neofetch
 	Neofetch = NovProgram()
 	Neofetch.program_name = 'Neofetch'
@@ -578,7 +595,7 @@ def Install_programms():
 	Neofetch.check_version_cmd = 'neofetch'
 	Neofetch.notes = 'Notes... to do...'
 	VsiProgrami.append(Neofetch.program_name)
-## Fortune ###################################################10
+## Fortune ###################################################11
 	global Fortune
 	Fortune = NovProgram()
 	Fortune.program_name = 'Fortune'
@@ -588,7 +605,7 @@ def Install_programms():
 	Fortune.deb_package_path = ''
 	Fortune.deb_package_file = ''
 	VsiProgrami.append(Fortune.program_name)
-## COWSAY ####################################################11
+## COWSAY ####################################################12
 	global Cowsay
 	Cowsay = NovProgram()
 	Cowsay.program_name = 'Cowsay'
@@ -600,14 +617,14 @@ def Install_programms():
 	Cowsay.add_bash_parameter = ["\nalias cls='clear;neofetch;fortune|cowsay'"]
 	Cowsay.notes = 'V terminatorju nastavite:\nPreferences -> Profiles -> Command\ncustom command: [ neofetch;fortune|cowsay;bash ]'
 	VsiProgrami.append(Cowsay.program_name)
-## Keymap ####################################################12
+## Keymap ####################################################13
 	global Keymap
 	Keymap = NovProgram()
 	Keymap.description='remap tipke [dz] v "/"'
 	Keymap.program_name = 'Keymap'
 	Keymap.add_bash_parameter = ['\n#remap tipko [dz] - "/"','\nxmodmap -e "keycode 35 = slash"']			#text ki je za dodat v .bash 
 	VsiProgrami.append(Keymap.program_name)
-## conky #####################################################13
+## conky #####################################################14
 	global conky
 	conky = NovProgram()
 	conky.program_name = 'conky'					#ime naj bo brez presledkov
@@ -619,7 +636,7 @@ def Install_programms():
 	conky.add_path_profile_variable  = '' 
 	conky.notes = ''
 	VsiProgrami.append(conky.program_name)
-## dave's conky ##############################################14
+## dave's conky ##############################################15
 	global dave_s_conky
 	dave_s_conky = NovProgram()
 	dave_s_conky.program_name = 'dave_s_conky_v3_cfg'					#ime naj bo brez presledkov
@@ -633,7 +650,7 @@ def Install_programms():
 	#add to .bashrc file =>'conky -config='+ user_path +'/.config/conky/dave_s_conky.conkyrc' 
 	dave_s_conky.notes = ''
 	VsiProgrami.append(dave_s_conky.program_name)
-## alias ll -> ls -alF #######################################15
+## alias ll -> ls -alF #######################################16
 	global ll
 	ll = NovProgram()
 	ll.program_name = 'alias ll'					#ime naj bo brez presledkov
@@ -642,7 +659,7 @@ def Install_programms():
 	ll.add_bash_parameter = ['\n#alias',"\nalias ll='ls -alF'"]			#text ki je za dodat v .bash 
 	ll.notes = ''
 	VsiProgrami.append(ll.program_name)
-## alias WEATHER #############################################16
+## alias WEATHER #############################################17
 	global weather
 	weather = NovProgram()
 	weather.program_name = 'alias weather'					#ime naj bo brez presledkov
@@ -651,7 +668,7 @@ def Install_programms():
 	weather.add_bash_parameter = ["\nalias weather='curl wttr.in/~begunje'"]			#text ki je za dodat v .bash 
 	weather.notes = ''
 	VsiProgrami.append(weather.program_name)
-## FileZilla #################################################17
+## FileZilla #################################################18
 	# NOT testet yet ... - was preinstalled on BL
 	global FileZilla
 	FileZilla = NovProgram()
@@ -660,7 +677,7 @@ def Install_programms():
 	FileZilla.apt_get_name = 'FileZilla'
 	##FileZilla.notes = ''
  	VsiProgrami.append(FileZilla.program_name)
-## python-serial #############################################18
+## python-serial #############################################19
 	#test OK @ BL 64bit (David)
 	global python_serial
 	python_serial = NovProgram()
@@ -669,7 +686,7 @@ def Install_programms():
 	python_serial.apt_get_name = 'python-serial'
 	##python-serial.notes = ''
  	VsiProgrami.append(python_serial.program_name)
-## FreeFileSync ##############################################19
+## FreeFileSync ##############################################20
     #Test INFO @ BL64bit (David desktop comp):
     #	- paket deb najden OK
     #	- download OK
@@ -1233,6 +1250,7 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	obmenu.install()
 	elif key == str(programe_index.next()):	Terminator.install()
 	elif key == str(programe_index.next()):	Htop.install()
+	elif key == str(programe_index.next()):	Pv.install()
 	elif key == str(programe_index.next()):	nmon.install()
 	elif key == str(programe_index.next()):	wavemon.install()
 	elif key == str(programe_index.next()):	Neofetch.install()
