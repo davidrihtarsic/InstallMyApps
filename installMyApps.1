@@ -1,0 +1,370 @@
+.TH installMyApps 8 "14. Oct. 2017" "ver. 0.9" "installMyApps"
+
+.SH NAME
+installMyApps - Install my programs for debian linux.
+
+.SH DESCRIPTION
+.B installMyApps
+je programsko orodje za inštalacijo programov za debian linux. Parametri, ki so možni so opisani v nadaljevanju...
+
+.SH USAGE
+Programska koda programa je napisana v datoteki
+.I installMyApps.py.
+Programi so razdeljeni v dve skupini:
+.RS
+ 1. SystemPrograms in
+ 2. OtherPrograms
+.RE
+Razdelitev je določena s spremenljivko
+.I n_systemPrograms_=_19
+, kar poemni, da je prih 19 programov systemskih, vsi ostali pa so razporejeni kot OtherPrograms.
+
+.PP
+Če želimo dodati en program, moramo v funkcijo
+.I Install_programms():
+dodati nove nastavitve za novi program... Začnemo z novo, globalno spremenljivko, ki opisuje imen_programa...
+
+
+.SH EXAMPLE
+.B def Install_programms():
+.RS
+ global python_serial
+ python_serial = NovProgram()
+ python_serial.program_name = 'python-serial'
+ python_serial.description = 'This module encapsulates the access for the serial port. It provides backends for Python  running on Windows, OSX, Linux, BSD (possibly any POSIX compliant system) and IronPython. The module named "serial" automatically selects the appropriate backend.'
+ python_serial.apt_get_name = 'python-serial'
+ VsiProgrami.append(python_serial.program_name)
+.RE
+
+.SH OPTIONS
+.B
+global Ime_Novega_Programa *
+.RS
+.RE
+.PP
+.B
+Ime_Novega_Programa = NovProgram() *
+.RS
+.RE
+.PP
+.B
+Ime_Novega_Programa.program_name = '' *
+.RS
+ime programa, priporoca se, da je brez presledkov, ta besedlni niz se uporabi za prikaz imena programa v menu-ju in
+tudi za ime datoteke *.desktop (/usr/share/applications/ime_programa.desktop).
+.B
+ primer uporabe:
+.RS
+novProgram.program_name='firefox'
+.RE
+.RE
+.PP
+.B
+Ime_Novega_Programa.description = ''
+.RS
+string se uporablja za nekaj uvodnega besedila v menuju.
+.B
+ primer uporabe:
+.RS
+novProgram.description=	'Ta program se uporablja za pisanje besedil.\n Uporabljamo'\
+'pa ga lahko tudi ta urejanje nastavitev...' 
+.RE
+.RE
+.PP
+.B
+Ime_Novega_Programa.pre_install_cmds = []					
+.RS
+PRE_INSTALL_CMDS - niz stringov se izvrsi kakor ce bi jih vpisovali v terminal
+eden za drugim. Izvrsijo se pred vsemi ostalimi ukazi (apt-get install, deb, tar).
+Med vsakim navedenim nizom nas program tudi vprasa ali zelimo izvrsiti ukaz [y/n].
+.B
+ primer uporabe:
+.RS
+novProgram.pre_install_cmds = [	'sudo apt-get update', 'sudo apt-get upgrade']
+.RE
+.RE
+.PP
+.B
+Ime_Novega_Programa.apt_get_name = ''
+.RS
+APT_GET_NAME - to ime se uporabi v ukazu sudo apt-get install {apt_get_name}.
+Predno se izvede ta ukaz gremo pogledat, katera verzija je na razpolago z
+ukazom: sudo apt-cache policy. Tako se uporaabnik lahko odloci ali bo namestil
+program s tem ukazom ali ne.
+.B
+ primer uporabe:
+.RS
+novProgram.apt_get_name = 'nano'
+.RE
+.RE
+
+.PP
+.B
+Ime_Novega_Programa.deb_package_path = ''
+.RS
+DEB_PACKAGE_PATH - pot datoteke na kateri se nahaja *deb paket. Ta se uporablja
+v primeru, ko vrsta arhitekture ni pomembna ali pa paket ne podpira razlicnih
+arhitektur.
+.B
+ primer uporabe:
+.RS
+novProgram.deb_package_path = 'https://download.sublimetext.com/'
+.RE
+.RE
+
+.PP
+.B
+Ime_Novega_Programa.deb_package_file = ''
+.RS
+DEB_PACKAGE_FILE - ime datoteke, ki se nahaja na prej omenjeni poti {deb_package_path}.
+Ta string v tej spremenljivki se uporablja tudi za instalacijo deb paketa:
+sudo dpkg -i {deb_package_file}. Presnete datoteke se na koncu postopka tudi izbrisejo.
+.B
+ primer uporabe:
+.RS
+novProgram.deb_package_file = 'sublime-text_build-all.deb'
+.RE
+.RE
+
+.PP
+.B
+Ime_Novega_Programa.deb_package_path_32 = ''
+.RS
+DEB_PACKAGE_PATH_32 - enako kot pri {deb_package_path}, le da se *.deb paket namesti le
+ce imate 32-bitni sistem. 
+.B
+.RS
+.RE
+.RE
+
+.PP
+.B
+Ime_Novega_Programa.deb_package_file_32 = ''
+.RS
+DEB_PACKAGE_FILE_32 - enako kot pri {deb_package_path}, le da se *.deb paket namesti le
+ce imate 32-bitni sistem. 
+.B
+.RS
+.RE
+.RE
+
+.PP
+.B
+Ime_Novega_Programa.deb_package_path_64 = ''
+.RS
+DEB_PACKAGE_PATH_64 - enako kot pri {deb_package_path}, le da se *.deb paket namesti le
+ce imate 64-bitni sistem. 
+.B
+.RS
+.RE
+.RE
+
+.PP
+.B
+Ime_Novega_Programa.deb_package_file_64 = ''
+.RS
+DEB_PACKAGE_FILE_64 - enako kot pri {deb_package_path}, le da se *.deb paket namesti le
+ce imate 64-bitni sistem. 
+.B
+.RS
+.RE
+.RE
+
+.PP
+.B
+Ime_Novega_Programa.tar_package_path = ''
+.RS
+TAR_PACKAGE_PATH - pot datoteke na kateri se nahaja *.tar.gz ali *.tar.xz paket. Ta se
+uporablja v primeru, ko vrsta arhitekture ni pomembna ali pa paket ne podpira razlicnih
+arhitektur.
+.B
+ primer uporabe:
+.RS
+novProgram.tar_package_path = 'https://qcad.org/archives/qcad/'
+.RE
+.RE
+
+.PP
+.B
+Ime_Novega_Programa.tar_package_file = ''
+.RS
+TAR_PACKAGE_FILE - ime datoteke, ki se nahaja na prej omenjeni poti {tar_package_path}.
+Ta string v tej spremenljivki se uporablja tudi za razpakiranje *.tar paketa:
+tar -xvf '+ download_dir+{tar_package_file}. Datoteke se razpakirajo v ~/Download/, ali
+pa pot lahko tudi posebej dolocite v spremenljivki {tar_destination}. Presnete datoteke
+se na koncu postopka tudi izbrisejo.
+.B
+ primer uporabe:
+.RS
+novProgram.tar_package_file = 'sublime-text_build-all.tar.gz'
+.RE
+.RE
+
+.PP
+.B
+Ime_Novega_Programa.tar_package_path_32 = ''
+.RS
+TAR_PACKAGE_PATH_32 - enako kot pri {tar_package_path}, le da se *.tar.* paket namesti le
+ce imate 32-bitni sistem. 
+.B
+.RS
+.RE
+.RE
+
+.PP
+.B
+Ime_Novega_Programa.tar_package_file_32 = ''
+.RS
+TAR_PACKAGE_FILE_32 - enako kot pri {tar_package_file}, le da se *.tar.* paket namesti le
+ce imate 32-bitni sistem. 
+.B
+.RS
+.RE
+.RE
+
+.PP
+.B
+Ime_Novega_Programa.tar_package_path_64 = ''
+.RS
+TAR_PACKAGE_PATH_64 - enako kot pri {tar_package_path}, le da se *.tar.* paket namesti le
+ce imate 64-bitni sistem. 
+.B
+.RS
+.RE
+.RE
+
+.PP
+.B
+Ime_Novega_Programa.tar_package_file_64 = ''
+.RS
+DEB_PACKAGE_FILE_64 - enako kot pri {deb_package_path}, le da se *.deb paket namesti le
+ce imate 64-bitni sistem. 
+.B
+.RS
+.RE
+.RE
+
+.PP
+.B
+Ime_Novega_Programa.tar_destination = ''
+.RS
+TAR_DESTINATION - direktorij, kamor zelite, da se *.tar.* paket od-tara. Ce direktorij se
+ne obstaja, da bo instalacija sama ustvarila...
+.B
+ primer uporabe:
+.RS
+novProgram.tar_destiation = '/opt/'
+.RE
+.RE
+
+.PP
+.B
+Ime_Novega_Programa.tar_extra_cmds = []
+.RS
+TAR_EXTRA_CMDS - Po koncanem razpakiranju TAR datoteke lahko naredite se kake cmd, kot
+bi jih pisali v terminalu: naprimer kake instalacije ali kaj podobnega...
+.B
+ primer uporabe:
+.RS
+novProgram.tar_extra_cmds =['sudo rm /usr/bin/nmon',
+'sudo chmod 777 '+opt_dir+'nmon/'+'nmon_x86_debian8',
+'sudo ln -s '+opt_dir+'nmon/'+'nmon_x86_debian8 /usr/bin/nmon']
+.RE
+.RE
+
+.PP
+.B
+Ime_Novega_Programa.program_desktop = []
+.RS
+PROGRAM_DESKTOP - niz stringov, ki se bo vpisal v {program_name}.desktop file.
+.B
+ primer uporabe:
+.RS
+Arduino.program_desktop = [
+ '[Desktop Entry]',
+ 'Version=1.0',
+ 'Name=Arduino IDE',
+ 'Exec=/opt/arduino-nightly/arduino',
+ 'Icon=/opt/arduino-nightly/lib/icons/64x64/apps/arduino.png',
+ 'Terminal=false',
+ 'Type=Application',
+ 'Categories=Development;Programming;'
+]
+.RE
+.RE
+
+.PP
+.B
+Ime_Novega_Programa.add_path_profile_variable  = ''
+.RS
+ADD_PATH_PROFILE_VARIABLE - string, ki ga je potrebno vpisati v $PATH spremenljivko.
+.B
+ primer uporabe:
+.RS
+Arduino.add_path_profile_variable  = '/opt/arduino-nightly/
+.RE
+.RE
+
+.PP
+.B
+Ime_Novega_Programa.extra_cmd = []
+.RS
+EXTRA_CMD - niz ukazov, ki bi jih morali vtipkati v terminal po instalacijskem postopku.
+Na tem mestu lahko dodate link v /usr/bin/ tako, da lahko zazenete program od koderkoli,
+kakor smo to naredili za program thunderbird...
+.B
+ primer uporabe:
+.RS
+Thunderbird.extra_cmd = ['sudo ln -s /opt/thunderbird/thunderbird /usr/bin/thunderbird'] 
+.RE
+.RE
+
+.PP
+.B
+Ime_Novega_Programa.add_bash_parameter = []
+.RS
+ADD_BASH_PARAMETER - niz stringov (besedila), ki ga je potrebno dodati v datoteko:
+~/.bashrc. Besedilo se doda na konec dokumenta. Skript vas vprasa za vsak niz posebej,
+ce naj ga doda.
+.B
+ primer uporabe:
+.RS
+Keymap.add_bash_parameter = [	'\nremap tipko [dz] - "/"',
+'\nxmodmap -e "keycode 35 = slash"']
+.RE
+.RE
+
+.PP
+.B
+Ime_Novega_Programa.check_version_cmd = ''
+.RS
+CHECK_VERSION_CMD - string se izvrsi kot cmd ukaz v ternimalu in je namenjen
+preverjanju verzije. Ta ukaz se izvede po instalaciji.
+.B
+ primer uporabe:
+.RS
+novProgram = 'nano --version' 
+.RE
+.RE
+
+.PP
+.B
+Ime_Novega_Programa.notes = ''
+.RS
+NOTES - ko se instalacijski postopek zakljuci se izpise neko besedilo, ki sporoci
+uporabniku kaka nadaljna navodila. Naprimer, ce program potrebuje kake dodatne
+nastavitve, kot v primeru terminatorja za prikaz podatkov o racunalniku z neofetch.
+.B
+.RS
+.RE
+.RE
+
+.PP
+.B
+VsiProgrami.append(Ime_Novega_Programa.program_name) *
+.RS
+.B
+.RS
+.RE
+.RE
+
