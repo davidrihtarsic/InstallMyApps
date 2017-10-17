@@ -1161,6 +1161,36 @@ def Install_programms():
 	eclipse.check_version_cmd = ''
 	eclipse.notes = ''
 	VsiProgrami.append(eclipse.program_name)
+## QT5 Creator #################################################
+	global QT5_creator
+	QT5_creator = NovProgram()
+	QT5_creator.program_name = 'QT5 Creator'
+	QT5_creator.description = 'Qt Creator provides a cross-platform, complete integrated development environment (IDE) for application developers to create applications for multiple desktop, embedded, and mobile device platforms, such as Android and iOS. It is available for Linux, macOS and Windows operating systems. For more information, see Supported Platforms.'
+	QT5_creator.pre_install_cmds = ['wget --spider -v http://download.qt.io/official_releases/qt/5.9/5.9.2/qt-opensource-linux-x64-5.9.2.run',
+									'wget '+ 'http://download.qt.io/official_releases/qt/5.9/5.9.2/qt-opensource-linux-x64-5.9.2.run' + ' --directory-prefix='+download_dir]					
+	#QT5_creator.apt_get_name = ''
+	#QT5_creator.deb_package_path = ''
+	#QT5_creator.deb_package_file = ''
+	#QT5_creator.deb_package_path_32 = ''
+	#QT5_creator.deb_package_file_32 = ''
+	#QT5_creator.deb_package_path_64 = ''
+	#QT5_creator.deb_package_file_64 = ''
+	#QT5_creator.tar_package_path = ''
+	#QT5_creator.tar_package_file = ''
+	#QT5_creator.tar_package_path_32 = ''
+	#QT5_creator.tar_package_file_32 = ''
+	#QT5_creator.tar_package_path_64 = 'http://download.qt.io/official_releases/qt/5.9/5.9.2/'
+	#QT5_creator.tar_package_file_64 = 'qt-opensource-linux-x64-5.9.2.run'
+	#QT5_creator.tar_destination = ''
+	#QT5_creator.tar_extra_cmds = []
+	#QT5_creator.program_desktop = []
+	#QT5_creator.add_path_profile_variable  = ''
+	QT5_creator.extra_cmd = [ 'sudo chmod ugo+x ' + download_dir + 'qt-opensource-linux-x64-5.9.2.run',
+								download_dir+ 'qt-opensource-linux-x64-5.9.2.run']
+	#QT5_creator.add_bash_parameter = []
+	#QT5_creator.check_version_cmd = ''
+	#QT5_creator.notes = ''
+	VsiProgrami.append(QT5_creator.program_name)
 ## GUVCview - program za snemanje z WEB camero #################
 	# sudo apt-get install guvcview
 ## SIRIL - leplenje slik/video v fotografijo - za astronomijo ##
@@ -1287,6 +1317,7 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	bCNC.install()
 	elif key == str(programe_index.next()):	lmms.install()
 	elif key == str(programe_index.next()):	eclipse.install()
+	elif key == str(programe_index.next()):	QT5_creator.install()
 	elif key == 'all':
 		#---SYSTEM PROGRAMS
 		Update_Upgrade.install()	
@@ -1330,6 +1361,7 @@ while (key != 'q'):
 		bCNC.install()
 		lmms.install()
 		eclipse.install()
+		QT5_creator.install()
 	elif key == 'tit':	
 		Arduino.install()
 		qCAD.install()
