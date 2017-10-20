@@ -306,64 +306,64 @@ class NovProgram(object):
 ## DEFINICIJA PROGRAMOV ZA INSTALACIJO #########################
 def Install_programms():
 ## HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP ######
-	#global Primer_programa
-	#Primer_programa = NovProgram()
-	#Primer_programa.program_name = ''
+	#global Ime_Novega_Programa
+	#Ime_Novega_Programa = NovProgram()
+	#Ime_Novega_Programa.program_name = ''
 	# 	PROGRAME_NAME - ime programa, priporoca se, da je brez presledkov,
 	# 	ta besedlni niz se uporabi za prikaz imena programa v menu-ju in
 	# 	tudi za ime datoteke *.desktop (/usr/share/applications/ime_programa.desktop).
 	#	primer uporabe:
 	#	novProgram.program_name='firefox'					
-	#Primer_programa.description = ''
+	#Ime_Novega_Programa.description = ''
 	# 	DESCRIPTON - string se uporablja za nekaj uvodnega besedila v menuju.
 	#	primer uporabe:
 	#	novProgram.description=	'Ta program se uporablja za pisanje besedil.\n Uporabljamo'\
 	#				'pa ga lahko tudi ta urejanje nastavitev...' 
-	#Primer_programa.pre_install_cmds = []					
+	#Ime_Novega_Programa.pre_install_cmds = []					
 	#	PRE_INSTALL_CMDS - niz stringov se izvrsi kakor ce bi jih vpisovali v terminal
 	#	eden za drugim. Izvrsijo se pred vsemi ostalimi ukazi (apt-get install, deb, tar).
 	#	Med vsakim navedenim nizom nas program tudi vprasa ali zelimo izvrsiti ukaz [y/n].
 	#	primer uporabe:
 	#	novProgram.pre_install_cmds = [	'sudo apt-get update',
 	#									'sudo apt-get upgrade']
-	#Primer_programa.apt_get_name = ''
+	#Ime_Novega_Programa.apt_get_name = ''
 	#	APT_GET_NAME - to ime se uporabi v ukazu sudo apt-get install {apt_get_name}.
 	#	Predno se izvede ta ukaz gremo pogledat, katera verzija je na razpolago z
 	#	ukazom: sudo apt-cache policy. Tako se uporaabnik lahko odloci ali bo namestil
 	#	program s tem ukazom ali ne.
 	#	primer uporabe:
 	#	novProgram.apt_get_name = 'nano'
-	#Primer_programa.deb_package_path = ''
+	#Ime_Novega_Programa.deb_package_path = ''
 	#	DEB_PACKAGE_PATH - pot datoteke na kateri se nahaja *deb paket. Ta se uporablja
 	#	v primeru, ko vrsta arhitekture ni pomembna ali pa paket ne podpira razlicnih
 	#	arhitektur.
 	#	primer uporabe:
 	#	novProgram.deb_package_path = 'https://download.sublimetext.com/'
-	#Primer_programa.deb_package_file = ''
+	#Ime_Novega_Programa.deb_package_file = ''
 	#	DEB_PACKAGE_FILE - ime datoteke, ki se nahaja na prej omenjeni poti {deb_package_path}.
 	#	Ta string v tej spremenljivki se uporablja tudi za instalacijo deb paketa:
 	#	sudo dpkg -i {deb_package_file}. Presnete datoteke se na koncu postopka tudi izbrisejo.
 	#	primer uporabe:
 	#	novProgram.deb_package_file = 'sublime-text_build-all.deb'
-	#Primer_programa.deb_package_path_32 = ''
+	#Ime_Novega_Programa.deb_package_path_32 = ''
 	#	DEB_PACKAGE_PATH_32 - enako kot pri {deb_package_path}, le da se *.deb paket namesti le
 	#	ce imate 32-bitni sistem. 
-	#Primer_programa.deb_package_file_32 = ''
+	#Ime_Novega_Programa.deb_package_file_32 = ''
 	#	DEB_PACKAGE_FILE_32 - enako kot pri {deb_package_path}, le da se *.deb paket namesti le
 	#	ce imate 32-bitni sistem. 
-	#Primer_programa.deb_package_path_64 = ''
+	#Ime_Novega_Programa.deb_package_path_64 = ''
 	#	DEB_PACKAGE_PATH_64 - enako kot pri {deb_package_path}, le da se *.deb paket namesti le
 	#	ce imate 64-bitni sistem. 
-	#Primer_programa.deb_package_file_64 = ''
+	#Ime_Novega_Programa.deb_package_file_64 = ''
 	#	DEB_PACKAGE_FILE_64 - enako kot pri {deb_package_path}, le da se *.deb paket namesti le
 	#	ce imate 64-bitni sistem. 
-	#Primer_programa.tar_package_path = ''
+	#Ime_Novega_Programa.tar_package_path = ''
 	#	TAR_PACKAGE_PATH - pot datoteke na kateri se nahaja *.tar.gz ali *.tar.xz paket. Ta se
 	#	uporablja v primeru, ko vrsta arhitekture ni pomembna ali pa paket ne podpira razlicnih
 	#	arhitektur.
 	#	primer uporabe:
 	#	novProgram.tar_package_path = 'https://qcad.org/archives/qcad/'
-	#Primer_programa.tar_package_file = ''
+	#Ime_Novega_Programa.tar_package_file = ''
 	#	TAR_PACKAGE_FILE - ime datoteke, ki se nahaja na prej omenjeni poti {tar_package_path}.
 	#	Ta string v tej spremenljivki se uporablja tudi za razpakiranje *.tar paketa:
 	#	tar -xvf '+ download_dir+{tar_package_file}. Datoteke se razpakirajo v ~/Download/, ali
@@ -371,31 +371,31 @@ def Install_programms():
 	#	se na koncu postopka tudi izbrisejo.
 	#	primer uporabe:
 	#	novProgram.tar_package_file = 'sublime-text_build-all.tar.gz'
-	#Primer_programa.tar_package_path_32 = ''
+	#Ime_Novega_Programa.tar_package_path_32 = ''
 	#	TAR_PACKAGE_PATH_32 - enako kot pri {tar_package_path}, le da se *.tar.* paket namesti le
 	#	ce imate 32-bitni sistem. 
-	#Primer_programa.tar_package_file_32 = ''
+	#Ime_Novega_Programa.tar_package_file_32 = ''
 	#	TAR_PACKAGE_FILE_32 - enako kot pri {tar_package_file}, le da se *.tar.* paket namesti le
 	#	ce imate 32-bitni sistem. 
-	#Primer_programa.tar_package_path_64 = ''
+	#Ime_Novega_Programa.tar_package_path_64 = ''
 	#	TAR_PACKAGE_PATH_64 - enako kot pri {tar_package_path}, le da se *.tar.* paket namesti le
 	#	ce imate 64-bitni sistem. 
-	#Primer_programa.tar_package_file_64 = ''
+	#Ime_Novega_Programa.tar_package_file_64 = ''
 	#	DEB_PACKAGE_FILE_64 - enako kot pri {deb_package_path}, le da se *.deb paket namesti le
 	#	ce imate 64-bitni sistem. 
-	#Primer_programa.tar_destination = ''
+	#Ime_Novega_Programa.tar_destination = ''
 	#	TAR_DESTINATION - direktorij, kamor zelite, da se *.tar.* paket od-tara. Ce direktorij se
 	#	ne obstaja, da bo instalacija sama ustvarila...
 	#	primer uporabe:
 	#	novProgram.tar_destiation = '/opt/'
-	#Primer_programa.tar_extra_cmds = []
+	#Ime_Novega_Programa.tar_extra_cmds = []
 	#	TAR_EXTRA_CMDS - Po koncanem razpakiranju TAR datoteke lahko naredite se kake cmd, kot
 	# 	bi jih pisali v terminalu: naprimer kake instalacije ali kaj podobnega...
 	#	primer uporabe:
 	#	novProgram.tar_extra_cmds =['sudo rm /usr/bin/nmon',
 	#								'sudo chmod 777 '+opt_dir+'nmon/'+'nmon_x86_debian8',
 	#								'sudo ln -s '+opt_dir+'nmon/'+'nmon_x86_debian8 /usr/bin/nmon']
-	#Primer_programa.program_desktop = []
+	#Ime_Novega_Programa.program_desktop = []
 	#	PROGRAM_DESKTOP - niz stringov, ki se bo vpisal v {program_name}.desktop file.
 	#	primer uporabe:
 	#	Arduino.program_desktop = [	'[Desktop Entry]',
@@ -407,61 +407,61 @@ def Install_programms():
 	#								'Type=Application',
 	#								'Categories=Development;Programming;'
 	#								]
-	#Primer_programa.add_path_profile_variable  = ''
+	#Ime_Novega_Programa.add_path_profile_variable  = ''
 	#	ADD_PATH_PROFILE_VARIABLE - string, ki ga je potrebno vpisati v $PATH spremenljivko.
 	#	primer uporabe:
 	#	Arduino.add_path_profile_variable  = '/opt/arduino-nightly/
-	#Primer_programa.extra_cmd = []
+	#Ime_Novega_Programa.extra_cmd = []
 	#	EXTRA_CMD - niz ukazov, ki bi jih morali vtipkati v terminal po instalacijskem postopku.
 	#	Na tem mestu lahko dodate link v /usr/bin/ tako, da lahko zazenete program od koderkoli,
 	#	kakor smo to naredili za program thunderbird...
 	#	primer uporabe:
 	#	Thunderbird.extra_cmd = ['sudo ln -s /opt/thunderbird/thunderbird /usr/bin/thunderbird'] 
-	#Primer_programa.add_bash_parameter = []
+	#Ime_Novega_Programa.add_bash_parameter = []
 	#	ADD_BASH_PARAMETER - niz stringov (besedila), ki ga je potrebno dodati v datoteko:
 	#	~/.bashrc. Besedilo se doda na konec dokumenta. Skript vas vprasa za vsak niz posebej,
 	#	ce naj ga doda.
 	#	primer uporabe:
 	#	Keymap.add_bash_parameter = [	'\n#remap tipko [dz] - "/"',
 	#									'\nxmodmap -e "keycode 35 = slash"']
-	#Primer_programa.check_version_cmd = ''
+	#Ime_Novega_Programa.check_version_cmd = ''
 	#	CHECK_VERSION_CMD - string se izvrsi kot cmd ukaz v ternimalu in je namenjen
 	#	preverjanju verzije. Ta ukaz se izvede po instalaciji.
 	#	primer uporabe:
 	#	novProgram = 'nano --version' 
-	#Primer_programa.notes = ''
+	#Ime_Novega_Programa.notes = ''
 	#	NOTES - ko se instalacijski postopek zakljuci se izpise neko besedilo, ki sporoci
 	#	uporabniku kaka nadaljna navodila. Naprimer, ce program potrebuje kake dodatne
 	#	nastavitve, kot v primeru terminatorja za prikaz podatkov o racunalniku z neofetch.
-	#VsiProgrami.append(Primer_programa.program_name)
-## Primer_programa #############################################
-	#global Primer_programa
-	#Primer_programa = NovProgram()
-	#Primer_programa.program_name = ''
-	#Primer_programa.description = ''
-	#Primer_programa.pre_install_cmds = []					
-	#Primer_programa.apt_get_name = ''
-	#Primer_programa.deb_package_path = ''
-	#Primer_programa.deb_package_file = ''
-	#Primer_programa.deb_package_path_32 = ''
-	#Primer_programa.deb_package_file_32 = ''
-	#Primer_programa.deb_package_path_64 = ''
-	#Primer_programa.deb_package_file_64 = ''
-	#Primer_programa.tar_package_path = ''
-	#Primer_programa.tar_package_file = ''
-	#Primer_programa.tar_package_path_32 = ''
-	#Primer_programa.tar_package_file_32 = ''
-	#Primer_programa.tar_package_path_64 = ''
-	#Primer_programa.tar_package_file_64 = ''
-	#Primer_programa.tar_destination = ''
-	#Primer_programa.tar_extra_cmds = []
-	#Primer_programa.program_desktop = []
-	#Primer_programa.add_path_profile_variable  = ''
-	#Primer_programa.extra_cmd = []
-	#Primer_programa.add_bash_parameter = []
-	#Primer_programa.check_version_cmd = ''
-	#Primer_programa.notes = ''
-	#VsiProgrami.append(Primer_programa.program_name)
+	#VsiProgrami.append(Ime_Novega_Programa.program_name)
+## Ime_Novega_Programa #############################################
+	#global Ime_Novega_Programa
+	#Ime_Novega_Programa = NovProgram()
+	#Ime_Novega_Programa.program_name = ''
+	#Ime_Novega_Programa.description = ''
+	#Ime_Novega_Programa.pre_install_cmds = []					
+	#Ime_Novega_Programa.apt_get_name = ''
+	#Ime_Novega_Programa.deb_package_path = ''
+	#Ime_Novega_Programa.deb_package_file = ''
+	#Ime_Novega_Programa.deb_package_path_32 = ''
+	#Ime_Novega_Programa.deb_package_file_32 = ''
+	#Ime_Novega_Programa.deb_package_path_64 = ''
+	#Ime_Novega_Programa.deb_package_file_64 = ''
+	#Ime_Novega_Programa.tar_package_path = ''
+	#Ime_Novega_Programa.tar_package_file = ''
+	#Ime_Novega_Programa.tar_package_path_32 = ''
+	#Ime_Novega_Programa.tar_package_file_32 = ''
+	#Ime_Novega_Programa.tar_package_path_64 = ''
+	#Ime_Novega_Programa.tar_package_file_64 = ''
+	#Ime_Novega_Programa.tar_destination = ''
+	#Ime_Novega_Programa.tar_extra_cmds = []
+	#Ime_Novega_Programa.program_desktop = []
+	#Ime_Novega_Programa.add_path_profile_variable  = ''
+	#Ime_Novega_Programa.extra_cmd = []
+	#Ime_Novega_Programa.add_bash_parameter = []
+	#Ime_Novega_Programa.check_version_cmd = ''
+	#Ime_Novega_Programa.notes = ''
+	#VsiProgrami.append(Ime_Novega_Programa.program_name)
 #------------------------------------------------SYSTEM PROGRAMS
 ## UPDATE & UPGRADE ###########################################1
 	global Update_Upgrade
