@@ -1167,7 +1167,12 @@ def Install_programms():
 	QT5_creator.program_name = 'QT5 Creator'
 	QT5_creator.description = 'Qt Creator provides a cross-platform, complete integrated development environment (IDE) for application developers to create applications for multiple desktop, embedded, and mobile device platforms, such as Android and iOS. It is available for Linux, macOS and Windows operating systems. For more information, see Supported Platforms.'
 	QT5_creator.pre_install_cmds = ['wget --spider -v http://download.qt.io/official_releases/qt/5.9/5.9.2/qt-opensource-linux-x64-5.9.2.run',
-									'wget '+ 'http://download.qt.io/official_releases/qt/5.9/5.9.2/qt-opensource-linux-x64-5.9.2.run' + ' --directory-prefix='+download_dir]					
+									'wget '+ 'http://download.qt.io/official_releases/qt/5.9/5.9.2/qt-opensource-linux-x64-5.9.2.run' + ' --directory-prefix='+download_dir,
+									'sudo apt-get install build-essential',
+									'sudo apt-get install libfontconfig1',
+									'sudo apt-get install mesa-common-dev',
+									'sudo apt-get install libglu1-mesa-dev -y',
+									'sudo apt install qt5-default']					
 	#QT5_creator.apt_get_name = ''
 	#QT5_creator.deb_package_path = ''
 	#QT5_creator.deb_package_file = ''
@@ -1240,6 +1245,7 @@ def MakeHelpForm():
 				"		+ dave's conky",
 				'		+ openbox-menu',
 				'--------------------------',
+				'r  	- run openbox-menu',
 				'ENTER  - MAIN MENU',
 				'q      - EXIT',
 				]
@@ -1380,6 +1386,8 @@ while (key != 'q'):
 		Sublime.install()
 		dave_s_conky.install()
 		obmenu.install()
+	elif key == 'r':
+		os.system('/opt/openbox-menu/obmenu.py')
 	else:	
 		os.system(key)
 	#Main()
