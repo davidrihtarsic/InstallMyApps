@@ -636,7 +636,18 @@ def Install_programms():
 	conky.add_path_profile_variable  = '' 
 	conky.notes = ''
 	VsiProgrami.append(conky.program_name)
-## dave's conky ##############################################15
+## BunsenLab personal settings ###############################15
+	global bunsenLabSettings
+	bunsenLabSettings = NovProgram()
+	bunsenLabSettings.program_name = 'myBunsenLabSettings'					#ime naj bo brez presledkov
+	bunsenLabSettings.description = 'V datoteki "~/.config/openbox/rc.xml" je vpisanih kar nekaj bliznjic, ki jih lahko uporabljate v OS BunsenLab linuxu. Tej datoteki je dodano se nekaj osebnih nastavitev. Naprimer:\n [Ctrl]+[Space] => Run Linux CMD...'		#neko besedilo za opis
+	bunsenLabSettings.extra_cmd = ['mv ~/.config/openbox/menu.xml ~/.config/openbox/menu_original.xml',\
+						'wget "https://github.com/davidrihtarsic/BunsenLab/raw/master/OpenBox_menu.xml" -O ~/.config/openbox/menu.xml',\
+						'sudo git clone https://github.com/woho/openbox-menu.git '+opt_dir+'openbox-menu',\
+						'/opt/openbox-menu/obmenu.py']#se ene extra cmd ... ce je se kaj...
+	# obmenu.notes = ''
+	VsiProgrami.append(bunsenLabSettings.program_name)	
+## dave's conky ##############################################16
 	global dave_s_conky
 	dave_s_conky = NovProgram()
 	dave_s_conky.program_name = 'dave_s_conky_v3_cfg'					#ime naj bo brez presledkov
@@ -650,7 +661,7 @@ def Install_programms():
 	#add to .bashrc file =>'conky -config='+ user_path +'/.config/conky/dave_s_conky.conkyrc' 
 	dave_s_conky.notes = ''
 	VsiProgrami.append(dave_s_conky.program_name)
-## alias ll -> ls -alF #######################################16
+## alias ll -> ls -alF #######################################17
 	global ll
 	ll = NovProgram()
 	ll.program_name = 'alias ll'					#ime naj bo brez presledkov
@@ -659,7 +670,7 @@ def Install_programms():
 	ll.add_bash_parameter = ['\n#alias',"\nalias ll='ls -alF'"]			#text ki je za dodat v .bash 
 	ll.notes = ''
 	VsiProgrami.append(ll.program_name)
-## alias WEATHER #############################################17
+## alias WEATHER #############################################18
 	global weather
 	weather = NovProgram()
 	weather.program_name = 'alias weather'					#ime naj bo brez presledkov
@@ -668,7 +679,7 @@ def Install_programms():
 	weather.add_bash_parameter = ["\nalias weather='curl wttr.in/~begunje'"]			#text ki je za dodat v .bash 
 	weather.notes = ''
 	VsiProgrami.append(weather.program_name)
-## FileZilla #################################################18
+## FileZilla #################################################19
 	# NOT testet yet ... - was preinstalled on BL
 	global FileZilla
 	FileZilla = NovProgram()
@@ -677,7 +688,7 @@ def Install_programms():
 	FileZilla.apt_get_name = 'FileZilla'
 	##FileZilla.notes = ''
  	VsiProgrami.append(FileZilla.program_name)
-## python-serial #############################################19
+## python-serial #############################################20
 	#test OK @ BL 64bit (David)
 	global python_serial
 	python_serial = NovProgram()
@@ -686,7 +697,7 @@ def Install_programms():
 	python_serial.apt_get_name = 'python-serial'
 	##python-serial.notes = ''
  	VsiProgrami.append(python_serial.program_name)
-## FreeFileSync ##############################################20
+## FreeFileSync ##############################################21
     #Test INFO @ BL64bit (David desktop comp):
     #	- paket deb najden OK
     #	- download OK
@@ -1294,6 +1305,7 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	Cowsay.install()
 	elif key == str(programe_index.next()):	Keymap.install()
 	elif key == str(programe_index.next()):	conky.install()
+	elif key == str(programe_index.next()):	bunsenLabSettings.install()
 	elif key == str(programe_index.next()):	dave_s_conky.install()
 	elif key == str(programe_index.next()):	ll.install()
 	elif key == str(programe_index.next()):	weather.install()
