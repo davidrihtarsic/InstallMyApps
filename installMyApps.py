@@ -267,12 +267,28 @@ class NovProgram(object):
 			last_presledek = 0
 			for n in range (1, len(self.description)):
 				presledek = self.description.find(' ',last_presledek+1,n)
-				if (presledek > new_start + 59):
+				#testing izpis ne dela najbolje...
+				new_line = self.description.find('\n',last_presledek+1,n)
+				if (new_line > last_presledek):
+					print(escapeColorDefault+self.description[new_start:new_line])
+					last_presledek = new_line + 1
+					new_start = new_line + 1
+
+				if (new_line > new_start + 59):
 					print(escapeColorDefault+self.description[new_start:last_presledek])
-					new_start = last_presledek +1	
+					new_start = last_presledek + 1
+
+				if (presledek > new_start + 59):
+					#sys.stdout.write('\n new_start at:'+str(new_start))
+					#sys.stdout.write('\n new_line at :'+str(new_line))
+					#sys.stdout.write('\n presledek at:'+str(presledek))
+					#sys.stdout.write('\n lst_presl at:'+str(last_presledek)+'\n')
+					print(escapeColorDefault+self.description[new_start:last_presledek])
+					new_start = last_presledek + 1 	
 				else:
 					if (presledek > 0):
-					    last_presledek=presledek		
+					    last_presledek=presledek
+
 			sys.stdout.write(escapeColorDefault+self.description[new_start:]+''+escapeColorDefault+'\n'
 							+'###########################################################\n')
 		key = raw_input(thisAppOutput+'Nadaljuj z namestitvijo?'+confirmText)
@@ -287,7 +303,6 @@ class NovProgram(object):
 			self.version_check()
 			self.show_notes()		
 			sys.stdout.write(thisAppOutput+'Pritisni [ENTER] za nadaljevanje...'+escapeColorDefault+'\n')
-
 ## DEFINICIJA PROGRAMOV ZA INSTALACIJO #########################
 def Install_programms():
 ## HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP ######
@@ -640,7 +655,7 @@ def Install_programms():
 	global bunsenLabSettings
 	bunsenLabSettings = NovProgram()
 	bunsenLabSettings.program_name = 'myBunsenLabSettings'					#ime naj bo brez presledkov
-	bunsenLabSettings.description = 'V datoteki "~/.config/openbox/rc.xml" je vpisanih kar nekaj bliznjic, ki jih lahko uporabljate v OS BunsenLab linuxu. Tej datoteki je dodano se nekaj osebnih nastavitev. Naprimer:\n [Ctrl]+[Space] => Run Linux CMD\n [S]+[A]+[Up] => Maximize Window...'#neko besedilo za opis
+	bunsenLabSettings.description = 'V datoteki "~/.config/openbox/rc.xml" je vpisanih kar nekaj bliznjic, ki jih lahko uporabljate v OS BunsenLab linuxu. Tej datoteki je dodano se nekaj osebnih nastavitev. Naprimer:\n + [Ctrl]+[Space] => Run Linux CMD\n + [S]+[A]+[Up] => Maximize Window... '#neko besedilo za opis
 	bunsenLabSettings.extra_cmd = ['mv ~/.config/openbox/rc.xml ~/.config/openbox/rc.xml_original',\
 						'wget "https://github.com/davidrihtarsic/BunsenLab/raw/master/rc.xml" -O ~/.config/openbox/rc.xml',\
 						'openbox --restart']#se ene extra cmd ... ce je se kaj...
