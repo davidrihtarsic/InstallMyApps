@@ -641,10 +641,9 @@ def Install_programms():
 	bunsenLabSettings = NovProgram()
 	bunsenLabSettings.program_name = 'myBunsenLabSettings'					#ime naj bo brez presledkov
 	bunsenLabSettings.description = 'V datoteki "~/.config/openbox/rc.xml" je vpisanih kar nekaj bliznjic, ki jih lahko uporabljate v OS BunsenLab linuxu. Tej datoteki je dodano se nekaj osebnih nastavitev. Naprimer:\n [Ctrl]+[Space] => Run Linux CMD...'		#neko besedilo za opis
-	bunsenLabSettings.extra_cmd = ['mv ~/.config/openbox/menu.xml ~/.config/openbox/menu_original.xml',\
-						'wget "https://github.com/davidrihtarsic/BunsenLab/raw/master/OpenBox_menu.xml" -O ~/.config/openbox/menu.xml',\
-						'sudo git clone https://github.com/woho/openbox-menu.git '+opt_dir+'openbox-menu',\
-						'/opt/openbox-menu/obmenu.py']#se ene extra cmd ... ce je se kaj...
+	bunsenLabSettings.extra_cmd = ['mv ~/.config/openbox/rc.xml ~/.config/openbox/rc.xml_original',\
+						'wget "https://github.com/davidrihtarsic/BunsenLab/raw/master/rc.xml" -O ~/.config/openbox/rc.xml',\
+						'openbox --restart']#se ene extra cmd ... ce je se kaj...
 	# obmenu.notes = ''
 	VsiProgrami.append(bunsenLabSettings.program_name)	
 ## dave's conky ##############################################16
