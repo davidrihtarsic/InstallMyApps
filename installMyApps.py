@@ -640,7 +640,12 @@ def Install_programms():
 	global bunsenLabSettings
 	bunsenLabSettings = NovProgram()
 	bunsenLabSettings.program_name = 'myBunsenLabSettings'					#ime naj bo brez presledkov
-	bunsenLabSettings.description = 'V datoteki "~/.config/openbox/rc.xml" je vpisanih kar nekaj bliznjic, ki jih lahko uporabljate v OS BunsenLab linuxu. Tej datoteki je dodano se nekaj osebnih nastavitev. Naprimer:\n [Ctrl]+[Space] => Run Linux CMD...'		#neko besedilo za opis
+	bunsenLabSettings.description = 'V datoteki "~/.config/openbox/rc.xml" je vpisanih kar nekaj \
+									bliznjic, ki jih lahko uporabljate v OS BunsenLab linuxu. \
+									Tej datoteki je dodano se nekaj osebnih nastavitev. \
+									Naprimer:\n \
+									 [Ctrl]+[Space] => Run Linux CMD\n \
+									 [S]+[A]+[Up]	=> Maximize Window...'#neko besedilo za opis
 	bunsenLabSettings.extra_cmd = ['mv ~/.config/openbox/rc.xml ~/.config/openbox/rc.xml_original',\
 						'wget "https://github.com/davidrihtarsic/BunsenLab/raw/master/rc.xml" -O ~/.config/openbox/rc.xml',\
 						'openbox --restart']#se ene extra cmd ... ce je se kaj...
