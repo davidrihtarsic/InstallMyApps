@@ -661,6 +661,16 @@ def Install_programms():
 						'openbox --restart']#se ene extra cmd ... ce je se kaj...
 	# obmenu.notes = ''
 	VsiProgrami.append(bunsenLabSettings.program_name)	
+## xBackLight ###################################################11
+	global xBackLight
+	xBackLight = NovProgram()
+	xBackLight.program_name = 'xBackLight'
+	xBackLight.description = 'Xbacklight is used to adjust the backlight brightness where supported. It finds all outputs on the X server supporting backlight brightness control and changes them all in the same way.'
+	xBackLight.apt_get_name ='xbacklight'
+	xBackLight.check_version_cmd = 'xbacklight -help'
+	xBackLight.deb_package_path = ''
+	xBackLight.deb_package_file = ''
+	VsiProgrami.append(xBackLight.program_name)
 ## dave's conky ##############################################16
 	global dave_s_conky
 	dave_s_conky = NovProgram()
@@ -903,6 +913,29 @@ def Install_programms():
 	Thunderbird.extra_cmd = ['sudo ln -s /opt/thunderbird/thunderbird /usr/bin/thunderbird']
 	Thunderbird.check_version_cmd = 'thunderbird -v'
 	VsiProgrami.append(Thunderbird.program_name)
+## FireFox #################################################
+	global FireFox
+	FireFox = NovProgram()
+	FireFox.program_name = 'firefox'
+	FireFox.description = 'Web brovseeer...'
+	#FireFox.apt_get_name ='firefox'
+	FireFox.tar_package_path_32 = 'https://download-installer.cdn.mozilla.net/pub/firefox/releases/57.0/linux-x86_64/en-US/'
+	FireFox.tar_package_file_32 = 'firefox-57.0.tar.bz2'
+	FireFox.tar_package_path_64 = 'https://download-installer.cdn.mozilla.net/pub/firefox/releases/57.0/linux-x86_64/en-US/'
+	FireFox.tar_package_file_64 = 'firefox-57.0.tar.bz2'
+	FireFox.tar_destination = '/opt/'
+	FireFox.program_desktop = ['[Desktop Entry]',
+							'Version=1.0',
+							'Name=firefox',
+							'Exec=/opt/firefox/firefox',
+							'Icon=/usr/share/icons/Faenza/apps/32/firefox.png',
+							'Terminal=false',
+							'Type=Application',
+							'Categories=Network;'
+							]
+	FireFox.extra_cmd = ['sudo rm /usr/bin/firefox','sudo ln -s /opt/firefox/firefox /usr/bin/firefox']
+	#FireFox.check_version_cmd = 'FireFox -v'
+	VsiProgrami.append(FireFox.program_name)	
 ## GoogleChrome ################################################
 	global GoogleChrome
 	GoogleChrome = NovProgram()
@@ -1320,6 +1353,7 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	Keymap.install()
 	elif key == str(programe_index.next()):	conky.install()
 	elif key == str(programe_index.next()):	bunsenLabSettings.install()
+	elif key == str(programe_index.next()):	xBackLight.install()
 	elif key == str(programe_index.next()):	dave_s_conky.install()
 	elif key == str(programe_index.next()):	ll.install()
 	elif key == str(programe_index.next()):	weather.install()
@@ -1333,6 +1367,7 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	Sublime.install()
 	elif key == str(programe_index.next()):	LibreOffice.install()
 	elif key == str(programe_index.next()):	Thunderbird.install()
+	elif key == str(programe_index.next()):	FireFox.install()
 	elif key == str(programe_index.next()):	GoogleChrome.install()
 	elif key == str(programe_index.next()):	W3M.install()
 	elif key == str(programe_index.next()):	Skype.install()
@@ -1378,6 +1413,7 @@ while (key != 'q'):
 		Sublime.install()
 		LibreOffice.install()
 		Thunderbird.install()
+		FireFox.install()
 		GoogleChrome.install()
 		W3M.install()
 		Skype.install()
