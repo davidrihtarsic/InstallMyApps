@@ -600,7 +600,9 @@ def Install_programms():
 							'Categories=Network;'
 							]
 	VsiProgrami.append(wavemon.program_name)
-## Neofetch ##################################################10
+## NMAP to-do za pregled kdo je na mrezi#######################
+## ADB  to-do #################################################
+## Neofetch ##-################################################10
 	global Neofetch
 	Neofetch = NovProgram()
 	Neofetch.program_name = 'Neofetch'
