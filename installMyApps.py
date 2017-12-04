@@ -1260,7 +1260,48 @@ def Install_programms():
 	# sudo apt-get install guvcview
 ## SIRIL - leplenje slik/video v fotografijo - za astronomijo ##
 	# download https://free-astro.org/download/siril_0.9.6-2_amd64-jessie.deb
-
+## Stencyl ####################################################
+    #64 bit BL tested
+	global Stencyl
+	Stencyl = NovProgram()
+	Stencyl.program_name = 'Stencyl'
+	Stencyl.description = "Stencyl isn't your average game creation software. It's a gorgeous, intuitive toolset that accelerates your workflow and then gets out of the way. We take care of the essentials, so you can focus on what's important - making your game yours."
+	Stencyl.pre_install_cmds = []					
+	Stencyl.apt_get_name = ''
+	Stencyl.deb_package_path = ''
+	Stencyl.deb_package_file = ''
+	Stencyl.deb_package_path_32 = ''
+	Stencyl.deb_package_file_32 = ''
+	Stencyl.deb_package_path_64 = ''
+	Stencyl.deb_package_file_64 = ''
+	Stencyl.tar_package_path = ''
+	Stencyl.tar_package_file = ''
+	Stencyl.tar_package_path_32 = 'http://mario.stencyl.net/public/'
+	Stencyl.tar_package_file_32 = 'Stencyl-full.tar.gz'
+	Stencyl.tar_package_path_64 = 'http://mario.stencyl.net/public/'
+	Stencyl.tar_package_file_64 = 'Stencyl-64-full.tar.gz'
+	Stencyl.tar_destination = opt_dir + "Stencyl/"
+	Stencyl.tar_extra_cmds = [	'sudo ln -s /opt/Stencyl/Stencyl /usr/bin/Stencyl' 
+								]
+	Stencyl.program_desktop = ['[Desktop Entry]',
+								'Name=Stencyl',
+								'Exec=/opt/Stencyl/Stencyl',
+								'Icon=/opt/Stencyl/data/other/icon-30x30.png',
+								'Terminal=false',
+								'Type=Application',
+								'Categories=Science;Development;Game;'
+									]
+	Stencyl.add_path_profile_variable  = ''
+	Stencyl.extra_cmd = [		'sudo apt-get install g++ libgc-dev libxext-dev',
+								'sudo dpkg --add-architecture i386',
+								'sudo apt-get update',
+								'sudo apt-get install libstdc++6:i386 libxtst6:i386 libXext6:i386 libxi6:i386 libncurses5:i386 libxt6:i386 libxpm4:i386 libxmu6:i386 libxp6:i386',
+								'sudo apt-get install libgtk2.0-0:i386 libxt6:i386 libxext6:i386 libatk1.0-0:i386 libc6:i386 libcairo2:i386 libexpat1:i386 libfontconfig1:i386 libfreetype6:i386 libglib2.0-0:i386 libice6:i386 libpango1.0-0:i386 libpng12-0:i386 libsm6:i386 libx11-6:i386 libxau6:i386 libxcursor1:i386 libxdmcp6:i386 libxfixes3:i386 libxi6:i386 libxinerama1:i386 libxrandr2:i386 libxrender1:i386 zlib1g:i386 libnss3-1d:i386 libnspr4-0d:i386 libcurl3:i386 libasound2:i386'
+								]
+	Stencyl.add_bash_parameter = []
+	Stencyl.check_version_cmd = ''
+	Stencyl.notes = 'Preverite, ce imate namesceno java8!'
+	VsiProgrami.append(Stencyl.program_name)
 
 Install_programms()
 
@@ -1387,6 +1428,7 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	lmms.install()
 	elif key == str(programe_index.next()):	eclipse.install()
 	elif key == str(programe_index.next()):	QT5_creator.install()
+	elif key == str(programe_index.next()):	Stencyl.install()
 	elif key == 'all':
 		#---SYSTEM PROGRAMS
 		Update_Upgrade.install()	
@@ -1432,6 +1474,7 @@ while (key != 'q'):
 		lmms.install()
 		eclipse.install()
 		QT5_creator.install()
+		Stencyl.install()
 	elif key == 'tit':	
 		Arduino.install()
 		qCAD.install()
