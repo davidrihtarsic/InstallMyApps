@@ -105,7 +105,7 @@ class NovProgram(object):
 			#pokazi direktorij Download
 			if os.path.isfile(download_dir+temp_deb_package_file):
 				sys.stdout.write(thisAppOutput+'Nasel:'+escapeColorDefault+'\n')
-				os.system('ls -all ' + download_dir)
+				os.system('ls -all ' + download_dir + ' | grep ' + temp_deb_package_file)
 				key = raw_input(thisAppOutput+'Namesti DEB package: ' + temp_deb_package_file + confirmText)
 				if key == 'y':
 					os.system('sudo dpkg -i ' + download_dir + temp_deb_package_file)
@@ -149,7 +149,7 @@ class NovProgram(object):
 			#pokazi direktorij Download
 			if os.path.isfile(download_dir+temp_tar_package_file):
 				sys.stdout.write(thisAppOutput+'Nasel:'+escapeColorDefault+'\n')
-				os.system('ls -all ' + download_dir)
+				os.system('ls -all ' + download_dir + ' | grep ' + temp_tar_package_file)
 				if self.tar_destination == '':
 					key = raw_input(thisAppOutput+'Razpakiraj TAR package: '
 									+ temp_tar_package_file +
@@ -921,10 +921,11 @@ def Install_programms():
 	FireFox.program_name = 'firefox'
 	FireFox.description = 'Web brovseeer...'
 	#FireFox.apt_get_name ='firefox'
-	FireFox.tar_package_path_32 = 'https://download-installer.cdn.mozilla.net/pub/firefox/releases/57.0/linux-x86_64/en-US/'
-	FireFox.tar_package_file_32 = 'firefox-57.0.tar.bz2'
+	#https://download-installer.cdn.mozilla.net/pub/firefox/releases/57.0.2/linux-x86_64/en-US/firefox-57.0.2.tar.bz2
+	FireFox.tar_package_path_32 = 'https://download-installer.cdn.mozilla.net/pub/firefox/releases/57.0.2/linux-x86_64/en-US/'
+	FireFox.tar_package_file_32 = 'firefox-57.0.2.tar.bz2'
 	FireFox.tar_package_path_64 = 'https://download-installer.cdn.mozilla.net/pub/firefox/releases/57.0/linux-x86_64/en-US/'
-	FireFox.tar_package_file_64 = 'firefox-57.0.tar.bz2'
+	FireFox.tar_package_file_64 = 'firefox-57.0.2.tar.bz2'
 	FireFox.tar_destination = '/opt/'
 	FireFox.program_desktop = ['[Desktop Entry]',
 							'Version=1.0',
