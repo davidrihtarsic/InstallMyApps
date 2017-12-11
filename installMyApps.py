@@ -924,7 +924,7 @@ def Install_programms():
 	#https://download-installer.cdn.mozilla.net/pub/firefox/releases/57.0.2/linux-x86_64/en-US/firefox-57.0.2.tar.bz2
 	FireFox.tar_package_path_32 = 'https://download-installer.cdn.mozilla.net/pub/firefox/releases/57.0.2/linux-x86_64/en-US/'
 	FireFox.tar_package_file_32 = 'firefox-57.0.2.tar.bz2'
-	FireFox.tar_package_path_64 = 'https://download-installer.cdn.mozilla.net/pub/firefox/releases/57.0/linux-x86_64/en-US/'
+	FireFox.tar_package_path_64 = 'https://download-installer.cdn.mozilla.net/pub/firefox/releases/57.0.2/linux-x86_64/en-US/'
 	FireFox.tar_package_file_64 = 'firefox-57.0.2.tar.bz2'
 	FireFox.tar_destination = '/opt/'
 	FireFox.program_desktop = ['[Desktop Entry]',
