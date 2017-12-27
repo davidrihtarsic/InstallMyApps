@@ -943,7 +943,7 @@ def Install_programms():
 	FireFox.program_desktop = ['[Desktop Entry]',
 							'Version=1.0',
 							'Name=firefox',
-							'Exec=/opt/firefox/firefox',
+							'Exec=/opt/firefox/firefox %u',
 							'Icon=/usr/share/icons/Faenza/apps/32/firefox.png',
 							'Terminal=false',
 							'Type=Application',
