@@ -16,7 +16,7 @@ escapeColorCmd = '\x1B[38;5;130m'
 thisAppOutput = escapeColorCmd+'--> '
 confirmText = escapeColorDefault+' [y/n]:'
 VsiProgrami = []
-n_systemPrograms = 19
+n_systemPrograms = 23
 ## POSTOPEK INSTALACIJE ########################################
 class NovProgram(object):
 	"""docstring for NovProgram"""
@@ -539,6 +539,18 @@ def Install_programms():
 	Htop.deb_package_path = ''
 	Htop.deb_package_file = ''
 	VsiProgrami.append(Htop.program_name)
+## VIM ########################################################2
+##	global vim
+##	vim = NovProgram()
+##	vim.program_name = 'vim'					#ime naj bo brez presledkov
+##	vim.description = 'Terminalni urejevalnik besedila.'
+##	vim.apt_get_name = 'vim'					#ime za apt-get
+##	vim.notes = ''
+##	vim.extra_cmd = [	'wget https://raw.githubusercontent.com/sebbekarlsson/i3/master/.vimrc ~/.vimrc',
+##						'git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim',
+##						'vim +PluginInstall +qall',
+##						]
+##	VsiProgrami.append(vim.program_name)
 ## Piped View##################################################7
 	global Pv
 	Pv = NovProgram()
@@ -924,7 +936,7 @@ def Install_programms():
 	#https://download-installer.cdn.mozilla.net/pub/firefox/releases/57.0.2/linux-x86_64/en-US/firefox-57.0.2.tar.bz2
 	FireFox.tar_package_path_32 = 'https://download-installer.cdn.mozilla.net/pub/firefox/releases/57.0.2/linux-x86_64/en-US/'
 	FireFox.tar_package_file_32 = 'firefox-57.0.2.tar.bz2'
-	FireFox.tar_package_path_64 = 'https://download-installer.cdn.mozilla.net/pub/firefox/releases/57.0/linux-x86_64/en-US/'
+	FireFox.tar_package_path_64 = 'https://download-installer.cdn.mozilla.net/pub/firefox/releases/57.0.2/linux-x86_64/en-US/'
 	FireFox.tar_package_file_64 = 'firefox-57.0.2.tar.bz2'
 	FireFox.tar_destination = '/opt/'
 	FireFox.program_desktop = ['[Desktop Entry]',
@@ -937,7 +949,7 @@ def Install_programms():
 							'Categories=Network;'
 							]
 	FireFox.extra_cmd = ['sudo rm /usr/bin/firefox','sudo ln -s /opt/firefox/firefox /usr/bin/firefox']
-	#FireFox.check_version_cmd = 'FireFox -v'
+	FireFox.check_version_cmd = 'firefox --version'
 	VsiProgrami.append(FireFox.program_name)	
 ## GoogleChrome ################################################
 	global GoogleChrome
@@ -1398,6 +1410,7 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	obmenu.install()
 	elif key == str(programe_index.next()):	Terminator.install()
 	elif key == str(programe_index.next()):	Htop.install()
+#	elif key == str(programe_index.next()):	vim.install()
 	elif key == str(programe_index.next()):	Pv.install()
 	elif key == str(programe_index.next()):	nmon.install()
 	elif key == str(programe_index.next()):	wavemon.install()
@@ -1449,6 +1462,7 @@ while (key != 'q'):
 		obmenu.install()
 		Terminator.install()
 		Htop.install()
+#		vim.install()
 		nmon.install()
 		wavemon.install()
 		Neofetch.install()
