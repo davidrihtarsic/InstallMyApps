@@ -1143,6 +1143,16 @@ def Install_programms():
 	audacity.apt_get_name = 'audacity'
 	#audacity.notes = ''
 	VsiProgrami.append(audacity.program_name)
+## Zathura #####################################################
+	global zathura
+	zathura = NovProgram()
+	zathura.program_name = 'zathura'
+	zathura.description = 'Zathura is a highly customizable and functional document viewer. It provides a minimalistic and space saving interface as well as an easy usage that mainly focuses on keyboard interaction.'
+	zathura.pre_install_cmds = []					
+	zathura.apt_get_name = 'zathura'
+	zathura.check_version_cmd = ''
+	zathura.notes = ''
+	VsiProgrami.append(zathura.program_name)
 ## Evince PDF  #################################################
 	global evince
 	evince = NovProgram()
@@ -1423,6 +1433,7 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	gimp.install()
 	elif key == str(programe_index.next()):	mypaint.install()
 	elif key == str(programe_index.next()):	audacity.install()
+	elif key == str(programe_index.next()):	zathura.install()
 	elif key == str(programe_index.next()):	evince.install()
 	elif key == str(programe_index.next()):	k3b.install()
 	elif key == str(programe_index.next()):	bCNC.install()
@@ -1469,6 +1480,7 @@ while (key != 'q'):
 		gimp.install()
 		mypaint.install()
 		audacity.install()
+		zathura.install()
 		evince.install()
 		k3b.install()
 		bCNC.install()
