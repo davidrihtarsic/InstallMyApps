@@ -18,8 +18,9 @@ confirmText = escapeColorDefault+' [y/n]:'
 VsiProgrami = []
 n_systemPrograms = 23
 ## POSTOPEK INSTALACIJE ########################################
+
 class NovProgram(object):
-	"""docstring for NovProgram"""
+
 	def __init__(self):
 		super(NovProgram, self).__init__()
 		self.program_name = ''
@@ -1327,6 +1328,7 @@ def Install_programms():
 	VsiProgrami.append(Stencyl.program_name)
 
 Install_programms()
+
 
 def MakeSystemProgrammsForm():
 	dy = max(n_systemPrograms,len(VsiProgrami)-n_systemPrograms)
