@@ -228,13 +228,15 @@ class NovProgram(object):
 		if len(self.add_bash_parameter) != 0:
 			# ce in nastavljeno pot... to dodamo v $PATH
 			for text in self.add_bash_parameter:
-				key = input(thisAppOutput+'Dodaj text: '+ text + ' v ~/.bashrc ?'+confirmText)
+				#key = input(thisAppOutput+'Dodaj text: '+ text + ' v ~/.bashrc ?'+confirmText)
+				key = input(thisAppOutput+'Dodaj text: '+ text + ' v ~/.zshrc ?'+confirmText)
 				if key == 'y':
-					if (open(user_path + '/.bashrc', 'r').read().find(text)>0):
-						sys.stdout.write(thisAppOutput+'Text: '+ text +' ze dodano v : '+ user_path + '/.bashrc...'+escapeColorDefault+'\n')
+					#if (open(user_path + '/.bashrc', 'r').read().find(text)>0):
+					if (open(user_path + '/.zshrc', 'r').read().find(text)>0):
+						sys.stdout.write(thisAppOutput+'Text: '+ text +' ze dodano v : '+ user_path + '/.zshrc...'+escapeColorDefault+'\n')
 					else:
 						# tu naj gremo cez vse nize v parametru...
-						with open(user_path + '/.bashrc','a') as f:
+						with open(user_path + '/.zshrc','a') as f:
 							f.write(text)
 						f.close()
 
@@ -492,6 +494,15 @@ def Install_programms():
 	Update_Upgrade.pre_install_cmds = [	'sudo apt-get update',
 										'sudo apt-get upgrade']
 	VsiProgrami.append(Update_Upgrade.program_name)
+
+## Thunar ########################################################2
+	global Thunar
+	Thunar = NovProgram()
+	Thunar.program_name = 'Thuar'
+	Thunar.description = 'Thunar is a file manager for Linux and other Unix-like systems, written using the GTK+ 2 toolkit, and shipped with Xfce version 4.4 RC1 and later. Thunar is developed by Benedikt Meurer, and was originally intended to replace XFFM, Xfces previous file manager. It was initially called Filer but was changed to Thunar due to a name clash.'
+	Thunar.arch_yaourt_cmds = [	'yaourt thunar',
+								'yaourt thunar-shares-plugin']
+	VsiProgrami.append(Thunar.program_name)
 ## GIT ########################################################2
 	global git
 	git = NovProgram()
@@ -671,7 +682,7 @@ def Install_programms():
 	global Keymap
 	Keymap = NovProgram()
 	Keymap.description='remap tipke [dz] v "/"'
-	Keymap.program_name = '_to_do_Keymap'
+	Keymap.program_name = 'Keymap'
 	Keymap.add_bash_parameter = ['\n#remap tipko [dz] - "/"','\nxmodmap -e "keycode 35 = slash"']			#text ki je za dodat v .bash 
 	VsiProgrami.append(Keymap.program_name)
 ## conky #####################################################14
@@ -732,7 +743,7 @@ def Install_programms():
 ## alias WEATHER #############################################18
 	global weather
 	weather = NovProgram()
-	weather.program_name = '_to_do_alias weather'					#ime naj bo brez presledkov
+	weather.program_name = 'weather'					#ime naj bo brez presledkov
 	weather.description = 'izpis vremena za tri dni v terminalnem oknu'
 					#neko besedilo za opis
 	weather.add_bash_parameter = ["\nalias weather='curl wttr.in/~begunje'"]			#text ki je za dodat v .bash 
@@ -1247,6 +1258,14 @@ def Install_programms():
 	Stencyl.check_version_cmd = ''
 	Stencyl.notes = 'Preverite, ce imate namesceno java8!'
 	VsiProgrami.append(Stencyl.program_name)
+## PopCornTime ####################################################
+    #64 bit BL tested
+	global PopCornTime
+	PopCornTime = NovProgram()
+	PopCornTime.program_name = 'PopCornTime'
+	PopCornTime.arch_yaourt_cmds =['yaourt popcorntime-bin']
+	PopCornTime.description = "Popcorn Time is constantly searching all over the web for the best torrents from the most important sites."
+	VsiProgrami.append(PopCornTime.program_name)
 
 Install_programms()
 
@@ -1328,6 +1347,7 @@ while (key != 'q'):
 		Main()
 	#---------------------------------------SYSTEM PROGRAMS	
 	elif key == str(next(programe_index)):	Update_Upgrade.install()	
+	elif key == str(next(programe_index)):	Thunar.install()
 	elif key == str(next(programe_index)):	git.install()
 	elif key == str(next(programe_index)):	java_8.install()
 	elif key == str(next(programe_index)):	obmenu.install()
@@ -1377,9 +1397,11 @@ while (key != 'q'):
 	elif key == str(next(programe_index)):	eclipse.install()
 	elif key == str(next(programe_index)):	QT5_creator.install()
 	elif key == str(next(programe_index)):	Stencyl.install()
+	elif key == str(next(programe_index)):	PopCornTime.install()
 	elif key == 'all':
 		#---SYSTEM PROGRAMS
 		Update_Upgrade.install()	
+		Thunar.install()
 		git.install()
 		java_8.install()
 		obmenu.install()
