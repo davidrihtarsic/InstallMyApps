@@ -506,12 +506,14 @@ def Install_programms():
 ## GIT ########################################################2
 	global git
 	git = NovProgram()
-	git.program_name = '_to_do_git'					#ime naj bo brez presledkov
+	git.program_name = 'git'					#ime naj bo brez presledkov
 	git.description = 'Protokol za skrbno spremljanje verzij'\
 					'razvojnih programov.'					#neko besedilo za opis
-	git.apt_get_name = 'git-core'					#ime za apt-get
+	git.arch_pacman_cmds = ['pacman -S git']
 	git.notes = ''
-	git.extra_cmd = ['git clone https://github.com/davidrihtarsic/InstallMyApps.git ~/Files/GitHub_noSync/InstallMyApps',
+	git.extra_cmd = ['git config --global user.email "david.rihtarsic@gmail.com"',
+					 'git config --global user.name "davidrihtarsic"',
+					 'git clone https://github.com/davidrihtarsic/InstallMyApps.git ~/Files/GitHub_noSync/InstallMyApps',
 					 'git clone https://github.com/davidrihtarsic/myLinuxNotes.git ~/Files/GitHub_noSync/myLinuxNotes',
 					 'git clone https://github.com/davidrihtarsic/Korad3005p.git ~/Files/GitHub_noSync/Korad3005p',
 					 'git clone https://github.com/davidrihtarsic/BunsenLab.git ~/Files/GitHub_noSync/BunsenLab',
