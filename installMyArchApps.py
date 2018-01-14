@@ -501,7 +501,9 @@ def Install_programms():
 	Thunar.program_name = 'Thuar'
 	Thunar.description = 'Thunar is a file manager for Linux and other Unix-like systems, written using the GTK+ 2 toolkit, and shipped with Xfce version 4.4 RC1 and later. Thunar is developed by Benedikt Meurer, and was originally intended to replace XFFM, Xfces previous file manager. It was initially called Filer but was changed to Thunar due to a name clash.'
 	Thunar.arch_yaourt_cmds = [	'yaourt thunar',
-								'yaourt thunar-shares-plugin']
+								'yaourt thunar-shares-plugin',
+								'yaourt gvfs-smb']
+	Thunar.notes = ['You shuld REBOOT... (mogoc sam log-IN/log-OUT)']
 	VsiProgrami.append(Thunar.program_name)
 ## GIT ########################################################2
 	global git
