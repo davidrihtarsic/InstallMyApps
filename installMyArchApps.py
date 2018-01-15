@@ -2,6 +2,7 @@
 from myTUI import Form, Edit, Text, cls, setCursor
 import sys
 import os
+import weakref
 
 cls()
 
@@ -15,15 +16,19 @@ escapeColorDefault = '\x1B[39m'
 escapeColorCmd = '\x1B[38;5;130m'
 thisAppOutput = escapeColorCmd+'--> '
 confirmText = escapeColorDefault+' [y/n]:'
-VsiProgrami = []
-n_systemPrograms = 23
+
+#n_systemPrograms = 0
 ## POSTOPEK INSTALACIJE ########################################
 
 class NovProgram(object):
+	_instances = set()
 
 	def __init__(self):
 		super(NovProgram, self).__init__()
+		self._instances.add(weakref.ref(self))
 		self.program_name = ''
+		self.index = 0
+		self.category = ''
 		self.description = ''
 		self.arch_yaourt_cmds = []
 		self.arch_pacman_cmds=	[]
@@ -58,6 +63,17 @@ class NovProgram(object):
 		else:
 			self.arhitecture_32bit = True
 			self.arhitecture_bit_num = 32
+
+	@classmethod
+	def getinstances(cls):
+		dead = set()
+		for ref in cls._instances:
+			obj = ref()
+			if obj is not None:
+				yield obj
+			else:
+				dead.add(ref)
+			cls._instances -= dead
 
 	def arch_yaourt_install(self):
 		## install from terminal yaourt command
@@ -456,7 +472,7 @@ def Install_programms():
 	#	NOTES - ko se instalacijski postopek zakljuci se izpise neko besedilo, ki sporoci
 	#	uporabniku kaka nadaljna navodila. Naprimer, ce program potrebuje kake dodatne
 	#	nastavitve, kot v primeru terminatorja za prikaz podatkov o racunalniku z neofetch.
-	#VsiProgrami.append(Ime_Novega_Programa.program_name)
+	#
 ## Ime_Novega_Programa #############################################
 	#global Ime_Novega_Programa
 	#Ime_Novega_Programa = NovProgram()
@@ -484,29 +500,12 @@ def Install_programms():
 	#Ime_Novega_Programa.add_bash_parameter = []
 	#Ime_Novega_Programa.check_version_cmd = ''
 	#Ime_Novega_Programa.notes = ''
-	#VsiProgrami.append(Ime_Novega_Programa.program_name)
-#------------------------------------------------SYSTEM PROGRAMS
-## UPDATE & UPGRADE ###########################################1
-	global Update_Upgrade
-	Update_Upgrade = NovProgram()
-	Update_Upgrade.program_name = 'Update'
-	Update_Upgrade.description = 'Posodobite sistemske knjiznice...'
-	Update_Upgrade.arch_pacman_cmds = [	'pacman -Syu' ]
-	VsiProgrami.append(Update_Upgrade.program_name)
-## Thunar ########################################################2
-	global Thunar
-	Thunar = NovProgram()
-	Thunar.program_name = 'Thuar'
-	Thunar.description = 'Thunar is a file manager for Linux and other Unix-like systems, written using the GTK+ 2 toolkit, and shipped with Xfce version 4.4 RC1 and later. Thunar is developed by Benedikt Meurer, and was originally intended to replace XFFM, Xfces previous file manager. It was initially called Filer but was changed to Thunar due to a name clash.'
-	Thunar.arch_yaourt_cmds = [	'yaourt thunar',
-								'yaourt thunar-shares-plugin',
-								'yaourt gvfs-smb']
-	Thunar.notes = 'You shuld REBOOT... (not just log-OUT/log-IN)'
-	VsiProgrami.append(Thunar.program_name)
-## GIT ########################################################2
+	#
+## GIT ########################################################3
 	global git
 	git = NovProgram()
 	git.program_name = 'git'					#ime naj bo brez presledkov
+	git.category = 'system'
 	git.description = 'Protokol za skrbno spremljanje verzij'\
 					'razvojnih programov.'					#neko besedilo za opis
 	git.arch_pacman_cmds = ['pacman -S git']
@@ -520,194 +519,114 @@ def Install_programms():
 					 'git clone https://github.com/davidrihtarsic/RobDuino.git ~/Files/GitHub_noSync/RobDuino',
 					 'git clone https://github.com/davidrihtarsic/ArduinoCNC-DCmotors.git ~/Files/GitHub_noSync/ArduinoCNC-DCmotors'
 					 ]
-	VsiProgrami.append(git.program_name)
-## Terminator #################################################5
-	global Terminator
-	Terminator = NovProgram()
-	Terminator.program_name = '_to_do_Terminator'
-	Terminator.description = 'Lep, eleganten terminal...'
-	Terminator.apt_get_name ='terminator'
-	Terminator.check_version_cmd = ''
-	Terminator.deb_package_path = ''
-	Terminator.deb_package_file = ''
-	VsiProgrami.append(Terminator.program_name)
-## NMON #######################################################8
+	
+## Thunar #####################################################2
+	global Thunar
+	Thunar = NovProgram()
+	Thunar.program_name = 'Thunar'
+	Thunar.category ='system'
+	Thunar.description = 'Thunar is a file manager for Linux and other Unix-like systems, written using the GTK+ 2 toolkit, and shipped with Xfce version 4.4 RC1 and later. Thunar is developed by Benedikt Meurer, and was originally intended to replace XFFM, Xfces previous file manager. It was initially called Filer but was changed to Thunar due to a name clash.'
+	Thunar.arch_yaourt_cmds = [	'yaourt thunar',
+								'yaourt thunar-shares-plugin',
+								'yaourt gvfs-smb']
+	Thunar.notes = 'You shuld REBOOT... (not just log-OUT/log-IN)'
+	
+## NMON #######################################################4
 	global nmon
 	nmon = NovProgram()
 	nmon.program_name = 'nmon'
+	nmon.category = 'system'
 	nmon.description = 'Spremljanje procesov, diska...'
 	nmon.arch_pacman_cmds = ['pacman -S nmon']
-	VsiProgrami.append(nmon.program_name)
-## WAVEMON ####################################################9
+	
+## WAVEMON ####################################################5
 	global wavemon
 	wavemon = NovProgram()
-	wavemon.program_name = '_to_do_wavemon'					#ime naj bo brez presledkov
+	wavemon.program_name = 'wavemon'					#ime naj bo brez presledkov
+	wavemon.category = 'system'
 	wavemon.description = 'Program za monitoring wireless omrezj'					#neko besedilo za opis
-	wavemon.apt_get_name = 'wavemon'					#ime za apt-get
-	wavemon.program_desktop = ['[Desktop Entry]',
-							'Version=1.0',
-							'Name=WaveMon',
-							'Exec=terminator -e sudo wavemon',
-							'Icon=wifi',
-							'Terminal=true',
-							'Type=Application',
-							'Categories=Network;'
-							]
-	VsiProgrami.append(wavemon.program_name)
-## NMAP to-do za pregled kdo je na mrezi#######################
+	wavemon.arch_pacman_cmds = ['sudo pacman -S wavemon']					#ime za apt-get
+	
+## NMAP #######################################################6
 	global nmap
 	nmap =NovProgram()
 	nmap.program_name = 'nmap'
+	nmap.category = 'system'
 	nmap.description = 'map ("Network Mapper") is a free and open source (license) utility for network discovery and security auditing. Many systems and network administrators also find it useful for tasks such as network inventory, managing service upgrade schedules, and monitoring host or service uptime. Nmap uses raw IP packets in novel ways to determine what hosts are available on the network, what services (application name and version) those hosts are offering, what operating systems (and OS versions) they are running, what type of packet filters/firewalls are in use, and dozens of other characteristics.'
 	nmap.arch_pacman_cmds = ['sudo pacman -S nmap']
-	VsiProgrami.append(nmap.program_name)
-## ADB  to-do #################################################
-## Neofetch ##-################################################10
-	global Neofetch
-	Neofetch = NovProgram()
-	Neofetch.program_name = '_to_do_Neofetch'
-	Neofetch.description = 'Logo in nekaj podatkov o racunaniku...!'
-	Neofetch.apt_get_add_ppa ='add-apt-repository ppa:dawidd0811/neofetch'
-	Neofetch.apt_get_name ='neofetch'
-	Neofetch.check_version_cmd = 'neofetch'
-	Neofetch.notes = 'Notes... to do...'
-	VsiProgrami.append(Neofetch.program_name)
-## Fortune ###################################################11
-	global Fortune
-	Fortune = NovProgram()
-	Fortune.program_name = '_to_do_Fortune'
-	Fortune.description = 'Znani reki in pregovori...'
-	Fortune.apt_get_name ='fortune-mod'
-	Fortune.check_version_cmd = 'fortune -v'
-	Fortune.deb_package_path = ''
-	Fortune.deb_package_file = ''
-	VsiProgrami.append(Fortune.program_name)
-## COWSAY ####################################################12
-	global Cowsay
-	Cowsay = NovProgram()
-	Cowsay.program_name = '_to_do_Cowsay'
-	Cowsay.description = 'Namesti pametno kravo...'
-	Cowsay.apt_get_name ='cowsay'
-	Cowsay.check_version_cmd = 'cowsay -help'
-	Cowsay.deb_package_path = ''
-	Cowsay.deb_package_file = ''
-	Cowsay.add_bash_parameter = ["\nalias cls='clear;neofetch;fortune|cowsay'"]
-	Cowsay.notes = 'V terminatorju nastavite:\nPreferences -> Profiles -> Command\ncustom command: [ neofetch;fortune|cowsay;bash ]'
-	VsiProgrami.append(Cowsay.program_name)
-## Keymap ####################################################13
+	
+## ADB  to-do #################################################7
+## Keymap #####################################################8
 	global Keymap
 	Keymap = NovProgram()
 	Keymap.description='remap tipke [dz] v "/"'
 	Keymap.program_name = 'Keymap'
+	Keymap.category = 'system'
 	Keymap.add_bash_parameter = ['\n#remap tipko [dz] - "/"','\nxmodmap -e "keycode 35 = slash"']			#text ki je za dodat v .bash 
-	VsiProgrami.append(Keymap.program_name)
-## conky #####################################################14
-	global conky
-	conky = NovProgram()
-	conky.program_name = '_to_do_conky'					#ime naj bo brez presledkov
-	conky.description = 'Prikaz nekaterih osnovnih podatkov sistema'					#neko besedilo za opis
-	conky.apt_get_name = 'conky-all'					#ime za apt-get
-	conky.extra_cmd = ['mkdir '+ user_path +'/.config/conky',
-						'ls -alF '+ user_path +'/.config/conky']					#se ene extra cmd ... ce je se kaj...
-	conky.program_desktop = []				#vsebina v program.desktop
-	conky.add_path_profile_variable  = '' 
-	conky.notes = ''
-	VsiProgrami.append(conky.program_name)
-## BunsenLab personal settings ###############################15
-	global bunsenLabSettings
-	bunsenLabSettings = NovProgram()
-	bunsenLabSettings.program_name = '_to_do_myBunsenLabSettings'					#ime naj bo brez presledkov
-	bunsenLabSettings.description = 'V datoteki "~/.config/openbox/rc.xml" je vpisanih kar nekaj bliznjic, ki jih lahko uporabljate v OS BunsenLab linuxu. Tej datoteki je dodano se nekaj osebnih nastavitev. Naprimer:\n + [Ctrl]+[Space] => Run Linux CMD\n + [S]+[A]+[Up] => Maximize Window... '#neko besedilo za opis
-	bunsenLabSettings.extra_cmd = ['mv ~/.config/openbox/rc.xml ~/.config/openbox/rc.xml_original',\
-						'wget "https://github.com/davidrihtarsic/BunsenLab/raw/master/rc.xml" -O ~/.config/openbox/rc.xml',\
-						'openbox --restart']#se ene extra cmd ... ce je se kaj...
-	# obmenu.notes = ''
-	VsiProgrami.append(bunsenLabSettings.program_name)	
-## xBackLight ###################################################11
-	global xBackLight
-	xBackLight = NovProgram()
-	xBackLight.program_name = '_to_do_xBackLight'
-	xBackLight.description = 'Xbacklight is used to adjust the backlight brightness where supported. It finds all outputs on the X server supporting backlight brightness control and changes them all in the same way.'
-	xBackLight.apt_get_name ='xbacklight'
-	xBackLight.check_version_cmd = 'xbacklight -help'
-	xBackLight.deb_package_path = ''
-	xBackLight.deb_package_file = ''
-	VsiProgrami.append(xBackLight.program_name)
-## dave's conky ##############################################16
-	global dave_s_conky
-	dave_s_conky = NovProgram()
-	dave_s_conky.program_name = '_to_do_dave_s_conky_v3_cfg'					#ime naj bo brez presledkov
-	dave_s_conky.description = 'my conky config file'					#neko besedilo za opis
-	dave_s_conky.extra_cmd = ['wget "https://github.com/davidrihtarsic/BunsenLab/raw/master/dave_s_conky.conkyrc" -O ~/.config/conky/dave_s_conky.conkyrc',\
-							  'bl-conkyzen']					#se ene extra cmd ... ce je se kaj...
-	dave_s_conky.program_desktop = []				#vsebina v program.desktop
-	dave_s_conky.add_path_profile_variable  = ''
-	#dave_s_conky.add_bash_parameter = 	['\n# zazeni conky ob zagomu racunalnika...',
-	#									'\nconky --config='+ user_path +'/.config/conky/dave_s_conky.conkyrc']
-	#add to .bashrc file =>'conky -config='+ user_path +'/.config/conky/dave_s_conky.conkyrc' 
-	dave_s_conky.notes = ''
-	VsiProgrami.append(dave_s_conky.program_name)
-## alias ll -> ls -alF #######################################17
-	global ll
-	ll = NovProgram()
-	ll.program_name = '_to_do_alias ll'					#ime naj bo brez presledkov
-	ll.description = 'priredi ll namesto uporabe ls -alF - ukaz se uporablja za bolj detajlni prikaz vsebine v direktoriju'
-						#neko besedilo za opis
-	ll.add_bash_parameter = ['\n#alias',"\nalias ll='ls -alF'"]			#text ki je za dodat v .bash 
-	ll.notes = ''
-	VsiProgrami.append(ll.program_name)
-## alias WEATHER #############################################18
+	
+## BunsenLab personal settings ################################9
+#	global bunsenLabSettings
+#	bunsenLabSettings = NovProgram()
+#	bunsenLabSettings.program_name = '_to_do_myBunsenLabSettings'					#ime naj bo brez presledkov
+#	bunsenLabSettings.category = 'system'
+#	bunsenLabSettings.description = 'V datoteki "~/.config/openbox/rc.xml" je vpisanih kar nekaj bliznjic, ki jih lahko uporabljate v OS BunsenLab linuxu. Tej datoteki je dodano se nekaj osebnih nastavitev. Naprimer:\n + [Ctrl]+[Space] => Run Linux CMD\n + [S]+[A]+[Up] => Maximize Window... '#neko besedilo za opis
+#	bunsenLabSettings.extra_cmd = ['mv ~/.config/openbox/rc.xml ~/.config/openbox/rc.xml_original',\
+#						'wget "https://github.com/davidrihtarsic/BunsenLab/raw/master/rc.xml" -O ~/.config/openbox/rc.xml',\
+#						'openbox --restart']#se ene extra cmd ... ce je se kaj...
+#	# obmenu.notes = ''
+	
+## ARCH config files #########################################10
+	global Arch_config
+	Arch_config = NovProgram()
+	Arch_config.program_name = 'Arch .config files'
+	Arch_config.category = 'system'
+	Arch_config.description = 'Moji .config fili iz GitHuba...'
+	Arch_config.extra_cmd = ['']
+
+## alias WEATHER #############################################10
 	global weather
 	weather = NovProgram()
 	weather.program_name = 'weather'					#ime naj bo brez presledkov
+	weather.category = 'other'
 	weather.description = 'izpis vremena za tri dni v terminalnem oknu'
 					#neko besedilo za opis
 	weather.add_bash_parameter = ["\nalias weather='curl wttr.in/~begunje'"]			#text ki je za dodat v .bash 
 	weather.notes = ''
-	VsiProgrami.append(weather.program_name)
-## FileZilla #################################################19
+	
+## FileZilla #################################################11
 	# NOT testet yet ... - was preinstalled on BL
 	#global FileZilla
 	#FileZilla = NovProgram()
 	#FileZilla.program_name = '_to_do_FileZilla'
+	#FileZilla.category = 'other'
 	#FileZilla.description = 'FileZilla is open source software distributed free of charge under the terms of the GNU General Public License'					
 	#FileZilla.apt_get_name = 'FileZilla'
 	##FileZilla.notes = ''
- 	#VsiProgrami.append(FileZilla.program_name)
-## python-serial #############################################20
+ 	#
+## python-serial #############################################12
 	#test OK @ BL 64bit (David)
 	#global python_serial
 	#python_serial = NovProgram()
 	#python_serial.program_name = '_to_do_python-serial'
+	#python_serial.category = 'system'
 	#python_serial.description = 'This module encapsulates the access for the serial port. It provides backends for Python running on Windows, OSX, Linux, BSD (possibly any POSIX compliant system) and IronPython. The module named "serial" automatically selects the appropriate backend.'
 	#python_serial.apt_get_name = 'python-serial'
 	##python-serial.notes = ''
- 	#VsiProgrami.append(python_serial.program_name)
-## FreeFileSync ##############################################21
-    #Test INFO @ BL64bit (David desktop comp):
-    #	- paket deb najden OK
-    #	- download OK
-    #	- untar OK
-    #	- desktopfile ERROR -> FIX: Categories=(~~Accessories~~)Utility;
-    #	- desktopfile ICON added
-    #ne dela dobro na 32bit BL: Ni v kategoriji Acesories, pri zapisanju javi da nima dovoljenja, 
-    #Test INFO @ LB32bit (David Laptop)
-    #	- instalacija OK
-    #	- noce shranit nastavitev...
-    #	- "permission denided"
-    #	- programa nisem usposobil... zato verjetno ne dobim error-ja vsakic ko odprem in zaprem program
-    #	- nabrs je resitev v dovoljenu mape.. "sudo chmod g+w /opt/FreeFileSync/"
+ 	#
+## FreeFileSync ##############################################13
 	global FreeFileSync
 	FreeFileSync = NovProgram()
 	FreeFileSync.program_name = 'FreeFileSync'
+	FreeFileSync.category = 'system'
 	FreeFileSync.description = 'FreeFileSync is a free Open Source software that helps you synchronize files and synchronize folders for Windows, Linux and macOS. It is designed to save your time setting up and running backup jobs while having nice visual feedback along the way.'
 	FreeFileSync.arch_yaourt_cmds = ['yaourt freefilesync']
-	VsiProgrami.append(FreeFileSync.program_name)
+	
 #-------------------------------------------------OTHER PROGRAMS
 ## ARDUINO #####################################################
 	global Arduino
 	Arduino = NovProgram()
 	Arduino.program_name = 'ArduinoIDE'
+	Arduino.category = 'other'
 	Arduino.description = 'Arduino je mikrokrmilnik na maticni plosci, ki je zasnovan '\
 						'tako da bi bil postopek z uporabo elektronike v multidisci'\
 						'plinarnih projektih, bolj dostopen. Strojno opremo sestavljajo '\
@@ -730,11 +649,12 @@ def Install_programms():
 					'	kjer je "dailout" - group name\n'\
 					'2. -> sudo usermod -a -G group-name username\n'\
 					'3. log-OUT & log-IN'
-	VsiProgrami.append(Arduino.program_name)
+	
 ## QCAD ########################################################
 	global qCAD
 	qCAD = NovProgram()
 	qCAD.program_name = 'Qcad'
+	qCAD.category = 'other'
 	qCAD.description = 'Qcad je racunalnisko podprto orodje za 2D nacrtovanje in '\
 						'risanje. Zacetki razvoja segajo v leto 1999, ko je programsko '\
 						'orodje nastalo kot rezultat spinoff projekta izdelave CAD '\
@@ -743,468 +663,131 @@ def Install_programms():
 						'Uporaben je na razlicnih tehniskih podrocjih: strojnistvo, '\
 						'lesarstvo, gradbenistvo, arhitektura, geodezija in elektrotehnika.'
 	qCAD.arch_pacman_cmds = ['sudo pacman -S qcad']
-	VsiProgrami.append(qCAD.program_name)
+	
 ## FREECAD #####################################################
 	global FreeCAD
 	FreeCAD = NovProgram()
 	FreeCAD.program_name = 'FreeCAD'
+	FreeCAD.category = 'other'
 	FreeCAD.description = 'Orodje za tehnisko risanje.'
 	FreeCAD.arch_pacman_cmds =['sudo pacman -S freecad']
-	VsiProgrami.append(FreeCAD.program_name)
-## SUBLIME #####################################################
-	global Sublime
-	Sublime = NovProgram()
-	Sublime.program_name = 'Sublime'
-	Sublime.description = 'Sublime Text is a sophisticated text editor '\
-						'for code, markup and prose. You\'ll love the '\
-						'slick user interface, extraordinary features and '\
-						'amazing performance.'
-	Sublime.arch_yaourt_cmds = ['yaourt sublime-text-dev']
-	Sublime.check_version_cmd = 'subl3 --version'
-	#Sublime.extra_cmd = [	'sudo update-alternatives --install /usr/bin/bl-text-editor bl-text-editor /usr/bin/subl 50',
-	#						'sudo update-alternatives --set bl-text-editor /usr/bin/subl',
-	#						'update-alternatives --display bl-text-editor'
-	#					]
-	VsiProgrami.append(Sublime.program_name)
-## LibreOffice #################################################
-	global LibreOffice
-	LibreOffice = NovProgram()
-	LibreOffice.program_name = 'LibreOffice'
-	LibreOffice.description = 'Office suit for linux and other OS...'
-	LibreOffice.arch_yaourt_cmds = ['yaourt libreoffice-still','yaourt libreoffice-still-si']
-	VsiProgrami.append(LibreOffice.program_name)
-## Thunderbird #################################################
-	global Thunderbird
-	Thunderbird = NovProgram()
-	Thunderbird.program_name = 'Thunderbird'
-	Thunderbird.description = 'Postni odjemalec...'
-	Thunderbird.arch_pacman_cmds = ['sudo pacman -S thunderbird']
-	Thunderbird.check_version_cmd = 'thunderbird -v'
-	VsiProgrami.append(Thunderbird.program_name)
-## FireFox #################################################
-	global FireFox
-	FireFox = NovProgram()
-	FireFox.program_name = '_to_do_firefox'
-	FireFox.description = 'Web brovseeer...'
-	#FireFox.apt_get_name ='firefox'
-	#https://download-installer.cdn.mozilla.net/pub/firefox/releases/57.0.2/linux-x86_64/en-US/firefox-57.0.2.tar.bz2
-	FireFox.tar_package_path_32 = 'https://download-installer.cdn.mozilla.net/pub/firefox/releases/57.0.2/linux-x86_64/en-US/'
-	FireFox.tar_package_file_32 = 'firefox-57.0.2.tar.bz2'
-	FireFox.tar_package_path_64 = 'https://download-installer.cdn.mozilla.net/pub/firefox/releases/57.0.4/linux-x86_64/en-US/'
-	FireFox.tar_package_file_64 = 'firefox-57.0.4.tar.bz2'
-	FireFox.tar_destination = '/opt/'
-	FireFox.program_desktop = ['[Desktop Entry]',
-							'Version=1.0',
-							'Name=firefox',
-							'Exec=/opt/firefox/firefox %u',
-							'Icon=/usr/share/icons/Faenza/apps/32/firefox.png',
-							'Terminal=false',
-							'Type=Application',
-							'Categories=Network;'
-							]
-	FireFox.extra_cmd = ['sudo rm /usr/bin/firefox','sudo ln -s /opt/firefox/firefox /usr/bin/firefox']
-	FireFox.check_version_cmd = 'firefox --version'
-	VsiProgrami.append(FireFox.program_name)	
-## GoogleChrome ################################################
-	global GoogleChrome
-	GoogleChrome = NovProgram()
-	GoogleChrome.program_name = '_to_do_Google Chrome'
-	GoogleChrome.description = 'spletni brsklalnik'
-	GoogleChrome.apt_get_name =''
-	GoogleChrome.check_version_cmd = ''
-	GoogleChrome.deb_package_path_64 = 'https://dl.google.com/linux/direct/'
-	GoogleChrome.deb_package_file_64 = 'google-chrome-stable_current_amd64.deb'
-	GoogleChrome.deb_package_path_32 = 'https://archive.org/download/google-chrome-stable_48.0.2564.116-1_i386/'
-	GoogleChrome.deb_package_file_32 = 'google-chrome-stable_48.0.2564.116-1_i386.deb'
-	VsiProgrami.append(GoogleChrome.program_name)
-## W3M #########################################################
-	global W3M
-	W3M = NovProgram()
-	W3M.program_name = '_to_do_w3m'					#ime naj bo brez presledkov
-	W3M.description = 'Terminalni spletni brskalnik'		#neko besedilo za opis
-	W3M.apt_get_name = 'w3m'					#ime za apt-get
-	W3M.check_version_cmd = 'w3m -v'			#cmd za preverjanje verzije
-	W3M.program_desktop = ['[Desktop Entry]',
-							'Version=1.0',
-							'Name=w3m',
-							'Exec=terminator -e w3m www.duckduckgo.com',
-							'Icon=w3m',
-							'Terminal=true',
-							'Type=Application',
-							'Categories=Network;'
-							]				#vsebina v program.desktop
-	W3M.add_bash_parameter = ["\n #alias w3mm da odpre duckduckgo.com","\n alias w3mm='w3m www.google.com'"]
-	VsiProgrami.append(W3M.program_name)
+	
 ## Skype #######################################################
 	global Skype
 	Skype = NovProgram()
 	Skype.program_name = 'Skype'
+	Skype.category = 'other'
 	Skype.description = 'Komunikacija preko interneta...'
 	Skype.arch_yaourt_cmds =['yaourt skypeforlinux-bin']
-	VsiProgrami.append(Skype.program_name)
-## OpenBoxMENU generatoe  ######################################
-	# global obmenugen
-	# obmenugen = NovProgram()
-	# obmenugen.program_name = '_to_do_obmenugen'		#ime naj bo brez presledkov
-	# obmenugen.description = 'Namenjeno avtomatskemu generiranju menuja v okolju OpenBox,\n'\
-	# 						'katerega uporablja tudi BunsenLab. Program zgenerira menu\n'\
-	# 						'iz vsebine datotek, ki jih najde v /usr/share/applications/*'
-	# obmenugen.tar_package_path = 'https://netcologne.dl.sourceforge.net/project/obmenugen/obmenugen/obmenugen-0.2beta/'				#url (brez fila)
-	# obmenugen.tar_package_file = 'obmenugen-0.2beta.tar.bz2'				#file za katerikoli sistem
-	# obmenugen.tar_extra_cmds = ['sudo cp '+download_dir+'obmenugen/bin/obmenugen /usr/bin/',
-	# 							'obmenugen -p',
-	# 							'openbox --reconfigure',
-	# 							'rm -R '+download_dir+'obmenugen']				#extra commande, ce je se kaj za narest...
-	# obmenugen.notes = 'Najverjetneje boste morali sami urediti tudi nekaj podatkov v:\n'\
-	# 					'~/.config/obmenugen/obmenugen.cfg\n'\
-	# 					'Kot naprimer kateri terminalni simulator uporabljate in\n'\
-	# 					'vas priljubljen urejevalnik besedil...'
-	#VsiProgrami.append(obmenugen.program_name)
-## SmartGIT ####################################################
-	# global smartGit
-	# smartGit = NovProgram()
-	# smartGit.program_name = '_to_do_smartgit'					#ime naj bo brez presledkov
-	# smartGit.description = 'Git GUI client'					#neko besedilo za opis
-	# smartGit.tar_package_path = 'https://www.syntevo.com/static/smart/download/smartgit/'				#url (brez fila)
-	# smartGit.tar_package_file = 'smartgit-linux-17_0_3.tar.gz'				#file za katerikoli sistem
-	# smartGit.tar_destination = opt_dir				#kam naj od tara.. TAR paket
-	# smartGit.extra_cmd = ['sudo ln -s /opt/smartgit/bin/smartgit.sh /usr/bin/smartgit']					#se ene extra cmd ... ce je se kaj...
-	# smartGit.program_desktop = ['[Desktop Entry]',
-	# 						'Version=1.0',
-	# 						'Name=SmartGit',
-	# 						'Exec=smartgit',
-	# 						'Icon=/opt/smartgit/bin/smartgit-32.png',
-	# 						'Terminal=false',
-	# 						'Type=Application',
-	# 						'Categories=Development;'
-	# 						]
-	# VsiProgrami.append(smartGit.program_name)
+	
 ## Stellarium ##################################################
 	global stellarium
 	stellarium = NovProgram()
-	stellarium.program_name = '_to_do_stellarium'
+	stellarium.program_name = 'Stellarium'
+	stellarium.category = 'other'
 	stellarium.description = 'Zvezvde...'
 	#stellarium.pre_install_cmds = []					
-	stellarium.apt_get_name = 'stellarium'
+	stellarium.arch_pacman_cmds = ['pacman -S stellarium']
 	
-	#stellarium.program_desktop = []
-	#stellarium.extra_cmd = []
-	#stellarium.add_bash_parameter = []
-	#stellarium.check_version_cmd = ''
-	#stellarium.notes = ''
-	VsiProgrami.append(stellarium.program_name)
-## Foxitreader #################################################
-	global Foxitreader
-	Foxitreader = NovProgram()
-	Foxitreader.program_name = '_to_do_Foxitreader'
-	Foxitreader.description = 'Program za urejanje PDF dokumentov'
-	Foxitreader.pre_install_cmds = []					
-	Foxitreader.apt_get_name = ''
-	Foxitreader.deb_package_path = ''
-	Foxitreader.deb_package_file = ''
-	Foxitreader.deb_package_path_32 = ''
-	Foxitreader.deb_package_file_32 = ''
-	Foxitreader.deb_package_path_64 = ''
-	Foxitreader.deb_package_file_64 = ''
-	Foxitreader.tar_package_path = ''
-	Foxitreader.tar_package_file = ''
-	Foxitreader.tar_package_path_32 = 'http://cdn09.foxitsoftware.com/pub/foxit/reader/desktop/linux/2.x/2.3/en_us/'
-	Foxitreader.tar_package_file_32 = 'FoxitReader2.3.0.2174_Server_x86_enu_Setup.run.tar.gz'
-	Foxitreader.tar_package_path_64 = 'http://cdn09.foxitsoftware.com/pub/foxit/reader/desktop/linux/2.x/2.3/en_us/'
-	Foxitreader.tar_package_file_64 = 'FoxitReader2.3.1.2182_Server_x64_enu_Setup.run.tar.gz'
-	Foxitreader.tar_destination = ''
-	Foxitreader.tar_extra_cmds = ["~/Downloads/FoxitReader*"]
-	Foxitreader.program_desktop = []
-	Foxitreader.add_path_profile_variable  = ''
-	Foxitreader.extra_cmd = ['sudo ln -s ~/opt/foxitsoftware/foxitreader/FoxitReader.sh /usr/bin/foxitreader']
-	Foxitreader.add_bash_parameter = []
-	Foxitreader.check_version_cmd = ''
-	Foxitreader.notes = ''
-	VsiProgrami.append(Foxitreader.program_name)
 ## Fritzing ####################################################
     #32 bit BL tested
 	global Fritzing
 	Fritzing = NovProgram()
-	Fritzing.program_name = '_to_do_Fritzing'
+	Fritzing.program_name = 'Fritzing'
+	Fritzing.category = 'other'
 	Fritzing.description = 'Program za risanje vezij oziroma elektrotehniskih shem'
-	Fritzing.pre_install_cmds = []					
-	Fritzing.apt_get_name = ''
-	Fritzing.deb_package_path = ''
-	Fritzing.deb_package_file = ''
-	Fritzing.deb_package_path_32 = ''
-	Fritzing.deb_package_file_32 = ''
-	Fritzing.deb_package_path_64 = ''
-	Fritzing.deb_package_file_64 = ''
-	Fritzing.tar_package_path = ''
-	Fritzing.tar_package_file = ''
-	Fritzing.tar_package_path_32 = 'http://fritzing.org/media/downloads/'
-	Fritzing.tar_package_file_32 = 'fritzing-0.9.3b.linux.i386.tar.bz2'
-	Fritzing.tar_package_path_64 = 'http://fritzing.org/download/0.9.3b/linux-64bit/'
-	Fritzing.tar_package_file_64 = 'fritzing-0.9.3b.linux.AMD64.tar.bz2'
-	Fritzing.tar_destination = opt_dir
-	Fritzing.tar_extra_cmds = [	'sudo mv /opt/fritzing-0.9.3b* /opt/fritzing-0.9.3b',
-								'sudo ln -s /opt/fritzing-0.9.3b/Fritzing /usr/bin/fritzing' 
-								]
-	Fritzing.program_desktop = ['[Desktop Entry]',
-								'Name=Fritzing',
-								'Exec=/opt/fritzing-0.9.3b/Fritzing',
-								'Icon=/opt/fritzing-0.9.3b/icons/fritzing_icon.png',
-								'Terminal=false',
-								'Type=Application',
-								'Categories=Science;Development;'
-									]
-	Fritzing.add_path_profile_variable  = ''
-	Fritzing.extra_cmd = []
-	Fritzing.add_bash_parameter = []
-	Fritzing.check_version_cmd = ''
-	Fritzing.notes = ''
-	VsiProgrami.append(Fritzing.program_name)
-## Texmaker ####################################################
-	global texmaker
-	texmaker = NovProgram()
-	texmaker.program_name = '_to_do_texmaker'
-	texmaker.description = 'Program za pisanje besedil v TeX formatu.'
-	#texmaker.pre_install_cmds = ['sudo apt-get -f install texlive-full texmaker']					
-	texmaker.apt_get_name = 'texlive-full texmaker'
-	#texmaker.program_desktop = []
-	#texmaker.extra_cmd = []
-	#texmaker.add_bash_parameter = []
-	#texmaker.check_version_cmd = ''
-	#texmaker.notes = ''
-	VsiProgrami.append(texmaker.program_name)
-## INKSCAPE ####################################################
-	global inkscape
-	inkscape = NovProgram()
-	inkscape.program_name = '_to_do_inkscape'
-	inkscape.description = 'Program za risanje vektorske grafike.'
-	inkscape.apt_get_name = 'inkscape'
-	#inkscape.notes = ''
-	VsiProgrami.append(inkscape.program_name)
-## GIMP ########################################################
-	global gimp
-	gimp = NovProgram()
-	gimp.program_name = '_to_do_gimp'
-	gimp.description = 'Program za risanje, obdelavo slik, ...'
-	gimp.apt_get_name = 'gimp'
-	#gimp.notes = ''
-	VsiProgrami.append(gimp.program_name)
-## MyPaint #####################################################
-	global mypaint
-	mypaint = NovProgram()
-	mypaint.program_name = '_to_do_mypaint'
-	mypaint.description = 'Program za prostorocno risanje.'
-	mypaint.apt_get_name = 'mypaint'
-	#mypaint.notes = ''
-	VsiProgrami.append(mypaint.program_name)
+	Fritzing.arch_yaourt_cmds = ['yaourt fritzing']
+	
 ## Audacity ####################################################
 	global audacity
 	audacity = NovProgram()
-	audacity.program_name = '_to_do_audacity'
+	audacity.program_name = 'Audacity'
+	audacity.category = 'other'
 	audacity.description = 'Audacity is free, open source, cross-platform audio software for multi-track recording and editing.'					
-	audacity.apt_get_name = 'audacity'
+	audacity.arch_yaourt_cmds = ['yaourt audacity']
 	#audacity.notes = ''
-	VsiProgrami.append(audacity.program_name)
-## Zathura #####################################################
-	global zathura
-	zathura = NovProgram()
-	zathura.program_name = '_to_do_zathura'
-	zathura.description = 'Zathura is a highly customizable and functional document viewer. It provides a minimalistic and space saving interface as well as an easy usage that mainly focuses on keyboard interaction.'
-	zathura.pre_install_cmds = []					
-	zathura.apt_get_name = 'zathura'
-	zathura.check_version_cmd = ''
-	zathura.notes = ''
-	VsiProgrami.append(zathura.program_name)
-## Evince PDF  #################################################
-	global evince
-	evince = NovProgram()
-	evince.program_name = '_to_do_evince'
-	evince.description = 'Evince is a document viewer for multiple document formats. The goal of evince is to replace the multiple document viewers that exist on the GNOME Desktop with a single simple application. Evince is specifically designed to support the file following formats: PDF, Postscript, djvu, tiff, dvi, XPS, SyncTex support with gedit, comics books (cbr,cbz,cb7 and cbt).'					
-	evince.apt_get_name = 'evince'
-	#evince.notes = ''
-	VsiProgrami.append(evince.program_name)
-## K3b  ########################################################
-	#32 bit BL tested
-	#global k3b
-	#k3b = NovProgram()
-	#k3b.program_name = '_to_do_k3b'
-	#k3b.description = 'K3b is a simple, yet powerful and highly-configurable graphical optical disk burning application for audio, video, data projects and more!'					
-	#k3b.apt_get_name = 'k3b'
-	##k3b.notes = ''
- 	#VsiProgrami.append(k3b.program_name)
+	
 ## bCNC ########################################################
 	#test OK @ BL 64-bit (David)
 	global bCNC
 	bCNC = NovProgram()
-	bCNC.program_name = '_to_do_bCNC'
+	bCNC.program_name = 'bCNC'
+	bCNC.category = 'other'
 	bCNC.description = 'An advanced fully featured g-code sender for GRBL. bCNC is a cross platform program (Windows, Linux, Mac) written in python. The sender is robust and fast able to work nicely with old or slow hardware like Rasperry PI (As it was validated by the GRBL mainter on heavy testing).'
-	bCNC.tar_extra_cmds = []
-	bCNC.program_desktop = []
-	bCNC.add_path_profile_variable  = '/opt/bCNC/'
-	bCNC.extra_cmd = [	'wget --spider -v https://github.com/vlachoudis/bCNC/archive/master.zip',
-						'wget "https://github.com/vlachoudis/bCNC/archive/master.zip" -O ~/Downloads/bCNC.zip',
-					 	'unzip ~/Downloads/bCNC.zip -d ~/Downloads/',
-					 	'rm -v ~/Downloads/bCNC.zip',
-					 	'sudo mv ~/Downloads/bCNC-master /opt/bCNC',
-					 	#'sudo ln -s /opt/bCNC/bCNC /usr/bin/bCNC',
-					 	'sudo printf "\nCategories=Development;" >> /opt/bCNC/bCNC.desktop',
-					 	'sudo printf "\nExec=/opt/bCNC/bCNC" >> /opt/bCNC/bCNC.desktop',
-					 	'sudo printf "\nIcon=/opt/bCNC/bCNC.png" >> /opt/bCNC/bCNC.desktop',
-					 	'sudo cp /opt/bCNC/bCNC.desktop /usr/share/applications/bCNC.desktop'
-					 ]
-	bCNC.add_bash_parameter = []
-	bCNC.check_version_cmd = ''
-	bCNC.notes = 'Najverjetneje se boste morali narediti log-out in nato log-in, da bodo nastavitve zacele veljati.'
-	VsiProgrami.append(bCNC.program_name)
-## lmms  #######################################################
-	#32 bit BL tested
-	#global lmms
-	#lmms = NovProgram()
-	#lmms.program_name = '_to_do_lmms'
-	#lmms.description = 'Open source digital audio workstation'					
-	#lmms.apt_get_name = 'lmms'
-	#lmms.notes ="Dokumentacija za program se nahaja na naslovu: https://lmms.io/documentation/"
- 	#VsiProgrami.append(lmms.program_name)
+	bCNC.arch_yaourt_cmds = ['yaourt bcnc']
+	
 ## ECLIPSEC ####################################################
 	#testing...  @ BL 64-bit (David)
 	# instalacija dela...
 	global eclipse
 	eclipse = NovProgram()
-	eclipse.program_name = '_to_do_eclipse'
+	eclipse.program_name = 'Eclipse'
+	eclipse.category = 'other'
 	eclipse.description = 'Programsko okolje ...'
-	eclipse.tar_package_path_32 = 'http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/oomph/epp/oxygen/R/'
-	eclipse.tar_package_file_32 = 'eclipse-inst-linux32.tar.gz'
-	eclipse.tar_package_path_64 = 'http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/oomph/epp/oxygen/R/'
-	eclipse.tar_package_file_64 = 'eclipse-inst-linux64.tar.gz'
-	eclipse.tar_extra_cmds = [	'sudo ~/Downloads/eclipse-installer/eclipse-inst',
-								'sudo chown '+ user +' -R /opt/eclipse/']
-	eclipse.program_desktop = []
-	#eclipse.add_path_profile_variable  = '/opt/eclipse/'
-	eclipse.program_desktop = ['[Desktop Entry]',
-						'Version=1.0',
-						'Name=eclipse IDE',
-						'Exec=sudo /opt/eclipse/eclipse/eclipse',
-						'Icon=/opt/eclipse/eclipse/icon.xpm',
-						'Terminal=false',
-						'Type=Application',
-						'Categories=Development;Programming;'
-						]
-	eclipse.extra_cmd = []
-	eclipse.add_bash_parameter = []
-	eclipse.check_version_cmd = ''
-	eclipse.notes = ''
-	VsiProgrami.append(eclipse.program_name)
+	eclipse.arch_yaourt_cmds = ['yaourt eclipse-cpp']
+	
 ## QT5 Creator #################################################
 	global QT5_creator
 	QT5_creator = NovProgram()
-	QT5_creator.program_name = '_to_do_QT5 Creator'
+	QT5_creator.program_name = 'QT5 Creator'
+	QT5_creator.category = 'other'
 	QT5_creator.description = 'Qt Creator provides a cross-platform, complete integrated development environment (IDE) for application developers to create applications for multiple desktop, embedded, and mobile device platforms, such as Android and iOS. It is available for Linux, macOS and Windows operating systems. For more information, see Supported Platforms.'
-	QT5_creator.pre_install_cmds = ['wget --spider -v http://download.qt.io/official_releases/qt/5.9/5.9.2/qt-opensource-linux-x64-5.9.2.run',
-									'wget '+ 'http://download.qt.io/official_releases/qt/5.9/5.9.2/qt-opensource-linux-x64-5.9.2.run' + ' --directory-prefix='+download_dir,
-									'sudo apt-get install build-essential',
-									'sudo apt-get install libfontconfig1',
-									'sudo apt-get install mesa-common-dev',
-									'sudo apt-get install libglu1-mesa-dev -y',
-									'sudo apt install qt5-default']					
-	#QT5_creator.apt_get_name = ''
-	#QT5_creator.deb_package_path = ''
-	#QT5_creator.deb_package_file = ''
-	#QT5_creator.deb_package_path_32 = ''
-	#QT5_creator.deb_package_file_32 = ''
-	#QT5_creator.deb_package_path_64 = ''
-	#QT5_creator.deb_package_file_64 = ''
-	#QT5_creator.tar_package_path = ''
-	#QT5_creator.tar_package_file = ''
-	#QT5_creator.tar_package_path_32 = ''
-	#QT5_creator.tar_package_file_32 = ''
-	#QT5_creator.tar_package_path_64 = 'http://download.qt.io/official_releases/qt/5.9/5.9.2/'
-	#QT5_creator.tar_package_file_64 = 'qt-opensource-linux-x64-5.9.2.run'
-	#QT5_creator.tar_destination = ''
-	#QT5_creator.tar_extra_cmds = []
-	#QT5_creator.program_desktop = []
-	#QT5_creator.add_path_profile_variable  = ''
-	QT5_creator.extra_cmd = [ 'sudo chmod ugo+x ' + download_dir + 'qt-opensource-linux-x64-5.9.2.run',
-								download_dir+ 'qt-opensource-linux-x64-5.9.2.run']
-	#QT5_creator.add_bash_parameter = []
-	#QT5_creator.check_version_cmd = ''
-	#QT5_creator.notes = ''
-	VsiProgrami.append(QT5_creator.program_name)
-## GUVCview - program za snemanje z WEB camero #################
-	# sudo apt-get install guvcview
-## SIRIL - leplenje slik/video v fotografijo - za astronomijo ##
-	# download https://free-astro.org/download/siril_0.9.6-2_amd64-jessie.deb
+	QT5_creator.arch_yaourt_cmds = ['yaourt qtcreator']
+	
 ## Stencyl ####################################################
     #64 bit BL tested
 	global Stencyl
 	Stencyl = NovProgram()
-	Stencyl.program_name = '_to_do_Stencyl'
+	Stencyl.program_name = 'Stencyl'
+	Stencyl.category = 'other'
 	Stencyl.description = "Stencyl isn't your average game creation software. It's a gorgeous, intuitive toolset that accelerates your workflow and then gets out of the way. We take care of the essentials, so you can focus on what's important - making your game yours."
-	Stencyl.pre_install_cmds = []					
-	Stencyl.apt_get_name = ''
-	Stencyl.deb_package_path = ''
-	Stencyl.deb_package_file = ''
-	Stencyl.deb_package_path_32 = ''
-	Stencyl.deb_package_file_32 = ''
-	Stencyl.deb_package_path_64 = ''
-	Stencyl.deb_package_file_64 = ''
-	Stencyl.tar_package_path = ''
-	Stencyl.tar_package_file = ''
-	Stencyl.tar_package_path_32 = 'http://mario.stencyl.net/public/'
-	Stencyl.tar_package_file_32 = 'Stencyl-full.tar.gz'
-	Stencyl.tar_package_path_64 = 'http://mario.stencyl.net/public/'
-	Stencyl.tar_package_file_64 = 'Stencyl-64-full.tar.gz'
-	Stencyl.tar_destination = opt_dir + "Stencyl/"
-	Stencyl.tar_extra_cmds = [	'sudo ln -s /opt/Stencyl/Stencyl /usr/bin/Stencyl' 
-								]
-	Stencyl.program_desktop = ['[Desktop Entry]',
-								'Name=Stencyl',
-								'Exec=/opt/Stencyl/Stencyl',
-								'Icon=/opt/Stencyl/data/other/icon-30x30.png',
-								'Terminal=false',
-								'Type=Application',
-								'Categories=Science;Development;Game;'
-									]
-	Stencyl.add_path_profile_variable  = ''
-	Stencyl.extra_cmd = [		'sudo apt-get install g++ libgc-dev libxext-dev',
-								'sudo dpkg --add-architecture i386',
-								'sudo apt-get update',
-								'sudo apt-get install libstdc++6:i386 libxtst6:i386 libXext6:i386 libxi6:i386 libncurses5:i386 libxt6:i386 libxpm4:i386 libxmu6:i386 libxp6:i386',
-								'sudo apt-get install libgtk2.0-0:i386 libxt6:i386 libxext6:i386 libatk1.0-0:i386 libc6:i386 libcairo2:i386 libexpat1:i386 libfontconfig1:i386 libfreetype6:i386 libglib2.0-0:i386 libice6:i386 libpango1.0-0:i386 libpng12-0:i386 libsm6:i386 libx11-6:i386 libxau6:i386 libxcursor1:i386 libxdmcp6:i386 libxfixes3:i386 libxi6:i386 libxinerama1:i386 libxrandr2:i386 libxrender1:i386 zlib1g:i386 libnss3-1d:i386 libnspr4-0d:i386 libcurl3:i386 libasound2:i386'
-								]
-	Stencyl.add_bash_parameter = []
-	Stencyl.check_version_cmd = ''
-	Stencyl.notes = 'Preverite, ce imate namesceno java8!'
-	VsiProgrami.append(Stencyl.program_name)
+	Stencyl.arch_yaourt_cmds = ['yaourt stencyl']
+	
 ## PopCornTime ####################################################
     #64 bit BL tested
 	global PopCornTime
 	PopCornTime = NovProgram()
 	PopCornTime.program_name = 'PopCornTime'
+	PopCornTime.category = 'other'
 	PopCornTime.arch_yaourt_cmds =['yaourt popcorntime-bin']
 	PopCornTime.description = "Popcorn Time is constantly searching all over the web for the best torrents from the most important sites."
-	VsiProgrami.append(PopCornTime.program_name)
+	
 
 Install_programms()
 
 
 def MakeSystemProgrammsForm():
-	dy = max(n_systemPrograms,len(VsiProgrami)-n_systemPrograms)
+	#dy = max(n_systemPrograms,len(
+	dy = 20
 	global formSystemPrograms
 	formSystemPrograms = Form('System Programs',3,2 ,28,dy+4)
 	global editPrigramms
 	editPrigramms =[]
-	global NthProgram
-	for NthProgram in range(0, n_systemPrograms):
-		editPrigramms.append(Edit('(' + str(NthProgram+1) + ')', formSystemPrograms.x+3 ,formSystemPrograms.y + NthProgram + 2))
-		editPrigramms[NthProgram].new_value(VsiProgrami[NthProgram])
+
+	NthProgram = 0
+	for obj in NovProgram.getinstances():
+		if obj.category == 'system':
+			editPrigramms.append(Edit('(' + str(NthProgram+1) + ')', formSystemPrograms.x+3 ,formSystemPrograms.y + NthProgram + 2))
+			editPrigramms[NthProgram].new_value(obj.program_name)
+			NthProgram += 1
+			obj.index = NthProgram
+	global n_systemPrograms
+	n_systemPrograms = NthProgram 
 
 def MakeOtherProgrammsForm():
 	dx = formSystemPrograms.x+formSystemPrograms.dx
-	dy = max(n_systemPrograms,len(VsiProgrami)-n_systemPrograms)
+	#dy = max(n_systemPrograms,len(
+	dy = 20
 	global formOtherPrograms
 	formOtherPrograms = Form('Other Programs', dx+3,2 ,28,dy+4)
-	for NthProgram in range(n_systemPrograms, len(VsiProgrami)):
-		editPrigramms.append(Edit('(' + str(NthProgram+1) + ')', formOtherPrograms.x+3 ,formOtherPrograms.y + NthProgram - n_systemPrograms + 2))
-		editPrigramms[NthProgram].new_value(VsiProgrami[NthProgram])
+
+	NthProgram = 0
+	for obj in NovProgram.getinstances():
+		if obj.category == 'other':
+			editPrigramms.append(Edit('(' + str(NthProgram+1+n_systemPrograms) + ')', formOtherPrograms.x+3 ,formOtherPrograms.y + NthProgram + 2))
+			editPrigramms[NthProgram + n_systemPrograms].new_value(obj.program_name)
+			NthProgram += 1
+			obj.index = NthProgram+n_systemPrograms
 
 MakeSystemProgrammsForm()
 MakeOtherProgrammsForm()
@@ -1227,7 +810,7 @@ def MakeHelpForm():
 				"		+ dave's conky",
 				'		+ openbox-menu',
 				'--------------------------',
-				'r  	- run openbox-menu',
+				'update - Update packages',
 				'ENTER  - MAIN MENU',
 				'q      - EXIT',
 				]
@@ -1261,110 +844,15 @@ while (key != 'q'):
 	if key == '':
 		cls()
 		Main()
-	#---------------------------------------SYSTEM PROGRAMS	
-	elif key == str(next(programe_index)):	Update_Upgrade.install()	
-	elif key == str(next(programe_index)):	Thunar.install()
-	elif key == str(next(programe_index)):	git.install()
-	elif key == str(next(programe_index)):	java_8.install()
-	elif key == str(next(programe_index)):	obmenu.install()
-	elif key == str(next(programe_index)):	Terminator.install()
-	elif key == str(next(programe_index)):	Htop.install()
-#	elif key == str(next(programe_index)):	vim.install()
-	elif key == str(next(programe_index)):	Pv.install()
-	elif key == str(next(programe_index)):	nmon.install()
-	elif key == str(next(programe_index)):	wavemon.install()
-	elif key == str(next(programe_index)):	nmap.install()
-	elif key == str(next(programe_index)):	Neofetch.install()
-	elif key == str(next(programe_index)):	Fortune.install()
-	elif key == str(next(programe_index)):	Cowsay.install()
-	elif key == str(next(programe_index)):	Keymap.install()
-	elif key == str(next(programe_index)):	conky.install()
-	elif key == str(next(programe_index)):	bunsenLabSettings.install()
-	elif key == str(next(programe_index)):	xBackLight.install()
-	elif key == str(next(programe_index)):	dave_s_conky.install()
-	elif key == str(next(programe_index)):	ll.install()
-	elif key == str(next(programe_index)):	weather.install()
-	#elif key == str(next(programe_index)):	FileZilla.install()
-	#elif key == str(next(programe_index)):	python_serial.install()
-	elif key == str(next(programe_index)):	FreeFileSync.install()
-	#---------------------------------------OTHET PROGRAMS
-	elif key == str(next(programe_index)):	Arduino.install()
-	elif key == str(next(programe_index)):	qCAD.install()
-	elif key == str(next(programe_index)):	FreeCAD.install()
-	elif key == str(next(programe_index)):	Sublime.install()
-	elif key == str(next(programe_index)):	LibreOffice.install()
-	elif key == str(next(programe_index)):	Thunderbird.install()
-	elif key == str(next(programe_index)):	FireFox.install()
-	elif key == str(next(programe_index)):	GoogleChrome.install()
-	elif key == str(next(programe_index)):	W3M.install()
-	elif key == str(next(programe_index)):	Skype.install()
-	elif key == str(next(programe_index)):	stellarium.install()
-	elif key == str(next(programe_index)):	Foxitreader.install()
-	elif key == str(next(programe_index)):	Fritzing.install()
-	elif key == str(next(programe_index)):	texmaker.install()
-	elif key == str(next(programe_index)):	inkscape.install()
-	elif key == str(next(programe_index)):	gimp.install()
-	elif key == str(next(programe_index)):	mypaint.install()
-	elif key == str(next(programe_index)):	audacity.install()
-	elif key == str(next(programe_index)):	zathura.install()
-	elif key == str(next(programe_index)):	evince.install()
-	#elif key == str(next(programe_index)):	k3b.install()
-	elif key == str(next(programe_index)):	bCNC.install()
-	#elif key == str(next(programe_index)):	lmms.install()
-	elif key == str(next(programe_index)):	eclipse.install()
-	elif key == str(next(programe_index)):	QT5_creator.install()
-	elif key == str(next(programe_index)):	Stencyl.install()
-	elif key == str(next(programe_index)):	PopCornTime.install()
-	elif key == 'all':
-		#---SYSTEM PROGRAMS
-		Update_Upgrade.install()	
-		Thunar.install()
-		git.install()
-		java_8.install()
-		obmenu.install()
-		Terminator.install()
-		Htop.install()
-#		vim.install()
-		nmon.install()
-		wavemon.install()
-		nmap.install()
-		Neofetch.install()
-		Fortune.install()
-		Cowsay.install()
-		Keymap.install()
-		conky.install()
-		dave_s_conky.install()
-		ll.install()
-		weather.install()
-		FileZilla.install()
-		python_serial.install()
-		FreeFileSync.install()
-		#---OTHER PROGRAMS
-		Arduino.install()
-		qCAD.install()
-		FreeCAD.install()
-		Sublime.install()
-		LibreOffice.install()
-		Thunderbird.install()
-		FireFox.install()
-		GoogleChrome.install()
-		W3M.install()
-		Skype.install()
-		stellarium.install()
-		Foxitreader.install()
-		texmaker.install()
-		inkscape.install()
-		gimp.install()
-		mypaint.install()
-		audacity.install()
-		zathura.install()
-		evince.install()
-		k3b.install()
-		bCNC.install()
-		lmms.install()
-		eclipse.install()
-		QT5_creator.install()
-		Stencyl.install()
+	# preglej vse programe...
+	for obj in NovProgram.getinstances():
+		if key == str(obj.index):
+			obj.install()	
+	if key == 'all':
+		for obj in NovProgram.getinstances():
+			obj.install()	
+	elif key == 'update':
+		os.system('sudo pacman -Syu')
 	elif key == 'tit':	
 		Arduino.install()
 		qCAD.install()
@@ -1383,8 +871,6 @@ while (key != 'q'):
 		Sublime.install()
 		dave_s_conky.install()
 		obmenu.install()
-	elif key == 'r':
-		os.system('/opt/openbox-menu/obmenu.py')
 	else:	
 		os.system(key)
 	#Main()
