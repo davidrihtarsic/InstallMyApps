@@ -489,12 +489,10 @@ def Install_programms():
 ## UPDATE & UPGRADE ###########################################1
 	global Update_Upgrade
 	Update_Upgrade = NovProgram()
-	Update_Upgrade.program_name = '_to_do_Update & Upgrade'
+	Update_Upgrade.program_name = 'Update'
 	Update_Upgrade.description = 'Posodobite sistemske knjiznice...'
-	Update_Upgrade.pre_install_cmds = [	'sudo apt-get update',
-										'sudo apt-get upgrade']
+	Update_Upgrade.arch_pacman_cmds = [	'pacman -Syu' ]
 	VsiProgrami.append(Update_Upgrade.program_name)
-
 ## Thunar ########################################################2
 	global Thunar
 	Thunar = NovProgram()
@@ -503,7 +501,7 @@ def Install_programms():
 	Thunar.arch_yaourt_cmds = [	'yaourt thunar',
 								'yaourt thunar-shares-plugin',
 								'yaourt gvfs-smb']
-	Thunar.notes = ['You shuld REBOOT... (mogoc sam log-IN/log-OUT)']
+	Thunar.notes = 'You shuld REBOOT... (not just log-OUT/log-IN)'
 	VsiProgrami.append(Thunar.program_name)
 ## GIT ########################################################2
 	global git
@@ -523,38 +521,6 @@ def Install_programms():
 					 'git clone https://github.com/davidrihtarsic/ArduinoCNC-DCmotors.git ~/Files/GitHub_noSync/ArduinoCNC-DCmotors'
 					 ]
 	VsiProgrami.append(git.program_name)
-## Java 8 #####################################################3
-	global java_8
-	java_8 = NovProgram()
-	java_8.program_name = '_to_do_java8'					#ime naj bo brez presledkov
-	java_8.description = 'Namesti novejso verzijo java 8'					#neko besedilo za opis
-	java_8.check_version_cmd = 'java -version'			#cmd za preverjanje verzije
-	java_8.tar_package_path_64 = 'http://javadl.oracle.com/webapps/download/'				#url (brez fila)
-	java_8.tar_package_file_64 = 'AutoDL?BundleId=218823_e9e7ea248e2c4826b92b3f075a80e441'			#file za 64bit
-	java_8.tar_destination = '/usr/lib/jvm/'				#kam naj od tara.. TAR paket
-	java_8.extra_cmd = ['sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jre1.8.0_121/bin/java 1',
-						'sudo update-alternatives --config java']					#se ene extra cmd ... ce je se kaj...
-	VsiProgrami.append(java_8.program_name)
-## OpenBox menu ###############################################4
-	global obmenu
-	obmenu = NovProgram()
-	obmenu.program_name = '_to_do_openbox-menu'					#ime naj bo brez presledkov
-	obmenu.description = 'Naredi nov menu v OpenBox UI'		#neko besedilo za opis
-	obmenu.extra_cmd = ['mv ~/.config/openbox/menu.xml ~/.config/openbox/menu_original.xml',\
-						'wget "https://github.com/davidrihtarsic/BunsenLab/raw/master/OpenBox_menu.xml" -O ~/.config/openbox/menu.xml',\
-						'sudo git clone https://github.com/woho/openbox-menu.git '+opt_dir+'openbox-menu',\
-						'/opt/openbox-menu/obmenu.py']#se ene extra cmd ... ce je se kaj...
-	obmenu.program_desktop = ['[Desktop Entry]',
-							'Version=1.0',
-							'Name=openbox-menu',
-							'Exec=terminator -e /opt/openbox-menu/obmenu.py',
-							'Icon=openbox.png',
-							'Terminal=true',
-							'Type=Application',
-							'Categories=Settings;'
-							] 
-	# obmenu.notes = ''
-	VsiProgrami.append(obmenu.program_name)
 ## Terminator #################################################5
 	global Terminator
 	Terminator = NovProgram()
@@ -565,45 +531,6 @@ def Install_programms():
 	Terminator.deb_package_path = ''
 	Terminator.deb_package_file = ''
 	VsiProgrami.append(Terminator.program_name)
-## Htop #######################################################6
-	global Htop
-	Htop = NovProgram()
-	Htop.program_name = '_to_do_Htop'
-	Htop.description = 'Spremljanje procesov...'
-	Htop.apt_get_name ='htop'
-	Htop.check_version_cmd = ''
-	Htop.deb_package_path = ''
-	Htop.deb_package_file = ''
-	VsiProgrami.append(Htop.program_name)
-## VIM ########################################################2
-##	global vim
-##	vim = NovProgram()
-##	vim.program_name = '_to_do_vim'					#ime naj bo brez presledkov
-##	vim.description = 'Terminalni urejevalnik besedila.'
-##	vim.apt_get_name = 'vim'					#ime za apt-get
-##	vim.notes = ''
-##	vim.extra_cmd = [	'wget https://raw.githubusercontent.com/sebbekarlsson/i3/master/.vimrc ~/.vimrc',
-##						'git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim',
-##						'vim +PluginInstall +qall',
-##						]
-##	VsiProgrami.append(vim.program_name)
-## Piped View##################################################7
-	global Pv
-	Pv = NovProgram()
-	Pv.program_name = '_to_do_Piped View - pv'
-	Pv.description = 	'pv  shows  the  progress  of data through a pipeline by giving'\
-						'information such as time elapsed, percentage completed (with'\
-						'progress  bar), current throughput rate, total data transferred,'\
-						' and ETA.'
-	Pv.apt_get_name ='pv'
-	Pv.check_version_cmd = 'pv --version'
-	Pv.notes =  'Nacin uporabe:\n'\
-				'> sudo -s\n'\
-				'> pv <NekIsoFile.iso> /dev/sdb\n'\
-				'857MiB 0:01:05 [13.1MiB/s] [===================>] 100%\n'\
-				'> exit\n'\
-				'>'
-	VsiProgrami.append(Pv.program_name)	
 ## NMON #######################################################8
 	global nmon
 	nmon = NovProgram()
