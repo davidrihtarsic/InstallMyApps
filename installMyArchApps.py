@@ -607,30 +607,9 @@ def Install_programms():
 ## NMON #######################################################8
 	global nmon
 	nmon = NovProgram()
-	nmon.program_name = '_to_do_nmon'
-	nmon.description = 'Spremljanje procesov... za DEBIAN!'
-	nmon.apt_get_name =''
-	nmon.tar_package_file = 'nmon16d_x86.tar.gz'
-	nmon.tar_package_path = 'http://sourceforge.net/projects/nmon/files/'
-	nmon.tar_destination =  opt_dir+'nmon/'
-	nmon.tar_extra_cmds =['sudo rm -v /usr/bin/nmon',
-						'sudo chmod 777 '+opt_dir+'nmon/'+'nmon_x86_64_debian8',
-						'sudo ln -s '+opt_dir+'nmon/'+'nmon_x86_64_debian8 /usr/bin/nmon']
-	nmon.program_desktop = ['[Desktop Entry]',
-							'Version=1.0',
-							'Name=nmon',
-							'Exec=terminator -e nmon',
-							'Icon=nmon',
-							'Terminal=true',
-							'Type=Application',
-							'Categories=System;Development;Programming;'
-							]
-	#nmon.tar_extra_cmds = ['sudo mv ' + download_dir + 'nmon/nmon_x86_64_ubuntu15 /usr/bin/nmon',
-	#					'sudo rm -R ' + download_dir+'nmon/',
-	#					'sudo chmod 777 /usr/bin/nmod']
-	#nmon.tar_extra_cmds = ['sudo chmod 777 '+ download_dir + 'nmon/nmon_x86_debian8',
-	#					'sudo mv ' + download_dir + 'nmon/nmon_x86_debian8 /usr/bin/nmon',
-	#					'sudo rm -R ' + download_dir+'nmon/']
+	nmon.program_name = 'nmon'
+	nmon.description = 'Spremljanje procesov, diska...'
+	nmon.arch_pacman_cmds = ['pacman -S nmon']
 	VsiProgrami.append(nmon.program_name)
 ## WAVEMON ####################################################9
 	global wavemon
@@ -649,6 +628,12 @@ def Install_programms():
 							]
 	VsiProgrami.append(wavemon.program_name)
 ## NMAP to-do za pregled kdo je na mrezi#######################
+	global nmap
+	nmap =NovProgram()
+	nmap.program_name = 'nmap'
+	nmap.description = 'map ("Network Mapper") is a free and open source (license) utility for network discovery and security auditing. Many systems and network administrators also find it useful for tasks such as network inventory, managing service upgrade schedules, and monitoring host or service uptime. Nmap uses raw IP packets in novel ways to determine what hosts are available on the network, what services (application name and version) those hosts are offering, what operating systems (and OS versions) they are running, what type of packet filters/firewalls are in use, and dozens of other characteristics.'
+	nmap.arch_pacman_cmds = ['sudo pacman -S nmap']
+	VsiProgrami.append(nmap.program_name)
 ## ADB  to-do #################################################
 ## Neofetch ##-################################################10
 	global Neofetch
@@ -1361,6 +1346,7 @@ while (key != 'q'):
 	elif key == str(next(programe_index)):	Pv.install()
 	elif key == str(next(programe_index)):	nmon.install()
 	elif key == str(next(programe_index)):	wavemon.install()
+	elif key == str(next(programe_index)):	nmap.install()
 	elif key == str(next(programe_index)):	Neofetch.install()
 	elif key == str(next(programe_index)):	Fortune.install()
 	elif key == str(next(programe_index)):	Cowsay.install()
@@ -1414,6 +1400,7 @@ while (key != 'q'):
 #		vim.install()
 		nmon.install()
 		wavemon.install()
+		nmap.install()
 		Neofetch.install()
 		Fortune.install()
 		Cowsay.install()
