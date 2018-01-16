@@ -17,9 +17,7 @@ escapeColorCmd = '\x1B[38;5;130m'
 thisAppOutput = escapeColorCmd+'--> '
 confirmText = escapeColorDefault+' [y/n]:'
 
-#n_systemPrograms = 0
 ## POSTOPEK INSTALACIJE ########################################
-
 class NovProgram(object):
 	_instances = set()
 
@@ -473,7 +471,7 @@ def Install_programms():
 	#	uporabniku kaka nadaljna navodila. Naprimer, ce program potrebuje kake dodatne
 	#	nastavitve, kot v primeru terminatorja za prikaz podatkov o racunalniku z neofetch.
 	#
-## Ime_Novega_Programa #############################################
+## Ime_Novega_Programa #########################################
 	#global Ime_Novega_Programa
 	#Ime_Novega_Programa = NovProgram()
 	#Ime_Novega_Programa.program_name = ''
@@ -501,14 +499,14 @@ def Install_programms():
 	#Ime_Novega_Programa.check_version_cmd = ''
 	#Ime_Novega_Programa.notes = ''
 	#
-## GIT ########################################################3
+## GIT #########################################################
 	global git
 	git = NovProgram()
 	git.program_name = 'git'					#ime naj bo brez presledkov
-	git.category = 'system'
+	git.category = 'System'
 	git.description = 'Protokol za skrbno spremljanje verzij'\
 					'razvojnih programov.'					#neko besedilo za opis
-	git.arch_pacman_cmds = ['pacman -S git']
+	git.arch_pacman_cmds = ['sudo pacman -S git']
 	git.notes = ''
 	git.extra_cmd = ['git config --global user.email "david.rihtarsic@gmail.com"',
 					 'git config --global user.name "davidrihtarsic"',
@@ -517,116 +515,107 @@ def Install_programms():
 					 'git clone https://github.com/davidrihtarsic/Korad3005p.git ~/Files/GitHub_noSync/Korad3005p',
 					 'git clone https://github.com/davidrihtarsic/BunsenLab.git ~/Files/GitHub_noSync/BunsenLab',
 					 'git clone https://github.com/davidrihtarsic/RobDuino.git ~/Files/GitHub_noSync/RobDuino',
-					 'git clone https://github.com/davidrihtarsic/ArduinoCNC-DCmotors.git ~/Files/GitHub_noSync/ArduinoCNC-DCmotors'
+					 'git clone https://github.com/davidrihtarsic/ArduinoCNC-DCmotors.git ~/Files/GitHub_noSync/CNC-ArduinoDCmotors'
 					 ]
-	
-## Thunar #####################################################2
+## Thunar ######################################################
 	global Thunar
 	Thunar = NovProgram()
 	Thunar.program_name = 'Thunar'
-	Thunar.category ='system'
+	Thunar.category ='System'
 	Thunar.description = 'Thunar is a file manager for Linux and other Unix-like systems, written using the GTK+ 2 toolkit, and shipped with Xfce version 4.4 RC1 and later. Thunar is developed by Benedikt Meurer, and was originally intended to replace XFFM, Xfces previous file manager. It was initially called Filer but was changed to Thunar due to a name clash.'
 	Thunar.arch_yaourt_cmds = [	'yaourt thunar',
 								'yaourt thunar-shares-plugin',
 								'yaourt gvfs-smb']
 	Thunar.notes = 'You shuld REBOOT... (not just log-OUT/log-IN)'
-	
-## NMON #######################################################4
+## NMON ########################################################
 	global nmon
 	nmon = NovProgram()
 	nmon.program_name = 'nmon'
-	nmon.category = 'system'
+	nmon.category = 'System'
 	nmon.description = 'Spremljanje procesov, diska...'
 	nmon.arch_pacman_cmds = ['pacman -S nmon']
-	
-## WAVEMON ####################################################5
+## WAVEMON #####################################################
 	global wavemon
 	wavemon = NovProgram()
 	wavemon.program_name = 'wavemon'					#ime naj bo brez presledkov
-	wavemon.category = 'system'
+	wavemon.category = 'System'
 	wavemon.description = 'Program za monitoring wireless omrezj'					#neko besedilo za opis
 	wavemon.arch_pacman_cmds = ['sudo pacman -S wavemon']					#ime za apt-get
-	
-## NMAP #######################################################6
+## NMAP ########################################################
 	global nmap
 	nmap =NovProgram()
 	nmap.program_name = 'nmap'
-	nmap.category = 'system'
+	nmap.category = 'System'
 	nmap.description = 'map ("Network Mapper") is a free and open source (license) utility for network discovery and security auditing. Many systems and network administrators also find it useful for tasks such as network inventory, managing service upgrade schedules, and monitoring host or service uptime. Nmap uses raw IP packets in novel ways to determine what hosts are available on the network, what services (application name and version) those hosts are offering, what operating systems (and OS versions) they are running, what type of packet filters/firewalls are in use, and dozens of other characteristics.'
 	nmap.arch_pacman_cmds = ['sudo pacman -S nmap']
-	
-## ADB  to-do #################################################7
-## Keymap #####################################################8
+## ADB  to-do ##################################################
+## Keymap ######################################################
 	global Keymap
 	Keymap = NovProgram()
 	Keymap.description='remap tipke [dz] v "/"'
 	Keymap.program_name = 'Keymap'
-	Keymap.category = 'system'
+	Keymap.category = 'System'
 	Keymap.add_bash_parameter = ['\n#remap tipko [dz] - "/"','\nxmodmap -e "keycode 35 = slash"']			#text ki je za dodat v .bash 
-	
-## BunsenLab personal settings ################################9
-#	global bunsenLabSettings
-#	bunsenLabSettings = NovProgram()
-#	bunsenLabSettings.program_name = '_to_do_myBunsenLabSettings'					#ime naj bo brez presledkov
-#	bunsenLabSettings.category = 'system'
-#	bunsenLabSettings.description = 'V datoteki "~/.config/openbox/rc.xml" je vpisanih kar nekaj bliznjic, ki jih lahko uporabljate v OS BunsenLab linuxu. Tej datoteki je dodano se nekaj osebnih nastavitev. Naprimer:\n + [Ctrl]+[Space] => Run Linux CMD\n + [S]+[A]+[Up] => Maximize Window... '#neko besedilo za opis
-#	bunsenLabSettings.extra_cmd = ['mv ~/.config/openbox/rc.xml ~/.config/openbox/rc.xml_original',\
-#						'wget "https://github.com/davidrihtarsic/BunsenLab/raw/master/rc.xml" -O ~/.config/openbox/rc.xml',\
-#						'openbox --restart']#se ene extra cmd ... ce je se kaj...
-#	# obmenu.notes = ''
-	
-## ARCH config files #########################################10
+## BunsenLab personal settings #################################
+	#	global bunsenLabSettings
+	#	bunsenLabSettings = NovProgram()
+	#	bunsenLabSettings.program_name = '_to_do_myBunsenLabSettings'					#ime naj bo brez presledkov
+	#	bunsenLabSettings.category = 'System'
+	#	bunsenLabSettings.description = 'V datoteki "~/.config/openbox/rc.xml" je vpisanih kar nekaj bliznjic, ki jih lahko uporabljate v OS BunsenLab linuxu. Tej datoteki je dodano se nekaj osebnih nastavitev. Naprimer:\n + [Ctrl]+[Space] => Run Linux CMD\n + [S]+[A]+[Up] => Maximize Window... '#neko besedilo za opis
+	#	bunsenLabSettings.extra_cmd = ['mv ~/.config/openbox/rc.xml ~/.config/openbox/rc.xml_original',\
+	#						'wget "https://github.com/davidrihtarsic/BunsenLab/raw/master/rc.xml" -O ~/.config/openbox/rc.xml',\
+	#						'openbox --restart']#se ene extra cmd ... ce je se kaj...
+	#	# obmenu.notes = ''
+## ARCH config files ###########################################
 	global Arch_config
 	Arch_config = NovProgram()
 	Arch_config.program_name = 'Arch .config files'
-	Arch_config.category = 'system'
+	Arch_config.category = 'System'
 	Arch_config.description = 'Moji .config fili iz GitHuba...'
-	Arch_config.extra_cmd = ['']
-
-## alias WEATHER #############################################10
+	Arch_config.extra_cmd = ['git clone https://github.com/davidrihtarsic/ArchLabs.git ~/Files/GitHub_noSync/ArchLabs',
+							 'cp -R ~/Files/GitHub_noSync/ArchLabs/MyDotFiles/.config ~/'
+							]
+## alias WEATHER ###############################################
 	global weather
 	weather = NovProgram()
 	weather.program_name = 'weather'					#ime naj bo brez presledkov
-	weather.category = 'other'
+	weather.category = 'Other'
 	weather.description = 'izpis vremena za tri dni v terminalnem oknu'
 					#neko besedilo za opis
 	weather.add_bash_parameter = ["\nalias weather='curl wttr.in/~begunje'"]			#text ki je za dodat v .bash 
 	weather.notes = ''
-	
-## FileZilla #################################################11
+## FileZilla ###################################################
 	# NOT testet yet ... - was preinstalled on BL
 	#global FileZilla
 	#FileZilla = NovProgram()
 	#FileZilla.program_name = '_to_do_FileZilla'
-	#FileZilla.category = 'other'
+	#FileZilla.category = 'Other'
 	#FileZilla.description = 'FileZilla is open source software distributed free of charge under the terms of the GNU General Public License'					
 	#FileZilla.apt_get_name = 'FileZilla'
 	##FileZilla.notes = ''
  	#
-## python-serial #############################################12
+## python-serial ###############################################
 	#test OK @ BL 64bit (David)
 	#global python_serial
 	#python_serial = NovProgram()
 	#python_serial.program_name = '_to_do_python-serial'
-	#python_serial.category = 'system'
+	#python_serial.category = 'System'
 	#python_serial.description = 'This module encapsulates the access for the serial port. It provides backends for Python running on Windows, OSX, Linux, BSD (possibly any POSIX compliant system) and IronPython. The module named "serial" automatically selects the appropriate backend.'
 	#python_serial.apt_get_name = 'python-serial'
 	##python-serial.notes = ''
  	#
-## FreeFileSync ##############################################13
+## FreeFileSync ################################################
 	global FreeFileSync
 	FreeFileSync = NovProgram()
 	FreeFileSync.program_name = 'FreeFileSync'
-	FreeFileSync.category = 'system'
+	FreeFileSync.category = 'System'
 	FreeFileSync.description = 'FreeFileSync is a free Open Source software that helps you synchronize files and synchronize folders for Windows, Linux and macOS. It is designed to save your time setting up and running backup jobs while having nice visual feedback along the way.'
 	FreeFileSync.arch_yaourt_cmds = ['yaourt freefilesync']
-	
-#-------------------------------------------------OTHER PROGRAMS
 ## ARDUINO #####################################################
 	global Arduino
 	Arduino = NovProgram()
 	Arduino.program_name = 'ArduinoIDE'
-	Arduino.category = 'other'
+	Arduino.category = 'Programming'
 	Arduino.description = 'Arduino je mikrokrmilnik na maticni plosci, ki je zasnovan '\
 						'tako da bi bil postopek z uporabo elektronike v multidisci'\
 						'plinarnih projektih, bolj dostopen. Strojno opremo sestavljajo '\
@@ -649,12 +638,11 @@ def Install_programms():
 					'	kjer je "dailout" - group name\n'\
 					'2. -> sudo usermod -a -G group-name username\n'\
 					'3. log-OUT & log-IN'
-	
 ## QCAD ########################################################
 	global qCAD
 	qCAD = NovProgram()
 	qCAD.program_name = 'Qcad'
-	qCAD.category = 'other'
+	qCAD.category = 'Graphics'
 	qCAD.description = 'Qcad je racunalnisko podprto orodje za 2D nacrtovanje in '\
 						'risanje. Zacetki razvoja segajo v leto 1999, ko je programsko '\
 						'orodje nastalo kot rezultat spinoff projekta izdelave CAD '\
@@ -663,174 +651,201 @@ def Install_programms():
 						'Uporaben je na razlicnih tehniskih podrocjih: strojnistvo, '\
 						'lesarstvo, gradbenistvo, arhitektura, geodezija in elektrotehnika.'
 	qCAD.arch_pacman_cmds = ['sudo pacman -S qcad']
-	
 ## FREECAD #####################################################
 	global FreeCAD
 	FreeCAD = NovProgram()
 	FreeCAD.program_name = 'FreeCAD'
-	FreeCAD.category = 'other'
+	FreeCAD.category = 'Graphics'
 	FreeCAD.description = 'Orodje za tehnisko risanje.'
 	FreeCAD.arch_pacman_cmds =['sudo pacman -S freecad']
-	
 ## Skype #######################################################
 	global Skype
 	Skype = NovProgram()
 	Skype.program_name = 'Skype'
-	Skype.category = 'other'
+	Skype.category = 'Media'
 	Skype.description = 'Komunikacija preko interneta...'
 	Skype.arch_yaourt_cmds =['yaourt skypeforlinux-bin']
-	
 ## Stellarium ##################################################
 	global stellarium
 	stellarium = NovProgram()
 	stellarium.program_name = 'Stellarium'
-	stellarium.category = 'other'
+	stellarium.category = 'Other'
 	stellarium.description = 'Zvezvde...'
 	#stellarium.pre_install_cmds = []					
 	stellarium.arch_pacman_cmds = ['pacman -S stellarium']
-	
 ## Fritzing ####################################################
     #32 bit BL tested
 	global Fritzing
 	Fritzing = NovProgram()
 	Fritzing.program_name = 'Fritzing'
-	Fritzing.category = 'other'
+	Fritzing.category = 'Other'
 	Fritzing.description = 'Program za risanje vezij oziroma elektrotehniskih shem'
 	Fritzing.arch_yaourt_cmds = ['yaourt fritzing']
-	
 ## Audacity ####################################################
 	global audacity
 	audacity = NovProgram()
 	audacity.program_name = 'Audacity'
-	audacity.category = 'other'
+	audacity.category = 'Media'
 	audacity.description = 'Audacity is free, open source, cross-platform audio software for multi-track recording and editing.'					
 	audacity.arch_yaourt_cmds = ['yaourt audacity']
 	#audacity.notes = ''
-	
 ## bCNC ########################################################
 	#test OK @ BL 64-bit (David)
 	global bCNC
 	bCNC = NovProgram()
 	bCNC.program_name = 'bCNC'
-	bCNC.category = 'other'
+	bCNC.category = 'Other'
 	bCNC.description = 'An advanced fully featured g-code sender for GRBL. bCNC is a cross platform program (Windows, Linux, Mac) written in python. The sender is robust and fast able to work nicely with old or slow hardware like Rasperry PI (As it was validated by the GRBL mainter on heavy testing).'
 	bCNC.arch_yaourt_cmds = ['yaourt bcnc']
-	
 ## ECLIPSEC ####################################################
 	#testing...  @ BL 64-bit (David)
 	# instalacija dela...
 	global eclipse
 	eclipse = NovProgram()
 	eclipse.program_name = 'Eclipse'
-	eclipse.category = 'other'
+	eclipse.category = 'Programming'
 	eclipse.description = 'Programsko okolje ...'
 	eclipse.arch_yaourt_cmds = ['yaourt eclipse-cpp']
-	
 ## QT5 Creator #################################################
 	global QT5_creator
 	QT5_creator = NovProgram()
 	QT5_creator.program_name = 'QT5 Creator'
-	QT5_creator.category = 'other'
+	QT5_creator.category = 'Programming'
 	QT5_creator.description = 'Qt Creator provides a cross-platform, complete integrated development environment (IDE) for application developers to create applications for multiple desktop, embedded, and mobile device platforms, such as Android and iOS. It is available for Linux, macOS and Windows operating systems. For more information, see Supported Platforms.'
 	QT5_creator.arch_yaourt_cmds = ['yaourt qtcreator']
-	
-## Stencyl ####################################################
-    #64 bit BL tested
+## Stencyl #####################################################
+	#64 bit BL tested
 	global Stencyl
 	Stencyl = NovProgram()
 	Stencyl.program_name = 'Stencyl'
-	Stencyl.category = 'other'
+	Stencyl.category = 'Other'
 	Stencyl.description = "Stencyl isn't your average game creation software. It's a gorgeous, intuitive toolset that accelerates your workflow and then gets out of the way. We take care of the essentials, so you can focus on what's important - making your game yours."
 	Stencyl.arch_yaourt_cmds = ['yaourt stencyl']
-	
-## PopCornTime ####################################################
-    #64 bit BL tested
+## PopCornTime #################################################
+	#64 bit BL tested
 	global PopCornTime
 	PopCornTime = NovProgram()
 	PopCornTime.program_name = 'PopCornTime'
-	PopCornTime.category = 'other'
+	PopCornTime.category = 'Media'
 	PopCornTime.arch_yaourt_cmds =['yaourt popcorntime-bin']
 	PopCornTime.description = "Popcorn Time is constantly searching all over the web for the best torrents from the most important sites."
-	
+## Gimp ########################################################
+	global Gimp
+	Gimp = NovProgram()
+	Gimp.program_name = 'Gimp'
+	Gimp.category = 'Preinstalled'
+	Gimp.arch_pacman_cmds =['sudo pacman -S gimp']
+	Gimp.description = "GIMP is a cross-platform image editor available for GNU/Linux, OS X, Windows and more operating systems. It is free software, you can change its source code and distribute your changes."
+## LibreOffice #################################################
+	global LibreOffice
+	LibreOffice = NovProgram()
+	LibreOffice.program_name = 'LibreOffice'
+	LibreOffice.category = 'Preinstalled'
+	LibreOffice.arch_pacman_cmds =['sudo pacman -S libreoffice']
+	LibreOffice.description = "LibreOffice is a powerful office suite – its clean interface and feature-rich tools help you unleash your creativity and enhance your productivity. LibreOffice includes several applications that make it the most powerful Free and Open Source office suite on the market."
+
 
 Install_programms()
+# find programs and categorize them
+#Force System as first
+all_categorys = ['System']
+category_programs = [0]
+all_program_manes = []
+for program in NovProgram.getinstances():
+	all_program_manes.append(program.program_name)
+	if program.category in all_categorys:
+		i = all_categorys.index(program.category)
+		category_programs[i] += 1
+	else:
+		all_categorys.append(program.category)
+		category_programs.append(1)
 
+def makeAllProgramForms():
+	global allForms
+	allForms = []
+	global editProgramms
+	editProgramms = []
+	global colons
+	colons = 2
+	x = 4
+	y = 4
+	dx = 28 # max od program name
+	if colons == 1:
+		dy = category_programs[0] +4
+	else:
+		dy = max(category_programs)+4 # max od category_programs
 
-def MakeSystemProgrammsForm():
-	#dy = max(n_systemPrograms,len(
-	dy = 20
-	global formSystemPrograms
-	formSystemPrograms = Form('System Programs',3,2 ,28,dy+4)
-	global editPrigramms
-	editPrigramms =[]
+	programID = 0
+	for category in all_categorys:
+		col = len(allForms)%colons
+		x = col * (dx + 1) + 4
+		if (col == 0) and (len(allForms)>0):
+			#cpecial case if only 1 colon
+			if colons == 1:
+				y = allForms[len(allForms)-1].y + allForms[len(allForms)-1].dy 
+				dy = category_programs[len(allForms)] +4
+			else:
+				y += dy
+		allForms.append(Form(category,x,y,dx,dy))
+		#filaj programe po kategorijah
+		nthCategoryProgram = 0
+		for program in NovProgram.getinstances():
+			if program.category == all_categorys[len(allForms)-1]:
+				programID += 1
+				nthCategoryProgram +=1
+				program.index = programID
+				editX = allForms[len(allForms)-1].x +2
+				editY = allForms[len(allForms)-1].y + nthCategoryProgram +1
+				editText = '(' + str(programID) + ')'
+				editProgramms.append(Edit(editText, editX, editY))
+				editProgramms[programID-1].new_value(program.program_name)
+		#input()
 
-	NthProgram = 0
-	for obj in NovProgram.getinstances():
-		if obj.category == 'system':
-			editPrigramms.append(Edit('(' + str(NthProgram+1) + ')', formSystemPrograms.x+3 ,formSystemPrograms.y + NthProgram + 2))
-			editPrigramms[NthProgram].new_value(obj.program_name)
-			NthProgram += 1
-			obj.index = NthProgram
-	global n_systemPrograms
-	n_systemPrograms = NthProgram 
-
-def MakeOtherProgrammsForm():
-	dx = formSystemPrograms.x+formSystemPrograms.dx
-	#dy = max(n_systemPrograms,len(
-	dy = 20
-	global formOtherPrograms
-	formOtherPrograms = Form('Other Programs', dx+3,2 ,28,dy+4)
-
-	NthProgram = 0
-	for obj in NovProgram.getinstances():
-		if obj.category == 'other':
-			editPrigramms.append(Edit('(' + str(NthProgram+1+n_systemPrograms) + ')', formOtherPrograms.x+3 ,formOtherPrograms.y + NthProgram + 2))
-			editPrigramms[NthProgram + n_systemPrograms].new_value(obj.program_name)
-			NthProgram += 1
-			obj.index = NthProgram+n_systemPrograms
-
-MakeSystemProgrammsForm()
-MakeOtherProgrammsForm()
+makeAllProgramForms()
+#key = input()
 
 def MakeHelpForm():
-	HotKeys = [	'n      - CHOOSE PROGRAM',
-				'all    - INSTALL ALL',
+	HotKeys = [	'n      - inst. program',
+				'System - inst. all from',
+				'       + System category',
+				'all    - inst. all',
 				'tit    - INSTALL:',
 				'		+ Arduino',
 				'		+ qCAD',
 				'		+ FreeCAD',
 				'		+ Sublime',
-				'system - INSTALL:',
-				'		+ Htop',
-				'		+ Terminator',
 				'pef 	- INSTALL:',
 				'		+ Arduino IDE',
 				'		+ Fritzing',
 				'		+ Sublime',
-				"		+ dave's conky",
-				'		+ openbox-menu',
-				'--------------------------',
-				'update - Update packages',
+				'-------------------------',
+				'Update - Update & Upgrade',
 				'ENTER  - MAIN MENU',
 				'q      - EXIT',
 				]
-	x = formOtherPrograms.x + formOtherPrograms.dx + 3
-	formHelp = Form('MENU',x,2,33,formSystemPrograms.dy)
+
+	x = allForms[0].x + (allForms[0].dx +1) * colons 
+	y = allForms[0].y
+	dx = allForms[0].dx
+	if colons == 1:
+		dy = allForms[len(allForms)-1].y + allForms[len(allForms)-1].dy -4
+	else:
+		dy = allForms[0].dy * len(allForms)//colons 
+	#dy = (len(all_categorys)//colons +0) * allForms[0].dy
+	#dy = 2 * allForms[0].dy
+	allForms.append(Form('Menu',x,y,dx,dy))
+	
 	t_Keys = []
 	for n in range(0, len(HotKeys)):
-		t_Keys.append(Text(HotKeys[n],formHelp.x+3,formHelp.y+n+2))
+		t_Keys.append(Text(HotKeys[n],x+2,y+n+2))
 
 # MAIN PROGRAM ##############################################
 def Main():
+	makeAllProgramForms()
 	MakeHelpForm()
-	MakeSystemProgrammsForm()
-	MakeOtherProgrammsForm()
-	y1 = formSystemPrograms.y + formSystemPrograms.dy + 4
-	y2 = formOtherPrograms.y + formOtherPrograms.dy + 4
-	setCursor(1,max(y1,y2))
-	#global editCmd
-	#editCmd = Edit('Cmd',1,20)
-	#editCmd.value = ''
+	#y = allForms[0].dy * len(allForms)//colons + 5
+	y = allForms[len(allForms)-1].dy +4
+	setCursor(1,y)
 
 key = ''
 cls()
@@ -851,8 +866,12 @@ while (key != 'q'):
 	if key == 'all':
 		for obj in NovProgram.getinstances():
 			obj.install()	
-	elif key == 'update':
+	elif key == 'Update':
 		os.system('sudo pacman -Syu')
+	elif key in all_categorys:
+		for program in NovProgram.getinstances():
+			if program.category == key:
+				program.install()
 	elif key == 'tit':	
 		Arduino.install()
 		qCAD.install()
@@ -860,7 +879,7 @@ while (key != 'q'):
 		Sublime.install()
 		stellarium.install()
 		Fritzing.install()
-	elif key == 'system':
+	elif key == 'System':
 		Update_Upgrade.install()	
 		Terminator.install()
 		Htop.install()
