@@ -766,10 +766,14 @@ def makeAllProgramForms():
 	global editProgramms
 	editProgramms = []
 	global colons
-	colons = 2
 	x = 4
-	y = 4
+	#y = 4
 	dx = 28 # max od program name
+	#terminal = os.get_terminal_size()
+	#width = terminal.columns
+	#colons = width//
+	
+	colons = 2
 	if colons == 1:
 		dy = category_programs[0] +4
 	else:
@@ -778,14 +782,15 @@ def makeAllProgramForms():
 	programID = 0
 	for category in all_categorys:
 		col = len(allForms)%colons
+		row = len(allForms)//colons
 		x = col * (dx + 1) + 4
-		if (col == 0) and (len(allForms)>0):
-			#cpecial case if only 1 colon
-			if colons == 1:
-				y = allForms[len(allForms)-1].y + allForms[len(allForms)-1].dy 
-				dy = category_programs[len(allForms)] +4
-			else:
-				y += dy
+		if len(allForms)>colons:
+			#smo že v 1.,2.,3.. vrsti
+			y = allForms[len(allForms)-colons].y +allForms[len(allForms)-colons].dy
+		else:
+			#smo še v 0. vrsti
+			y = (dy * row) + 4
+		dy = 4+ max( category_programs[n] for n in range((row*colons),((row*colons)+colons)))
 		allForms.append(Form(category,x,y,dx,dy))
 		#filaj programe po kategorijah
 		nthCategoryProgram = 0
@@ -827,17 +832,21 @@ def MakeHelpForm():
 	x = allForms[0].x + (allForms[0].dx +1) * colons 
 	y = allForms[0].y
 	dx = allForms[0].dx
-	if colons == 1:
-		dy = allForms[len(allForms)-1].y + allForms[len(allForms)-1].dy -4
-	else:
-		dy = allForms[0].dy * len(allForms)//colons 
-	#dy = (len(all_categorys)//colons +0) * allForms[0].dy
-	#dy = 2 * allForms[0].dy
+	#if colons == 1:
+	#	dy = allForms[len(allForms)-1].y + allForms[len(allForms)-1].dy -4
+	#else:
+	#	dy = allForms[0].dy * len(allForms)//colons 
+	dy = 0
+	col = len(allForms)%colons
+	row = len(allForms)//colons
+	for n in range(0, row):
+		dy += allForms[n*colons].dy
+
 	allForms.append(Form('Menu',x,y,dx,dy))
 	
 	t_Keys = []
 	for n in range(0, len(HotKeys)):
-		t_Keys.append(Text(HotKeys[n],x+2,y+n+2))
+		t_Keys.append(Text(HotKeys[n],x+2,y+n+1))
 
 # MAIN PROGRAM ##############################################
 def Main():
