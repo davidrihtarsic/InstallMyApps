@@ -757,6 +757,13 @@ def Install_programms():
 	PhoronixTestSuite.category = 'System'
 	PhoronixTestSuite.arch_yaourt_cmds =['yaourt phoronix-test-suite']
 	PhoronixTestSuite.description = 'The Phoronix Test Suite makes the process of carrying out automated tests incredibly simple. The Phoronix Test Suite will take care of the entire test process from dependency management to test download/installation, execution, and result aggregation.'
+## GoogleChrome ################################################
+	global GoogleChrome
+	GoogleChrome = NovProgram()
+	GoogleChrome.program_name = 'GoogleChrome'
+	GoogleChrome.category = 'Media'
+	GoogleChrome.arch_yaourt_cmds =['yaourt google-chrome']
+	GoogleChrome.description = "Chrome is designed to be fast in every possible way. It's quick to start up from your desktop, loads web pages in a snap, and runs complex web applications lightning fast."
 
 Install_programms()
 # find programs and categorize them
