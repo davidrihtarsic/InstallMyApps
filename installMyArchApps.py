@@ -628,7 +628,7 @@ def Install_programms():
 						'mestu Ivrea in predstavlja enega zgodnjih mejnikov v gibanju '\
 						'odprtokodne strojne opreme.'
 	Arduino.arch_pacman_cmds =['sudo pacman -S arduino']
-	Arduino.extra_cmd = ['sudo usermod -a -G dialout '+ user]
+	Arduino.extra_cmd = ['sudo usermod -a -G uucp '+ user]
 	# tole je treba še zrihtat !!!
 	Arduino.notes = 'NASTAVITI JE POTREBNO "SERIAL PORT PERMITIONS"!\n'\
 					'poglej na: http://playground.arduino.cc/Linux/All#Permission\n'\
