@@ -743,7 +743,20 @@ def Install_programms():
 	LibreOffice.category = 'Preinstalled'
 	LibreOffice.arch_pacman_cmds =['sudo pacman -S libreoffice']
 	LibreOffice.description = "LibreOffice is a powerful office suite – its clean interface and feature-rich tools help you unleash your creativity and enhance your productivity. LibreOffice includes several applications that make it the most powerful Free and Open Source office suite on the market."
-
+## Terminator ##################################################
+	global Terminator
+	Terminator = NovProgram()
+	Terminator.program_name = 'Terminator'
+	Terminator.category = 'Preinstalled'
+	Terminator.arch_pacman_cmds =['sudo pacman -S terminator']
+	Terminator.description = ""
+## PhoronixTestSuite ###########################################
+	global PhoronixTestSuite
+	PhoronixTestSuite = NovProgram()
+	PhoronixTestSuite.program_name = 'PhoronixTestSuite'
+	PhoronixTestSuite.category = 'System'
+	PhoronixTestSuite.arch_yaourt_cmds =['yaourt phoronix-test-suite']
+	PhoronixTestSuite.description = 'The Phoronix Test Suite makes the process of carrying out automated tests incredibly simple. The Phoronix Test Suite will take care of the entire test process from dependency management to test download/installation, execution, and result aggregation.'
 
 Install_programms()
 # find programs and categorize them
