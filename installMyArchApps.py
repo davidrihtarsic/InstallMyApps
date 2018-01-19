@@ -628,7 +628,7 @@ def Install_programms():
 						'mestu Ivrea in predstavlja enega zgodnjih mejnikov v gibanju '\
 						'odprtokodne strojne opreme.'
 	Arduino.arch_pacman_cmds =['sudo pacman -S arduino']
-	Arduino.extra_cmd = ['sudo usermod -a -G dialout '+ user]
+	Arduino.extra_cmd = ['sudo usermod -a -G uucp '+ user]
 	# tole je treba še zrihtat !!!
 	Arduino.notes = 'NASTAVITI JE POTREBNO "SERIAL PORT PERMITIONS"!\n'\
 					'poglej na: http://playground.arduino.cc/Linux/All#Permission\n'\
@@ -743,7 +743,27 @@ def Install_programms():
 	LibreOffice.category = 'Preinstalled'
 	LibreOffice.arch_pacman_cmds =['sudo pacman -S libreoffice']
 	LibreOffice.description = "LibreOffice is a powerful office suite – its clean interface and feature-rich tools help you unleash your creativity and enhance your productivity. LibreOffice includes several applications that make it the most powerful Free and Open Source office suite on the market."
-
+## Terminator ##################################################
+	global Terminator
+	Terminator = NovProgram()
+	Terminator.program_name = 'Terminator'
+	Terminator.category = 'Preinstalled'
+	Terminator.arch_pacman_cmds =['sudo pacman -S terminator']
+	Terminator.description = ""
+## PhoronixTestSuite ###########################################
+	global PhoronixTestSuite
+	PhoronixTestSuite = NovProgram()
+	PhoronixTestSuite.program_name = 'PhoronixTestSuite'
+	PhoronixTestSuite.category = 'System'
+	PhoronixTestSuite.arch_yaourt_cmds =['yaourt phoronix-test-suite']
+	PhoronixTestSuite.description = 'The Phoronix Test Suite makes the process of carrying out automated tests incredibly simple. The Phoronix Test Suite will take care of the entire test process from dependency management to test download/installation, execution, and result aggregation.'
+## GoogleChrome ################################################
+	global GoogleChrome
+	GoogleChrome = NovProgram()
+	GoogleChrome.program_name = 'GoogleChrome'
+	GoogleChrome.category = 'Media'
+	GoogleChrome.arch_yaourt_cmds =['yaourt google-chrome']
+	GoogleChrome.description = "Chrome is designed to be fast in every possible way. It's quick to start up from your desktop, loads web pages in a snap, and runs complex web applications lightning fast."
 
 Install_programms()
 # find programs and categorize them
