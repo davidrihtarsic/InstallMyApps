@@ -773,7 +773,7 @@ def makeAllProgramForms():
 	#width = terminal.columns
 	#colons = width//
 	
-	colons = 2
+	colons = 1
 	if colons == 1:
 		dy = category_programs[0] +4
 	else:
