@@ -30,6 +30,8 @@ class NovProgram(object):
 		self.description = ''
 		self.arch_yaourt_cmds = []
 		self.arch_pacman_cmds=	[]
+		self.arch_zsh_cmds= []
+
 		self.pre_install_cmds = []
 		self.apt_get_name = ''
 		self.check_version_cmd = ''
@@ -74,20 +76,34 @@ class NovProgram(object):
 			cls._instances -= dead
 
 	def arch_yaourt_install(self):
-		## install from terminal yaourt command
+		## install from terminal command
 		if len(self.arch_yaourt_cmds) != 0:
 			for yaourt_cmd in self.arch_yaourt_cmds:
 				#key = input(thisAppOutput+'execute:'+yaourt_cmd+ confirmText)
 				#if key == 'y':
-				os.system(yaourt_cmd)
+				os.system('yaourt -S --noconfirm '+yaourt_cmd)
 
 	def arch_pacman_install(self):
 		## install from terminal pacman command
 		if len(self.arch_pacman_cmds) != 0:
 			for pacman_install in self.arch_pacman_cmds:
-				#key = input(thisAppOutput+'execute:'+pacman_install+ confirmText)
-				#if key == 'y':
-				os.system(pacman_install)
+				if self.category == 'Auto':
+					key = 'y'
+				else:
+					key = input(thisAppOutput+'execute:'+pacman_install+ confirmText)
+				if key == 'y':
+					os.system('sudo pacman -S --noconfirm ' + pacman_install)
+
+	def arch_run_zsh_cmds(self):
+		## Post INSTALL operations #####################################################
+		if len(self.arch_zsh_cmds) != 0:
+			for arch_zsh_cmds in self.arch_zsh_cmds:
+				if self.category == 'Auto':
+					key='y'
+				else:
+					key = input(thisAppOutput+'execute:'+arch_zsh_cmds+ confirmText)
+				if key == 'y':
+					os.system(arch_zsh_cmds)
 
 	def install_apt_cmd(self):
 		## Instal from special apt-get command ... #####################################
@@ -326,10 +342,14 @@ class NovProgram(object):
 
 			sys.stdout.write(escapeColorDefault+self.description[new_start:]+''+escapeColorDefault+'\n'
 							+'###########################################################\n')
-		key = input(thisAppOutput+'Nadaljuj z namestitvijo?'+confirmText)
+		if (self.category=='Auto'):
+			key = 'y'
+		else:
+			key = input(thisAppOutput+'Nadaljuj z namestitvijo?'+confirmText)
 		if key == 'y':
 			self.arch_yaourt_install()
 			self.arch_pacman_install()
+			self.arch_run_zsh_cmds()
 			self.install_apt_cmd()
 			self.install_DEB_package()	
 			self.install_TAR_package()
@@ -506,9 +526,9 @@ def Install_programms():
 	git.category = 'System'
 	git.description = 'Protokol za skrbno spremljanje verzij'\
 					'razvojnih programov.'					#neko besedilo za opis
-	git.arch_pacman_cmds = ['sudo pacman -S git']
+	git.arch_pacman_cmds = ['git']
 	git.notes = ''
-	git.extra_cmd = ['git config --global user.email "david.rihtarsic@gmail.com"',
+	git.arch_zsh_cmds = ['git config --global user.email "david.rihtarsic@gmail.com"',
 					 'git config --global user.name "davidrihtarsic"',
 					 'git clone https://github.com/davidrihtarsic/InstallMyApps.git ~/Files/GitHub_noSync/InstallMyApps',
 					 'git clone https://github.com/davidrihtarsic/myLinuxNotes.git ~/Files/GitHub_noSync/myLinuxNotes',
@@ -523,10 +543,17 @@ def Install_programms():
 	Thunar.program_name = 'Thunar'
 	Thunar.category ='System'
 	Thunar.description = 'Thunar is a file manager for Linux and other Unix-like systems, written using the GTK+ 2 toolkit, and shipped with Xfce version 4.4 RC1 and later. Thunar is developed by Benedikt Meurer, and was originally intended to replace XFFM, Xfces previous file manager. It was initially called Filer but was changed to Thunar due to a name clash.'
-	Thunar.arch_yaourt_cmds = [	'yaourt thunar',
-								'yaourt thunar-shares-plugin',
-								'yaourt gvfs-smb']
+	Thunar.arch_yaourt_cmds = [	'thunar']
+
+	global Thunar_samba
+	Thunar_samba = NovProgram()
+	Thunar_samba.program_name = 'Thunar_samba'
+	Thunar_samba.category ='System'
+	Thunar_samba.description = 'Thunar_samba support.'
+	Thunar_samba.arch_yaourt_cmds = [	'thunar-shares-plugin',
+										'gvfs-smb']
 	Thunar.notes = 'You shuld REBOOT... (not just log-OUT/log-IN)'
+
 ## NMON ########################################################
 	global nmon
 	nmon = NovProgram()
@@ -540,7 +567,7 @@ def Install_programms():
 	wavemon.program_name = 'wavemon'					#ime naj bo brez presledkov
 	wavemon.category = 'System'
 	wavemon.description = 'Program za monitoring wireless omrezj'					#neko besedilo za opis
-	wavemon.arch_pacman_cmds = ['sudo pacman -S wavemon']					#ime za apt-get
+	wavemon.arch_pacman_cmds = ['wavemon']					#ime za apt-get
 ## NMAP ########################################################
 	global nmap
 	nmap =NovProgram()
@@ -550,12 +577,12 @@ def Install_programms():
 	nmap.arch_pacman_cmds = ['sudo pacman -S nmap']
 ## ADB  to-do ##################################################
 ## Keymap ######################################################
-	global Keymap
-	Keymap = NovProgram()
-	Keymap.description='remap tipke [dz] v "/"'
-	Keymap.program_name = 'Keymap'
-	Keymap.category = 'System'
-	Keymap.add_bash_parameter = ['\n#remap tipko [dz] - "/"','\nxmodmap -e "keycode 35 = slash"']			#text ki je za dodat v .bash 
+#	global Keymap
+#	Keymap = NovProgram()
+#	Keymap.description='remap tipke [dz] v "/"'
+#	Keymap.program_name = 'Keymap'
+#	Keymap.category = 'System'
+#	Keymap.add_bash_parameter = ['\n#remap tipko [dz] - "/"','\nxmodmap -e "keycode 35 = slash"']			#text ki je za dodat v .bash 
 ## BunsenLab personal settings #################################
 	#	global bunsenLabSettings
 	#	bunsenLabSettings = NovProgram()
@@ -572,18 +599,18 @@ def Install_programms():
 	Arch_config.program_name = 'Arch .config files'
 	Arch_config.category = 'System'
 	Arch_config.description = 'Moji .config fili iz GitHuba...'
-	Arch_config.extra_cmd = ['git clone https://github.com/davidrihtarsic/ArchLabs.git ~/Files/GitHub_noSync/ArchLabs',
-							 'cp -R ~/Files/GitHub_noSync/ArchLabs/MyDotFiles/.config ~/'
+	Arch_config.arch_zsh_cmds = ['git clone https://github.com/davidrihtarsic/ArchLabs.git ~/Files/GitHub_noSync/ArchLabs',
+							 'cp -r -v ~/Files/GitHub_noSync/ArchLabs/MyDotFiles/. ~'
 							]
 ## alias WEATHER ###############################################
-	global weather
-	weather = NovProgram()
-	weather.program_name = 'weather'					#ime naj bo brez presledkov
-	weather.category = 'Other'
-	weather.description = 'izpis vremena za tri dni v terminalnem oknu'
-					#neko besedilo za opis
-	weather.add_bash_parameter = ["\nalias weather='curl wttr.in/~begunje'"]			#text ki je za dodat v .bash 
-	weather.notes = ''
+#	global weather
+#	weather = NovProgram()
+#	weather.program_name = 'weather'					#ime naj bo brez presledkov
+#	weather.category = 'Other'
+#	weather.description = 'izpis vremena za tri dni v terminalnem oknu'
+#					#neko besedilo za opis
+#	weather.add_bash_parameter = ["\nalias weather='curl wttr.in/~begunje'"]			#text ki je za dodat v .bash 
+#	weather.notes = ''
 ## FileZilla ###################################################
 	# NOT testet yet ... - was preinstalled on BL
 	#global FileZilla
@@ -610,7 +637,7 @@ def Install_programms():
 	FreeFileSync.program_name = 'FreeFileSync'
 	FreeFileSync.category = 'System'
 	FreeFileSync.description = 'FreeFileSync is a free Open Source software that helps you synchronize files and synchronize folders for Windows, Linux and macOS. It is designed to save your time setting up and running backup jobs while having nice visual feedback along the way.'
-	FreeFileSync.arch_yaourt_cmds = ['yaourt freefilesync']
+	FreeFileSync.arch_yaourt_cmds = ['freefilesync']
 ## ARDUINO #####################################################
 	global Arduino
 	Arduino = NovProgram()
@@ -628,7 +655,7 @@ def Install_programms():
 						'mestu Ivrea in predstavlja enega zgodnjih mejnikov v gibanju '\
 						'odprtokodne strojne opreme.'
 	Arduino.arch_pacman_cmds =['sudo pacman -S arduino']
-	Arduino.extra_cmd = ['sudo usermod -a -G uucp '+ user]
+	Arduino.arch_zsh_cmds = ['sudo usermod -a -G uucp '+ user]
 	# tole je treba še zrihtat !!!
 	Arduino.notes = 'NASTAVITI JE POTREBNO "SERIAL PORT PERMITIONS"!\n'\
 					'poglej na: http://playground.arduino.cc/Linux/All#Permission\n'\
@@ -664,7 +691,7 @@ def Install_programms():
 	Skype.program_name = 'Skype'
 	Skype.category = 'Media'
 	Skype.description = 'Komunikacija preko interneta...'
-	Skype.arch_yaourt_cmds =['yaourt skypeforlinux-bin']
+	Skype.arch_yaourt_cmds =['skypeforlinux-preview-bin']
 ## Stellarium ##################################################
 	global stellarium
 	stellarium = NovProgram()
@@ -680,23 +707,23 @@ def Install_programms():
 	Fritzing.program_name = 'Fritzing'
 	Fritzing.category = 'Other'
 	Fritzing.description = 'Program za risanje vezij oziroma elektrotehniskih shem'
-	Fritzing.arch_yaourt_cmds = ['yaourt fritzing']
+	Fritzing.arch_yaourt_cmds = ['fritzing']
 ## Audacity ####################################################
 	global audacity
 	audacity = NovProgram()
 	audacity.program_name = 'Audacity'
 	audacity.category = 'Media'
 	audacity.description = 'Audacity is free, open source, cross-platform audio software for multi-track recording and editing.'					
-	audacity.arch_yaourt_cmds = ['yaourt audacity']
+	audacity.arch_yaourt_cmds = ['audacity']
 	#audacity.notes = ''
 ## bCNC ########################################################
 	#test OK @ BL 64-bit (David)
 	global bCNC
 	bCNC = NovProgram()
 	bCNC.program_name = 'bCNC'
-	bCNC.category = 'Other'
+	bCNC.category = 'Misc'
 	bCNC.description = 'An advanced fully featured g-code sender for GRBL. bCNC is a cross platform program (Windows, Linux, Mac) written in python. The sender is robust and fast able to work nicely with old or slow hardware like Rasperry PI (As it was validated by the GRBL mainter on heavy testing).'
-	bCNC.arch_yaourt_cmds = ['yaourt bcnc']
+	bCNC.arch_yaourt_cmds = ['bcnc']
 ## ECLIPSEC ####################################################
 	#testing...  @ BL 64-bit (David)
 	# instalacija dela...
@@ -705,14 +732,14 @@ def Install_programms():
 	eclipse.program_name = 'Eclipse'
 	eclipse.category = 'Programming'
 	eclipse.description = 'Programsko okolje ...'
-	eclipse.arch_yaourt_cmds = ['yaourt eclipse-cpp']
+	eclipse.arch_yaourt_cmds = ['eclipse-cpp']
 ## QT5 Creator #################################################
 	global QT5_creator
 	QT5_creator = NovProgram()
 	QT5_creator.program_name = 'QT5 Creator'
 	QT5_creator.category = 'Programming'
 	QT5_creator.description = 'Qt Creator provides a cross-platform, complete integrated development environment (IDE) for application developers to create applications for multiple desktop, embedded, and mobile device platforms, such as Android and iOS. It is available for Linux, macOS and Windows operating systems. For more information, see Supported Platforms.'
-	QT5_creator.arch_yaourt_cmds = ['yaourt qtcreator']
+	QT5_creator.arch_yaourt_cmds = ['qtcreator']
 ## Stencyl #####################################################
 	#64 bit BL tested
 	global Stencyl
@@ -720,50 +747,69 @@ def Install_programms():
 	Stencyl.program_name = 'Stencyl'
 	Stencyl.category = 'Other'
 	Stencyl.description = "Stencyl isn't your average game creation software. It's a gorgeous, intuitive toolset that accelerates your workflow and then gets out of the way. We take care of the essentials, so you can focus on what's important - making your game yours."
-	Stencyl.arch_yaourt_cmds = ['yaourt stencyl']
+	Stencyl.arch_yaourt_cmds = ['stencyl']
 ## PopCornTime #################################################
 	#64 bit BL tested
 	global PopCornTime
 	PopCornTime = NovProgram()
 	PopCornTime.program_name = 'PopCornTime'
 	PopCornTime.category = 'Media'
-	PopCornTime.arch_yaourt_cmds =['yaourt popcorntime-bin']
+	PopCornTime.arch_yaourt_cmds =['popcorntime-bin']
 	PopCornTime.description = "Popcorn Time is constantly searching all over the web for the best torrents from the most important sites."
 ## Gimp ########################################################
 	global Gimp
 	Gimp = NovProgram()
 	Gimp.program_name = 'Gimp'
 	Gimp.category = 'Preinstalled'
-	Gimp.arch_pacman_cmds =['sudo pacman -S gimp']
+	Gimp.arch_pacman_cmds =['gimp']
 	Gimp.description = "GIMP is a cross-platform image editor available for GNU/Linux, OS X, Windows and more operating systems. It is free software, you can change its source code and distribute your changes."
 ## LibreOffice #################################################
 	global LibreOffice
 	LibreOffice = NovProgram()
 	LibreOffice.program_name = 'LibreOffice'
 	LibreOffice.category = 'Preinstalled'
-	LibreOffice.arch_pacman_cmds =['sudo pacman -S libreoffice']
+	LibreOffice.arch_pacman_cmds =['libreoffice']
 	LibreOffice.description = "LibreOffice is a powerful office suite – its clean interface and feature-rich tools help you unleash your creativity and enhance your productivity. LibreOffice includes several applications that make it the most powerful Free and Open Source office suite on the market."
 ## Terminator ##################################################
 	global Terminator
 	Terminator = NovProgram()
 	Terminator.program_name = 'Terminator'
 	Terminator.category = 'Preinstalled'
-	Terminator.arch_pacman_cmds =['sudo pacman -S terminator']
+	Terminator.arch_pacman_cmds =['terminator']
 	Terminator.description = ""
 ## PhoronixTestSuite ###########################################
 	global PhoronixTestSuite
 	PhoronixTestSuite = NovProgram()
 	PhoronixTestSuite.program_name = 'PhoronixTestSuite'
-	PhoronixTestSuite.category = 'System'
-	PhoronixTestSuite.arch_yaourt_cmds =['yaourt phoronix-test-suite']
+	PhoronixTestSuite.category = 'Tsting'
+	PhoronixTestSuite.arch_yaourt_cmds =['phoronix-test-suite']
 	PhoronixTestSuite.description = 'The Phoronix Test Suite makes the process of carrying out automated tests incredibly simple. The Phoronix Test Suite will take care of the entire test process from dependency management to test download/installation, execution, and result aggregation.'
 ## GoogleChrome ################################################
 	global GoogleChrome
 	GoogleChrome = NovProgram()
 	GoogleChrome.program_name = 'GoogleChrome'
 	GoogleChrome.category = 'Media'
-	GoogleChrome.arch_yaourt_cmds =['yaourt google-chrome']
+	GoogleChrome.arch_yaourt_cmds =['google-chrome']
 	GoogleChrome.description = "Chrome is designed to be fast in every possible way. It's quick to start up from your desktop, loads web pages in a snap, and runs complex web applications lightning fast."
+## MOJ IZBOR ######################
+	global david_arch_config
+	david_arch_config = Arch_config
+	david_arch_config.category = 'Auto'
+	global gimp_auto
+	gimp_auto = Gimp
+	gimp_auto.category = 'Auto'
+	global audacity_auto
+	audacity_auto = audacity
+	audacity_auto.category = 'Auto'
+	#auto_programs = [NovProgram() for i in range(0,5)]
+	#for prog in auto_programs:
+	#	prog.category='Auto'
+	#auto_programs[0] = GoogleChrome
+	#auto_programs[1] = Terminator
+	#auto_programs[2] = eclipse
+	#auto_programs[3] = QT5_creator
+	#auto_programs[4] = Thunar_samba
+
 
 Install_programms()
 # find programs and categorize them
@@ -793,7 +839,7 @@ def makeAllProgramForms():
 	#width = terminal.columns
 	#colons = width//
 	
-	colons = 1
+	colons = 3
 	if colons == 1:
 		dy = category_programs[0] +4
 	else:
