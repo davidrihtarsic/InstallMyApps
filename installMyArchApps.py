@@ -804,14 +804,14 @@ def Install_programms():
 	global PhoronixTestSuite
 	PhoronixTestSuite = NovProgram()
 	PhoronixTestSuite.program_name = 'PhoronixTestSuite'
-	PhoronixTestSuite.category = 'Tsting'
+	PhoronixTestSuite.category = 'Testing'
 	PhoronixTestSuite.arch_yaourt_cmds =['phoronix-test-suite']
 	PhoronixTestSuite.description = 'The Phoronix Test Suite makes the process of carrying out automated tests incredibly simple. The Phoronix Test Suite will take care of the entire test process from dependency management to test download/installation, execution, and result aggregation.'
 ## GoogleChrome ################################################
 	global GoogleChrome
 	GoogleChrome = NovProgram()
 	GoogleChrome.program_name = 'GoogleChrome'
-	GoogleChrome.category = 'Media'
+	GoogleChrome.category = 'Internet'
 	GoogleChrome.arch_yaourt_cmds =['google-chrome']
 	GoogleChrome.description = "Chrome is designed to be fast in every possible way. It's quick to start up from your desktop, loads web pages in a snap, and runs complex web applications lightning fast."
 ## MOJ IZBOR ######################
@@ -891,6 +891,9 @@ for program in NovProgram.getinstances():
 	else:
 		all_categorys.append(program.category)
 		category_programs.append(1)
+#remove category Auto
+all_categorys.remove('Auto')
+category_programs.pop(0)
 
 def makeAllProgramForms():
 	global allForms
@@ -910,7 +913,7 @@ def makeAllProgramForms():
 		dy = category_programs[0] +4
 	else:
 		dy = max(category_programs)+4 # max od category_programs
-
+	global programID
 	programID = 0
 	for category in all_categorys:
 		col = len(allForms)%colons
@@ -942,23 +945,11 @@ makeAllProgramForms()
 #key = input()
 
 def MakeHelpForm():
-	HotKeys = [	'n      - inst. program',
-				'System - inst. all from',
-				'       + System category',
-				'all    - inst. all',
-				'tit    - INSTALL:',
-				'		+ Arduino',
-				'		+ qCAD',
-				'		+ FreeCAD',
-				'		+ Sublime',
-				'pef 	- INSTALL:',
-				'		+ Arduino IDE',
-				'		+ Fritzing',
-				'		+ Sublime',
-				'-------------------------',
+	HotKeys = [	'--Menu------------------',
+				'n      - inst. program',
 				'Update - Update & Upgrade',
 				'ENTER  - MAIN MENU',
-				'q      - EXIT',
+				'q      - EXIT'
 				]
 
 	x = allForms[0].x + (allForms[0].dx +1) * colons 
@@ -973,12 +964,27 @@ def MakeHelpForm():
 	row = len(allForms)//colons
 	for n in range(0, row):
 		dy += allForms[n*colons].dy
+	allForms.append(Form('Auto',x,y,dx,dy))
 
-	allForms.append(Form('Menu',x,y,dx,dy))
-	
+	nthCategoryProgram = 0
+	for program in NovProgram.getinstances():
+			if program.category == 'Auto':
+				global programID
+				programID += 1
+				nthCategoryProgram +=1
+				program.index = programID
+				editX = allForms[len(allForms)-1].x + 2
+				editY = allForms[len(allForms)-1].y + nthCategoryProgram +1 
+				editText = '(' + str(programID) + ')'
+				editProgramms.append(Edit(editText, editX, editY))
+				editProgramms[programID-1].new_value(program.program_name)
+
 	t_Keys = []
+	x = allForms[len(allForms)-1].x
+	y = allForms[len(allForms)-1].y + allForms[len(allForms)-1].dy - len(HotKeys)-2
 	for n in range(0, len(HotKeys)):
-		t_Keys.append(Text(HotKeys[n],x+2,y+n+1))
+		t_Keys.append(Text(HotKeys[n], x + 2 ,y+n+1))
+	
 
 # MAIN PROGRAM ##############################################
 def Main():
