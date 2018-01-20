@@ -553,6 +553,7 @@ def Install_programms():
 	git.notes = ''
 	git.arch_zsh_cmds = ['git config --global user.email "david.rihtarsic@gmail.com"',
 					 'git config --global user.name "davidrihtarsic"',
+					 'git clone https://github.com/davidrihtarsic/ArchLabs.git ~/Files/GitHub_noSync/ArchLabs',
 					 'git clone https://github.com/davidrihtarsic/InstallMyApps.git ~/Files/GitHub_noSync/InstallMyApps',
 					 'git clone https://github.com/davidrihtarsic/myLinuxNotes.git ~/Files/GitHub_noSync/myLinuxNotes',
 					 'git clone https://github.com/davidrihtarsic/Korad3005p.git ~/Files/GitHub_noSync/Korad3005p',
@@ -619,11 +620,10 @@ def Install_programms():
 ## ARCH config files ###########################################
 	global Arch_config
 	Arch_config = NovProgram()
-	Arch_config.program_name = 'Arch .config files'
+	Arch_config.program_name = 'Upadate .config'
 	Arch_config.category = 'System'
 	Arch_config.description = 'Moji .config fili iz GitHuba...'
-	Arch_config.arch_zsh_cmds = ['git clone https://github.com/davidrihtarsic/ArchLabs.git ~/Files/GitHub_noSync/ArchLabs',
-							 'cp -r -v ~/Files/GitHub_noSync/ArchLabs/MyDotFiles/. ~'
+	Arch_config.arch_zsh_cmds = ['cp -r -v ~/Files/GitHub_noSync/ArchLabs/MyDotFiles/. ~'
 							]
 ## alias WEATHER ###############################################
 #	global weather
