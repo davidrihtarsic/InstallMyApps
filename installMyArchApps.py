@@ -3,6 +3,7 @@ from myTUI import Form, Edit, Text, cls, setCursor
 import sys
 import os
 import weakref
+import copy
 
 cls()
 
@@ -14,6 +15,7 @@ menu_desktop = '/usr/share/applications/'
 profile_dir = '/etc/profile.d/'
 escapeColorDefault = '\x1B[39m'
 escapeColorCmd = '\x1B[38;5;130m'
+escapeColorInstalled = '\x1B[32m'
 thisAppOutput = escapeColorCmd+'--> '
 confirmText = escapeColorDefault+' [y/n]:'
 
@@ -79,16 +81,37 @@ class NovProgram(object):
 		## install from terminal command
 		if len(self.arch_yaourt_cmds) != 0:
 			for yaourt_cmd in self.arch_yaourt_cmds:
-				#key = input(thisAppOutput+'execute:'+yaourt_cmd+ confirmText)
-				#if key == 'y':
-				os.system('yaourt -S --noconfirm '+yaourt_cmd)
+				dummy_file = os.popen('sudo pacman -Qs '+yaourt_cmd)
+				is_installed = dummy_file.read()
+				if self.category == 'Auto':
+					if len(is_installed)>1 :
+						#it is alredy installed... skip it!
+						sys.stdout.write(thisAppOutput+'Paket : '+ yaourt_cmd +' je ze namescen.' +escapeColorDefault+'\n' )
+						sys.stdout.write(escapeColorInstalled + is_installed+escapeColorDefault+'\n' )
+						key='n'
+					else:
+						#it is not installed... install it!
+						key = 'y'
+				else:
+					key = input(thisAppOutput+'execute:'+yaourt_cmd+ confirmText)
+				if key == 'y':
+					os.system('yaourt -S --noconfirm '+yaourt_cmd)
 
 	def arch_pacman_install(self):
 		## install from terminal pacman command
 		if len(self.arch_pacman_cmds) != 0:
 			for pacman_install in self.arch_pacman_cmds:
+				dummy_file = os.popen('sudo pacman -Qs '+pacman_install)
+				is_installed = dummy_file.read()
 				if self.category == 'Auto':
-					key = 'y'
+					if len(is_installed)>1 :
+						#it is alredy installed... skip it!
+						sys.stdout.write(thisAppOutput+'Paket : '+ pacman_install +' je ze namescen.' +escapeColorDefault+'\n' )
+						sys.stdout.write(escapeColorInstalled + is_installed+escapeColorDefault+'\n' )
+						key='n'
+					else:
+						#it is not installed... install it!
+						key = 'y'
 				else:
 					key = input(thisAppOutput+'execute:'+pacman_install+ confirmText)
 				if key == 'y':
@@ -684,14 +707,14 @@ def Install_programms():
 	FreeCAD.program_name = 'FreeCAD'
 	FreeCAD.category = 'Graphics'
 	FreeCAD.description = 'Orodje za tehnisko risanje.'
-	FreeCAD.arch_pacman_cmds =['sudo pacman -S freecad']
+	FreeCAD.arch_pacman_cmds =['freecad']
 ## Skype #######################################################
 	global Skype
 	Skype = NovProgram()
 	Skype.program_name = 'Skype'
 	Skype.category = 'Media'
 	Skype.description = 'Komunikacija preko interneta...'
-	Skype.arch_yaourt_cmds =['skypeforlinux-preview-bin']
+	Skype.arch_yaourt_cmds =['skypeforlinux-stable-bin']
 ## Stellarium ##################################################
 	global stellarium
 	stellarium = NovProgram()
@@ -792,30 +815,73 @@ def Install_programms():
 	GoogleChrome.arch_yaourt_cmds =['google-chrome']
 	GoogleChrome.description = "Chrome is designed to be fast in every possible way. It's quick to start up from your desktop, loads web pages in a snap, and runs complex web applications lightning fast."
 ## MOJ IZBOR ######################
-	global david_arch_config
-	david_arch_config = Arch_config
-	david_arch_config.category = 'Auto'
-	global gimp_auto
-	gimp_auto = Gimp
-	gimp_auto.category = 'Auto'
-	global audacity_auto
-	audacity_auto = audacity
-	audacity_auto.category = 'Auto'
-	#auto_programs = [NovProgram() for i in range(0,5)]
-	#for prog in auto_programs:
-	#	prog.category='Auto'
-	#auto_programs[0] = GoogleChrome
-	#auto_programs[1] = Terminator
-	#auto_programs[2] = eclipse
-	#auto_programs[3] = QT5_creator
-	#auto_programs[4] = Thunar_samba
+	global auto_programe1
+	auto_programe1 = NovProgram()
+	autoInstallProgram(auto_programe1,Arch_config)
+	
+	global auto_programe2
+	auto_programe2 = NovProgram()
+	autoInstallProgram(auto_programe2,Gimp)
+	
+	global auto_programe3
+	auto_programe3 = NovProgram()
+	autoInstallProgram(auto_programe3,audacity)
+	
+	global auto_programe4
+	auto_programe4 = NovProgram()
+	autoInstallProgram(auto_programe4,Thunar)
+	
+	global auto_programe5
+	auto_programe5 = NovProgram()
+	autoInstallProgram(auto_programe5,Thunar_samba)
+	
+	global auto_programe6
+	auto_programe6 = NovProgram()
+	autoInstallProgram(auto_programe6,qCAD)
+	
+	global auto_programe7
+	auto_programe7 = NovProgram()
+	autoInstallProgram(auto_programe7,LibreOffice)
+
+	global auto_programe8
+	auto_programe8 = NovProgram()
+	autoInstallProgram(auto_programe8,Terminator)
+
+	global auto_programe9
+	auto_programe9 = NovProgram()
+	autoInstallProgram(auto_programe9,FreeFileSync)
+
+	global auto_programe10
+	auto_programe10 = NovProgram()
+	autoInstallProgram(auto_programe10,Fritzing)
+
+	global auto_programe11
+	auto_programe11 = NovProgram()
+	autoInstallProgram(auto_programe11,Arduino)
+
+	global auto_programe12
+	auto_programe12 = NovProgram()
+	autoInstallProgram(auto_programe12,Skype)
+
+	global auto_programe13
+	auto_programe13 = NovProgram()
+	autoInstallProgram(auto_programe13,GoogleChrome)
+
+def autoInstallProgram(destination, coppied):
+	destination.program_name = coppied.program_name
+	destination.arch_pacman_cmds = coppied.arch_pacman_cmds
+	destination.arch_yaourt_cmds = coppied.arch_yaourt_cmds
+	destination.arch_zsh_cmds = coppied.arch_zsh_cmds
+	destination.category = 'Auto'
+
+
 
 
 Install_programms()
 # find programs and categorize them
 #Force System as first
-all_categorys = ['System']
-category_programs = [0]
+all_categorys = ['Auto','System']
+category_programs = [0,0]
 all_program_manes = []
 for program in NovProgram.getinstances():
 	all_program_manes.append(program.program_name)
@@ -966,6 +1032,10 @@ while (key != 'q'):
 		dave_s_conky.install()
 		obmenu.install()
 	else:	
+		#f = os.popen(key)
+		#text = f.read()
+		#print(text)
+		#input()
 		os.system(key)
 	#Main()
 			
