@@ -891,9 +891,6 @@ for program in NovProgram.getinstances():
 	else:
 		all_categorys.append(program.category)
 		category_programs.append(1)
-#remove category Auto
-all_categorys.remove('Auto')
-category_programs.pop(0)
 
 def makeAllProgramForms():
 	global allForms
@@ -941,7 +938,7 @@ def makeAllProgramForms():
 				editProgramms[programID-1].new_value(program.program_name)
 		#input()
 
-makeAllProgramForms()
+#makeAllProgramForms()
 #key = input()
 
 def MakeHelpForm():
@@ -988,9 +985,16 @@ def MakeHelpForm():
 
 # MAIN PROGRAM ##############################################
 def Main():
+	#remove category Auto
+	all_categorys.remove('Auto')
+	num_of_auto_programs = category_programs.pop(0)
+
 	makeAllProgramForms()
 	MakeHelpForm()
-	#y = allForms[0].dy * len(allForms)//colons + 5
+	
+	all_categorys.insert(0,'Auto')
+	category_programs.insert(0,num_of_auto_programs)
+
 	y = allForms[len(allForms)-1].dy +4
 	setCursor(1,y)
 
