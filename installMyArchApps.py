@@ -677,7 +677,7 @@ def Install_programms():
 						'Mikrokrmilnik so razvili na soli oblikovanja v italijanskem '\
 						'mestu Ivrea in predstavlja enega zgodnjih mejnikov v gibanju '\
 						'odprtokodne strojne opreme.'
-	Arduino.arch_pacman_cmds =['sudo pacman -S arduino']
+	Arduino.arch_pacman_cmds =['arduino']
 	Arduino.arch_zsh_cmds = ['sudo usermod -a -G uucp '+ user]
 	# tole je treba še zrihtat !!!
 	Arduino.notes = 'NASTAVITI JE POTREBNO "SERIAL PORT PERMITIONS"!\n'\
@@ -700,7 +700,7 @@ def Install_programms():
 						'njihovih notranjosti, mehanski deli, sheme, diagrami ipd.). '\
 						'Uporaben je na razlicnih tehniskih podrocjih: strojnistvo, '\
 						'lesarstvo, gradbenistvo, arhitektura, geodezija in elektrotehnika.'
-	qCAD.arch_pacman_cmds = ['sudo pacman -S qcad']
+	qCAD.arch_pacman_cmds = ['qcad']
 ## FREECAD #####################################################
 	global FreeCAD
 	FreeCAD = NovProgram()
