@@ -1019,6 +1019,7 @@ while (key != 'q'):
 			obj.install()	
 	elif key == 'Update':
 		os.system('sudo pacman -Syu')
+		os.system('yaourt -Syua')
 	elif key in all_categorys:
 		for program in NovProgram.getinstances():
 			if program.category == key:
