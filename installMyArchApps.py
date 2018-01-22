@@ -20,6 +20,10 @@ thisAppOutput = escapeColorCmd+'--> '
 confirmText = escapeColorDefault+' [y/n]:'
 
 ## POSTOPEK INSTALACIJE ########################################
+def deBug(info):
+	print(info)
+	input()
+
 class NovProgram(object):
 	_instances = set()
 
@@ -33,6 +37,7 @@ class NovProgram(object):
 		self.arch_yaourt_cmds = []
 		self.arch_pacman_cmds=	[]
 		self.arch_zsh_cmds= []
+		self.check_version_cmd = ''
 		self.notes = ''
 
 	@classmethod
@@ -91,10 +96,14 @@ class NovProgram(object):
 
 	def version_check(self):
 		## KONEC INSTALACIJE samo se navodila in verzija check! ########################
-		if len(self.arch_yaourt_cmds)<len(self.arch_pacman_cmds):
-			pckg_name = self.arch_pacman_cmds[0]
+		if len(self.check_version_cmd)>0:
+			pckg_name = self.check_version_cmd
 		else:
-			pckg_name = self.arch_yaourt_cmds[0]
+			if (len(self.arch_yaourt_cmds)>0) or (len(self.arch_pacman_cmds)>0):
+				if len(self.arch_yaourt_cmds)<len(self.arch_pacman_cmds):
+					pckg_name = self.arch_pacman_cmds[0]
+				else:
+					pckg_name = self.arch_yaourt_cmds[0]
 		info_installed_file = os.popen('pacman -Qs '+ pckg_name)
 		info_installed_text = info_installed_file.read()
 		if len(info_installed_text)>1 :
@@ -105,7 +114,7 @@ class NovProgram(object):
 		else:
 			#it is not installed...
 			return False
-		
+
 	def show_notes(self):
 		if self.notes != '':
 			sys.stdout.write(thisAppOutput+self.notes+''+escapeColorDefault+'\n')	
@@ -133,10 +142,6 @@ class NovProgram(object):
 					new_start = last_presledek + 1
 
 				if (presledek > new_start + 59):
-					#sys.stdout.write('\n new_start at:'+str(new_start))
-					#sys.stdout.write('\n new_line at :'+str(new_line))
-					#sys.stdout.write('\n presledek at:'+str(presledek))
-					#sys.stdout.write('\n lst_presl at:'+str(last_presledek)+'\n')
 					print(escapeColorDefault+self.description[new_start:last_presledek])
 					new_start = last_presledek + 1 	
 				else:
@@ -148,7 +153,6 @@ class NovProgram(object):
 		self.arch_yaourt_install()
 		self.arch_pacman_install()
 		self.arch_run_zsh_cmds()
-		self.version_check()
 		self.show_notes()		
 		sys.stdout.write(thisAppOutput+'Pritisni [ENTER] za nadaljevanje...'+escapeColorDefault+'\n')
 ## DEFINICIJA PROGRAMOV ZA INSTALACIJO #########################
@@ -258,6 +262,7 @@ def Install_programms():
 	Arch_config.description = 'Moji .config fili iz GitHuba...'
 	Arch_config.arch_zsh_cmds = ['cp -r -v ~/Files/GitHub_noSync/ArchLabs/MyDotFiles/. ~'
 							]
+	Arch_config.check_version_cmd = 'git'
 ## alias WEATHER ###############################################
 #	global weather
 #	weather = NovProgram()
@@ -346,6 +351,7 @@ def Install_programms():
 	Skype.category = 'Media'
 	Skype.description = 'Komunikacija preko interneta...'
 	Skype.arch_yaourt_cmds =['skypeforlinux-stable-bin']
+	Skype.check_version_cmd = 'skypeforlinux'
 ## Stellarium ##################################################
 	global stellarium
 	stellarium = NovProgram()
@@ -503,6 +509,7 @@ def autoInstallProgram(destination, coppied):
 	destination.arch_pacman_cmds = coppied.arch_pacman_cmds
 	destination.arch_yaourt_cmds = coppied.arch_yaourt_cmds
 	destination.arch_zsh_cmds = coppied.arch_zsh_cmds
+	destination.check_version_cmd = coppied.check_version_cmd
 	destination.category = 'Auto'
 
 Install_programms()
@@ -568,9 +575,9 @@ def makeAllProgramForms():
 def MakeHelpForm():
 	HotKeys = [	'--Menu------------------',
 				'n      - inst. program',
-				'Update - Update & Upgrade',
-				'ENTER  - MAIN MENU',
-				'q      - EXIT'
+				'[u]    - Update & Upgrade',
+				'[ENTER]- MAIN MENU',
+				'[q]    - EXIT'
 				]
 
 	x = allForms[0].x + (allForms[0].dx +1) * colons 
@@ -636,7 +643,7 @@ while (key != 'q'):
 			if key == str(obj.index):
 				obj.install()
 				key = ''
-		if key == 'Update':
+		if key == 'u' :
 			os.system('sudo pacman -Syu')
 			os.system('yaourt -Syua')
 		elif key in all_categorys:
