@@ -20,6 +20,10 @@ thisAppOutput = escapeColorCmd+'--> '
 confirmText = escapeColorDefault+' [y/n]:'
 
 ## POSTOPEK INSTALACIJE ########################################
+def deBug(info):
+	print(info)
+	input()
+
 class NovProgram(object):
 	_instances = set()
 
@@ -33,38 +37,8 @@ class NovProgram(object):
 		self.arch_yaourt_cmds = []
 		self.arch_pacman_cmds=	[]
 		self.arch_zsh_cmds= []
-
-		self.pre_install_cmds = []
-		self.apt_get_name = ''
 		self.check_version_cmd = ''
-		self.deb_package_path = ''
-		self.deb_package_file = ''
-		self.deb_package_path_32 = ''
-		self.deb_package_file_32 = ''
-		self.deb_package_path_64 = ''
-		self.deb_package_file_64 = ''
-		self.tar_package_path = ''
-		self.tar_package_file = ''
-		self.tar_package_path_32 = ''
-		self.tar_package_file_32 = ''
-		self.tar_package_path_64 = ''
-		self.tar_package_file_64 = ''
-		self.tar_destination = ''
-		self.tar_extra_cmds = [] 	#extra commande, ce je se kaj za narest...
-		self.extra_cmd = []			#se ene extra cmd ... ce je se kaj...
-		self.program_desktop = []	#vsebina v program.desktop
-		self.add_path_profile_variable  = '' 
-		self.add_bash_parameter= []
 		self.notes = ''
-		self.arhitecture_64bit = False
-		self.arhitecture_32bit = False
-		self.arhitecture_bit_num = 0
-		if sys.maxsize > 2**32 :
-			self.arhitecture_64bit = True
-			self.arhitecture_bit_num = 64
-		else:
-			self.arhitecture_32bit = True
-			self.arhitecture_bit_num = 32
 
 	@classmethod
 	def getinstances(cls):
@@ -81,41 +55,33 @@ class NovProgram(object):
 		## install from terminal command
 		if len(self.arch_yaourt_cmds) != 0:
 			for yaourt_cmd in self.arch_yaourt_cmds:
-				dummy_file = os.popen('sudo pacman -Qs '+yaourt_cmd)
-				is_installed = dummy_file.read()
 				if self.category == 'Auto':
-					if len(is_installed)>1 :
+					if self.version_check():
 						#it is alredy installed... skip it!
-						sys.stdout.write(thisAppOutput+'Paket : '+ yaourt_cmd +' je ze namescen.' +escapeColorDefault+'\n' )
-						sys.stdout.write(escapeColorInstalled + is_installed+escapeColorDefault+'\n' )
-						key='n'
+						pass
 					else:
 						#it is not installed... install it!
-						key = 'y'
+						os.system('yaourt -S --noconfirm '+yaourt_cmd)
 				else:
-					key = input(thisAppOutput+'execute:'+yaourt_cmd+ confirmText)
-				if key == 'y':
-					os.system('yaourt -S --noconfirm '+yaourt_cmd)
+					key = input(thisAppOutput+'Install with YAOURT: '+yaourt_cmd+ confirmText)
+					if key == 'y':
+						os.system('yaourt -S '+yaourt_cmd)
 
 	def arch_pacman_install(self):
 		## install from terminal pacman command
 		if len(self.arch_pacman_cmds) != 0:
 			for pacman_install in self.arch_pacman_cmds:
-				dummy_file = os.popen('sudo pacman -Qs '+pacman_install)
-				is_installed = dummy_file.read()
 				if self.category == 'Auto':
-					if len(is_installed)>1 :
+					if self.version_check():
 						#it is alredy installed... skip it!
-						sys.stdout.write(thisAppOutput+'Paket : '+ pacman_install +' je ze namescen.' +escapeColorDefault+'\n' )
-						sys.stdout.write(escapeColorInstalled + is_installed+escapeColorDefault+'\n' )
-						key='n'
+						pass
 					else:
 						#it is not installed... install it!
-						key = 'y'
+						os.system('sudo pacman -S --noconfirm ' + pacman_install)
 				else:
-					key = input(thisAppOutput+'execute:'+pacman_install+ confirmText)
-				if key == 'y':
-					os.system('sudo pacman -S --noconfirm ' + pacman_install)
+					key = input(thisAppOutput+'Install with PACMAN: '+pacman_install+ confirmText)
+					if key == 'y':
+						os.system('sudo pacman -S ' + pacman_install)
 
 	def arch_run_zsh_cmds(self):
 		## Post INSTALL operations #####################################################
@@ -124,208 +90,31 @@ class NovProgram(object):
 				if self.category == 'Auto':
 					key='y'
 				else:
-					key = input(thisAppOutput+'execute:'+arch_zsh_cmds+ confirmText)
+					key = input(thisAppOutput+'Execute: '+arch_zsh_cmds+ confirmText)
 				if key == 'y':
 					os.system(arch_zsh_cmds)
 
-	def install_apt_cmd(self):
-		## Instal from special apt-get command ... #####################################
-		if len(self.pre_install_cmds) != 0:
-			for pre_cmd in self.pre_install_cmds:
-				key = input(thisAppOutput+'execute:'+pre_cmd+ confirmText)
-				if key == 'y':
-					os.system(pre_cmd)
-		if self.apt_get_name != '':
-		## Instal from clasical apt-get commend... #####################################
-			#ce smo vpisali apt-get podatke potem...
-			sys.stdout.write(thisAppOutput+'Preverjam apt-get paket: ' + self.apt_get_name +escapeColorDefault+'\n' )
-			os.system('apt-cache policy ' + self.apt_get_name)
-			key = input(thisAppOutput+'Namestim preko apt-get... ?'+confirmText)
-			if key == 'y':
-				os.system('sudo apt-get install ' + self.apt_get_name)
-
-	def install_DEB_package(self):
-		## Install form DEB package ###################################################
-		#if self.deb_package_file != '':
-		if (self.deb_package_file !='' or
-		(self.deb_package_file_64 != '' and self.arhitecture_64bit ) or
-		(self.deb_package_file_32 != '' and self.arhitecture_32bit )):
-			#Najprej poglejmo kaksno arhitekturo imamo
-			if (self.deb_package_file_64 != '' and self.arhitecture_64bit ):
-				sys.stdout.write(thisAppOutput+'Kaze, da imate 64bit arhitekturo...'+escapeColorDefault+'\n')
-				temp_deb_package_path = self.deb_package_path_64
-				temp_deb_package_file = self.deb_package_file_64
-			elif (self.deb_package_file_32 != '' and self.arhitecture_32bit):
-				sys.stdout.write(thisAppOutput+'Kaze, da imate 32bit arhitekturo...'+escapeColorDefault+'\n')
-				temp_deb_package_path = self.deb_package_path_32
-				temp_deb_package_file = self.deb_package_file_32
-			else:
-				sys.stdout.write(thisAppOutput+'Ne glede na arhitekturo...'+escapeColorDefault+'\n')
-				temp_deb_package_path = self.deb_package_path
-				temp_deb_package_file = self.deb_package_file
-				#-------------------------------------------------
-			#ce je vpisan deb paket potem ...
-			#najprej preveri, ce ga slucajno ze imamo v Downloadu...
-			#ce ne pojdi na internet...
-			if not os.path.isfile(download_dir+temp_deb_package_file):
-				#ce file ne obstaja gremo gledat na internet...
-				sys.stdout.write(thisAppOutput+'Preverjam DEB package...'+escapeColorDefault+'\n')
-				os.system('wget --spider -v '+temp_deb_package_path+temp_deb_package_file)
-				key = input(thisAppOutput+'Prenesi v '+download_dir+ confirmText)
-				if key == 'y':
-					os.system('wget '+ temp_deb_package_path + temp_deb_package_file + ' --directory-prefix='+download_dir )
-			#pokazi direktorij Download
-			if os.path.isfile(download_dir+temp_deb_package_file):
-				sys.stdout.write(thisAppOutput+'Nasel:'+escapeColorDefault+'\n')
-				os.system('ls -all ' + download_dir + ' | grep ' + temp_deb_package_file)
-				key = input(thisAppOutput+'Namesti DEB package: ' + temp_deb_package_file + confirmText)
-				if key == 'y':
-					os.system('sudo dpkg -i ' + download_dir + temp_deb_package_file)
-					sys.stdout.write(thisAppOutput+'Namestitev koncana...'+escapeColorDefault+'\n')	
-				key = input(thisAppOutput+'Izbrisi datoteko:'
-								+ download_dir + temp_deb_package_file+'*'
-								+ confirmText)
-				if key == 'y':
-					os.system('rm -v ' + download_dir + temp_deb_package_file)
-					#sys.stdout.write(thisAppOutput+'Izprisano:'+escapeColorDefault+'\n')
-					#os.system('ls -all ' + download_dir)
-			else:
-				sys.stdout.write(thisAppOutput+'Paketa: '+ temp_deb_package_file +' nismo nasli...'+escapeColorDefault+'\n')
-
-	def install_TAR_package(self):
-		## Install form TAR **** special !!! ###########################################
-		if (self.tar_package_file !='' or
-		(self.tar_package_file_64 != '' and self.arhitecture_64bit ) or
-		(self.tar_package_file_32 != '' and self.arhitecture_32bit )):
-			#Najprej poglejmo kaksno arhitekturo imamo
-			if (self.tar_package_file_64 != '' and self.arhitecture_64bit ):
-				sys.stdout.write(thisAppOutput+'Kaze, da imate 64bit arhitekturo...'+escapeColorDefault+'\n')
-				temp_tar_package_path = self.tar_package_path_64
-				temp_tar_package_file = self.tar_package_file_64
-			elif (self.tar_package_file_32 != '' and self.arhitecture_32bit):
-				sys.stdout.write(thisAppOutput+'Kaze, da imate 32bit arhitekturo...'+escapeColorDefault+'\n')
-				temp_tar_package_path = self.tar_package_path_32
-				temp_tar_package_file = self.tar_package_file_32
-			else:
-				sys.stdout.write(thisAppOutput+'Ne glede na arhitekturo...'+escapeColorDefault+'\n')
-				temp_tar_package_path = self.tar_package_path
-				temp_tar_package_file = self.tar_package_file
-			#Najprej zloadas tar file ... izi bizi...
-			if not os.path.isfile(download_dir+temp_tar_package_file):
-				#ce file ne obstaja gremo gledat na internet...
-				sys.stdout.write(thisAppOutput+'Preverjam TAR package...'+escapeColorDefault+'\n')
-				os.system('wget --spider -v '+temp_tar_package_path+temp_tar_package_file)
-				key = input(thisAppOutput+'Prenesi v '+download_dir+ '?'+confirmText)
-				if key == 'y':
-					os.system('wget '+ temp_tar_package_path + temp_tar_package_file + ' --directory-prefix='+download_dir )
-			#pokazi direktorij Download
-			if os.path.isfile(download_dir+temp_tar_package_file):
-				sys.stdout.write(thisAppOutput+'Nasel:'+escapeColorDefault+'\n')
-				os.system('ls -all ' + download_dir + ' | grep ' + temp_tar_package_file)
-				if self.tar_destination == '':
-					key = input(thisAppOutput+'Razpakiraj TAR package: '
-									+ temp_tar_package_file +
-									' v ' + download_dir + '?'+confirmText)
-					if key == 'y':
-						os.system('tar -xvf '+ download_dir+temp_tar_package_file 
-								+' --directory '+ download_dir)
-				else:
-					key = input(thisAppOutput+'Razpakiraj TAR package: '
-									+ temp_tar_package_file +
-									' v ' + self.tar_destination + '?'+confirmText)
-					if key == 'y':
-						if not os.path.isdir(self.tar_destination):
-							#ce dir se ne obstaja ga ustvari...
-							os.system('sudo mkdir ' + self.tar_destination)
-						os.system('sudo tar -xvf '+download_dir+temp_tar_package_file
-									+' --directory '+ self.tar_destination)
-				# Izbrisi kar smo zloadali... da pocistimo za seboj...
-				key = input(thisAppOutput+'Izbrisi datoteko:'
-									+ download_dir + temp_tar_package_file+'*'
-									+ confirmText)
-				if key == 'y':
-					os.system('rm -v ' + download_dir + temp_tar_package_file+'*')
-					#sys.stdout.write(thisAppOutput+'Izbrisano:'+escapeColorDefault+'\n')
-					#os.system('ls -all ' + download_dir)
-			else:
-				sys.stdout.write(thisAppOutput+'Datoteke: '+download_dir+temp_tar_package_file+' nismo nasli...'+escapeColorDefault+'\n')
-
-			## INSTALATION SOURCE CODE #######################################################
-				# ok sedaj naj bi bilo razpakirano... kjerkoli pac ze...
-				#ja nic zej pa ce je treba se kako EXTRA CMD narest!!!
-				#naprimer kak make, make install, itd
-				#skratka izvrsimo komande, ki jih najdemo v :
-				#self.tar_extra_cmds = ['make','make install']
-			if len(self.tar_extra_cmds) != 0:	
-				for extra_cmd in self.tar_extra_cmds:
-					key = input(thisAppOutput+'execute:'+extra_cmd+confirmText)
-					if key == 'y':
-						os.system(extra_cmd)
-
-	def add_PATH_parameter(self):
-		## dodajanje v path script #######################################################			
-		#sudo sh -c 'echo "export PATH=\$PATH:/opt/arduino-1.8.1" >> /etc/profile.d/arduino_path.sh'	
-		if len(self.add_path_profile_variable) != 0:
-			# ce in nastavljeno pot... to dodamo v $PATH
-			key = input(thisAppOutput+'Dodaj pot:'+ self.add_path_profile_variable + ' v $PATH ?'+confirmText)
-			if key == 'y':
-				if (open(user_path + '/.bashrc', 'r').read().find(self.add_path_profile_variable)>0):
-					sys.stdout.write(thisAppOutput+'Pot: '+ self.add_path_profile_variable +' ze dodana v : '+ user_path + '/.bashrc...'+escapeColorDefault+'\n')
-				else:
-					with open(user_path + '/.bashrc','a') as f:
-						f.write('\n#dodajanje '+self.program_name+' poti v path\n')
-						f.write('export PATH=$PATH:'+self.add_path_profile_variable+'\n')
-						f.close()
-
-	def add_BASH_parameter(self):
-		if len(self.add_bash_parameter) != 0:
-			# ce in nastavljeno pot... to dodamo v $PATH
-			for text in self.add_bash_parameter:
-				#key = input(thisAppOutput+'Dodaj text: '+ text + ' v ~/.bashrc ?'+confirmText)
-				key = input(thisAppOutput+'Dodaj text: '+ text + ' v ~/.zshrc ?'+confirmText)
-				if key == 'y':
-					#if (open(user_path + '/.bashrc', 'r').read().find(text)>0):
-					if (open(user_path + '/.zshrc', 'r').read().find(text)>0):
-						sys.stdout.write(thisAppOutput+'Text: '+ text +' ze dodano v : '+ user_path + '/.zshrc...'+escapeColorDefault+'\n')
-					else:
-						# tu naj gremo cez vse nize v parametru...
-						with open(user_path + '/.zshrc','a') as f:
-							f.write(text)
-						f.close()
-
-	def run_bash_cmds(self):
-		## Post INSTALL operations #####################################################
-		if len(self.extra_cmd) != 0:
-			for extra_cmd in self.extra_cmd:
-				key = input(thisAppOutput+'execute:'+extra_cmd+ confirmText)
-				if key == 'y':
-					os.system(extra_cmd)
-	
-	def make_destop_file(self):
-		## Dodajanje program.desktop datoteke v /usr/share/applications/ ################
-		if len(self.program_desktop) != 0:
-			# test ce je kaj not: sys.stdout.write(self.program_desktop[0])
-			# sudo sh -c 'echo "export PATH=\$PATH:/opt/arduino-1.8.1" >> /etc/profile.d/arduino_path.sh'
-			key = input(thisAppOutput+'Naredi menu:'+ menu_desktop + self.program_name+ '.desktop ?'+confirmText)
-			if key == 'y':
-				#naredi le ce fajl ne obstaja...
-				if not os.path.isfile(menu_desktop + self.program_name+ '.desktop'):
-					for menu in self.program_desktop:
-						sudo_txt=[]
-						sudo_txt.append('sudo sh -c ')
-						sudo_txt.append("'echo ")
-						sudo_txt.append('"'+ menu + '"')
-						sudo_txt.append(" >> "+ menu_desktop + self.program_name + ".desktop'")
-						#sys.stdout.write(sudo_txt[0]+sudo_txt[1]+sudo_txt[2]+sudo_txt[3])
-						os.system(sudo_txt[0]+sudo_txt[1]+sudo_txt[2]+sudo_txt[3])
-	
 	def version_check(self):
-		## KONEC INSTALACIJE samo se navodila in verzija check! ########################		
-		if self.check_version_cmd != '':
-			#ce smo vpisali preverjanje verzije -> POTEM
-			sys.stdout.write(thisAppOutput+'Preverjam verzijo...'+escapeColorDefault+'\n')
-			os.system(self.check_version_cmd)
-		
+		## KONEC INSTALACIJE samo se navodila in verzija check! ########################
+		if len(self.check_version_cmd)>0:
+			pckg_name = self.check_version_cmd
+		else:
+			if (len(self.arch_yaourt_cmds)>0) or (len(self.arch_pacman_cmds)>0):
+				if len(self.arch_yaourt_cmds)<len(self.arch_pacman_cmds):
+					pckg_name = self.arch_pacman_cmds[0]
+				else:
+					pckg_name = self.arch_yaourt_cmds[0]
+		info_installed_file = os.popen('pacman -Qs '+ pckg_name)
+		info_installed_text = info_installed_file.read()
+		if len(info_installed_text)>1 :
+			#it is alredy installed... 
+			sys.stdout.write(thisAppOutput+'Paket : '+ pckg_name +' je ze namescen.' +escapeColorDefault+'\n' )
+			sys.stdout.write(escapeColorInstalled + info_installed_text + escapeColorDefault+'\n' )
+			return True
+		else:
+			#it is not installed...
+			return False
+
 	def show_notes(self):
 		if self.notes != '':
 			sys.stdout.write(thisAppOutput+self.notes+''+escapeColorDefault+'\n')	
@@ -353,10 +142,6 @@ class NovProgram(object):
 					new_start = last_presledek + 1
 
 				if (presledek > new_start + 59):
-					#sys.stdout.write('\n new_start at:'+str(new_start))
-					#sys.stdout.write('\n new_line at :'+str(new_line))
-					#sys.stdout.write('\n presledek at:'+str(presledek))
-					#sys.stdout.write('\n lst_presl at:'+str(last_presledek)+'\n')
 					print(escapeColorDefault+self.description[new_start:last_presledek])
 					new_start = last_presledek + 1 	
 				else:
@@ -365,24 +150,11 @@ class NovProgram(object):
 
 			sys.stdout.write(escapeColorDefault+self.description[new_start:]+''+escapeColorDefault+'\n'
 							+'###########################################################\n')
-		if (self.category=='Auto'):
-			key = 'y'
-		else:
-			key = input(thisAppOutput+'Nadaljuj z namestitvijo?'+confirmText)
-		if key == 'y':
-			self.arch_yaourt_install()
-			self.arch_pacman_install()
-			self.arch_run_zsh_cmds()
-			self.install_apt_cmd()
-			self.install_DEB_package()	
-			self.install_TAR_package()
-			self.make_destop_file()
-			self.add_PATH_parameter()
-			self.run_bash_cmds()
-			self.add_BASH_parameter()
-			self.version_check()
-			self.show_notes()		
-			sys.stdout.write(thisAppOutput+'Pritisni [ENTER] za nadaljevanje...'+escapeColorDefault+'\n')
+		self.arch_yaourt_install()
+		self.arch_pacman_install()
+		self.arch_run_zsh_cmds()
+		self.show_notes()		
+		sys.stdout.write(thisAppOutput+'Pritisni [ENTER] za nadaljevanje...'+escapeColorDefault+'\n')
 ## DEFINICIJA PROGRAMOV ZA INSTALACIJO #########################
 def Install_programms():
 ## HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP HELP ######
@@ -399,111 +171,12 @@ def Install_programms():
 	#	primer uporabe:
 	#	novProgram.description=	'Ta program se uporablja za pisanje besedil.\n Uporabljamo'\
 	#				'pa ga lahko tudi ta urejanje nastavitev...' 
-	#Ime_Novega_Programa.pre_install_cmds = []					
-	#	PRE_INSTALL_CMDS - niz stringov se izvrsi kakor ce bi jih vpisovali v terminal
-	#	eden za drugim. Izvrsijo se pred vsemi ostalimi ukazi (apt-get install, deb, tar).
-	#	Med vsakim navedenim nizom nas program tudi vprasa ali zelimo izvrsiti ukaz [y/n].
-	#	primer uporabe:
-	#	novProgram.pre_install_cmds = [	'sudo apt-get update',
-	#									'sudo apt-get upgrade']
-	#Ime_Novega_Programa.apt_get_name = ''
-	#	APT_GET_NAME - to ime se uporabi v ukazu sudo apt-get install {apt_get_name}.
-	#	Predno se izvede ta ukaz gremo pogledat, katera verzija je na razpolago z
-	#	ukazom: sudo apt-cache policy. Tako se uporaabnik lahko odloci ali bo namestil
-	#	program s tem ukazom ali ne.
-	#	primer uporabe:
-	#	novProgram.apt_get_name = 'nano'
-	#Ime_Novega_Programa.deb_package_path = ''
-	#	DEB_PACKAGE_PATH - pot datoteke na kateri se nahaja *deb paket. Ta se uporablja
-	#	v primeru, ko vrsta arhitekture ni pomembna ali pa paket ne podpira razlicnih
-	#	arhitektur.
-	#	primer uporabe:
-	#	novProgram.deb_package_path = 'https://download.sublimetext.com/'
-	#Ime_Novega_Programa.deb_package_file = ''
-	#	DEB_PACKAGE_FILE - ime datoteke, ki se nahaja na prej omenjeni poti {deb_package_path}.
-	#	Ta string v tej spremenljivki se uporablja tudi za instalacijo deb paketa:
-	#	sudo dpkg -i {deb_package_file}. Presnete datoteke se na koncu postopka tudi izbrisejo.
-	#	primer uporabe:
-	#	novProgram.deb_package_file = 'sublime-text_build-all.deb'
-	#Ime_Novega_Programa.deb_package_path_32 = ''
-	#	DEB_PACKAGE_PATH_32 - enako kot pri {deb_package_path}, le da se *.deb paket namesti le
-	#	ce imate 32-bitni sistem. 
-	#Ime_Novega_Programa.deb_package_file_32 = ''
-	#	DEB_PACKAGE_FILE_32 - enako kot pri {deb_package_path}, le da se *.deb paket namesti le
-	#	ce imate 32-bitni sistem. 
-	#Ime_Novega_Programa.deb_package_path_64 = ''
-	#	DEB_PACKAGE_PATH_64 - enako kot pri {deb_package_path}, le da se *.deb paket namesti le
-	#	ce imate 64-bitni sistem. 
-	#Ime_Novega_Programa.deb_package_file_64 = ''
-	#	DEB_PACKAGE_FILE_64 - enako kot pri {deb_package_path}, le da se *.deb paket namesti le
-	#	ce imate 64-bitni sistem. 
-	#Ime_Novega_Programa.tar_package_path = ''
-	#	TAR_PACKAGE_PATH - pot datoteke na kateri se nahaja *.tar.gz ali *.tar.xz paket. Ta se
-	#	uporablja v primeru, ko vrsta arhitekture ni pomembna ali pa paket ne podpira razlicnih
-	#	arhitektur.
-	#	primer uporabe:
-	#	novProgram.tar_package_path = 'https://qcad.org/archives/qcad/'
-	#Ime_Novega_Programa.tar_package_file = ''
-	#	TAR_PACKAGE_FILE - ime datoteke, ki se nahaja na prej omenjeni poti {tar_package_path}.
-	#	Ta string v tej spremenljivki se uporablja tudi za razpakiranje *.tar paketa:
-	#	tar -xvf '+ download_dir+{tar_package_file}. Datoteke se razpakirajo v ~/Download/, ali
-	#	pa pot lahko tudi posebej dolocite v spremenljivki {tar_destination}. Presnete datoteke
-	#	se na koncu postopka tudi izbrisejo.
-	#	primer uporabe:
-	#	novProgram.tar_package_file = 'sublime-text_build-all.tar.gz'
-	#Ime_Novega_Programa.tar_package_path_32 = ''
-	#	TAR_PACKAGE_PATH_32 - enako kot pri {tar_package_path}, le da se *.tar.* paket namesti le
-	#	ce imate 32-bitni sistem. 
-	#Ime_Novega_Programa.tar_package_file_32 = ''
-	#	TAR_PACKAGE_FILE_32 - enako kot pri {tar_package_file}, le da se *.tar.* paket namesti le
-	#	ce imate 32-bitni sistem. 
-	#Ime_Novega_Programa.tar_package_path_64 = ''
-	#	TAR_PACKAGE_PATH_64 - enako kot pri {tar_package_path}, le da se *.tar.* paket namesti le
-	#	ce imate 64-bitni sistem. 
-	#Ime_Novega_Programa.tar_package_file_64 = ''
-	#	DEB_PACKAGE_FILE_64 - enako kot pri {deb_package_path}, le da se *.deb paket namesti le
-	#	ce imate 64-bitni sistem. 
-	#Ime_Novega_Programa.tar_destination = ''
-	#	TAR_DESTINATION - direktorij, kamor zelite, da se *.tar.* paket od-tara. Ce direktorij se
-	#	ne obstaja, da bo instalacija sama ustvarila...
-	#	primer uporabe:
-	#	novProgram.tar_destiation = '/opt/'
-	#Ime_Novega_Programa.tar_extra_cmds = []
-	#	TAR_EXTRA_CMDS - Po koncanem razpakiranju TAR datoteke lahko naredite se kake cmd, kot
-	# 	bi jih pisali v terminalu: naprimer kake instalacije ali kaj podobnega...
-	#	primer uporabe:
-	#	novProgram.tar_extra_cmds =['sudo rm /usr/bin/nmon',
-	#								'sudo chmod 777 '+opt_dir+'nmon/'+'nmon_x86_debian8',
-	#								'sudo ln -s '+opt_dir+'nmon/'+'nmon_x86_debian8 /usr/bin/nmon']
-	#Ime_Novega_Programa.program_desktop = []
-	#	PROGRAM_DESKTOP - niz stringov, ki se bo vpisal v {program_name}.desktop file.
-	#	primer uporabe:
-	#	Arduino.program_desktop = [	'[Desktop Entry]',
-	#								'Version=1.0',
-	#								'Name=Arduino IDE',
-	#								'Exec=/opt/arduino-nightly/arduino',
-	#								'Icon=/opt/arduino-nightly/lib/icons/64x64/apps/arduino.png',
-	#								'Terminal=false',
-	#								'Type=Application',
-	#								'Categories=Development;Programming;'
-	#								]
-	#Ime_Novega_Programa.add_path_profile_variable  = ''
-	#	ADD_PATH_PROFILE_VARIABLE - string, ki ga je potrebno vpisati v $PATH spremenljivko.
-	#	primer uporabe:
-	#	Arduino.add_path_profile_variable  = '/opt/arduino-nightly/
-	#Ime_Novega_Programa.extra_cmd = []
+	#Ime_Novega_Programa.arch_zsh_cmds = []
 	#	EXTRA_CMD - niz ukazov, ki bi jih morali vtipkati v terminal po instalacijskem postopku.
 	#	Na tem mestu lahko dodate link v /usr/bin/ tako, da lahko zazenete program od koderkoli,
 	#	kakor smo to naredili za program thunderbird...
 	#	primer uporabe:
 	#	Thunderbird.extra_cmd = ['sudo ln -s /opt/thunderbird/thunderbird /usr/bin/thunderbird'] 
-	#Ime_Novega_Programa.add_bash_parameter = []
-	#	ADD_BASH_PARAMETER - niz stringov (besedila), ki ga je potrebno dodati v datoteko:
-	#	~/.bashrc. Besedilo se doda na konec dokumenta. Skript vas vprasa za vsak niz posebej,
-	#	ce naj ga doda.
-	#	primer uporabe:
-	#	Keymap.add_bash_parameter = [	'\n#remap tipko [dz] - "/"',
-	#									'\nxmodmap -e "keycode 35 = slash"']
 	#Ime_Novega_Programa.check_version_cmd = ''
 	#	CHECK_VERSION_CMD - string se izvrsi kot cmd ukaz v ternimalu in je namenjen
 	#	preverjanju verzije. Ta ukaz se izvede po instalaciji.
@@ -518,30 +191,11 @@ def Install_programms():
 	#global Ime_Novega_Programa
 	#Ime_Novega_Programa = NovProgram()
 	#Ime_Novega_Programa.program_name = ''
-	#Ime_Novega_Programa.description = ''
-	#Ime_Novega_Programa.pre_install_cmds = []					
-	#Ime_Novega_Programa.apt_get_name = ''
-	#Ime_Novega_Programa.deb_package_path = ''
-	#Ime_Novega_Programa.deb_package_file = ''
-	#Ime_Novega_Programa.deb_package_path_32 = ''
-	#Ime_Novega_Programa.deb_package_file_32 = ''
-	#Ime_Novega_Programa.deb_package_path_64 = ''
-	#Ime_Novega_Programa.deb_package_file_64 = ''
-	#Ime_Novega_Programa.tar_package_path = ''
-	#Ime_Novega_Programa.tar_package_file = ''
-	#Ime_Novega_Programa.tar_package_path_32 = ''
-	#Ime_Novega_Programa.tar_package_file_32 = ''
-	#Ime_Novega_Programa.tar_package_path_64 = ''
-	#Ime_Novega_Programa.tar_package_file_64 = ''
-	#Ime_Novega_Programa.tar_destination = ''
-	#Ime_Novega_Programa.tar_extra_cmds = []
-	#Ime_Novega_Programa.program_desktop = []
-	#Ime_Novega_Programa.add_path_profile_variable  = ''
-	#Ime_Novega_Programa.extra_cmd = []
-	#Ime_Novega_Programa.add_bash_parameter = []
+	#Ime_Novega_Programa.arch_pacman_cmds = []
+	#Ime_Novega_Programa.arch_yaourt_cmds = []	
+	#Ime_Novega_Programa.arch_zsh_cmds = []
 	#Ime_Novega_Programa.check_version_cmd = ''
 	#Ime_Novega_Programa.notes = ''
-	#
 ## GIT #########################################################
 	global git
 	git = NovProgram()
@@ -598,25 +252,8 @@ def Install_programms():
 	nmap.program_name = 'nmap'
 	nmap.category = 'System'
 	nmap.description = 'map ("Network Mapper") is a free and open source (license) utility for network discovery and security auditing. Many systems and network administrators also find it useful for tasks such as network inventory, managing service upgrade schedules, and monitoring host or service uptime. Nmap uses raw IP packets in novel ways to determine what hosts are available on the network, what services (application name and version) those hosts are offering, what operating systems (and OS versions) they are running, what type of packet filters/firewalls are in use, and dozens of other characteristics.'
-	nmap.arch_pacman_cmds = ['sudo pacman -S nmap']
+	nmap.arch_pacman_cmds = ['nmap']
 ## ADB  to-do ##################################################
-## Keymap ######################################################
-#	global Keymap
-#	Keymap = NovProgram()
-#	Keymap.description='remap tipke [dz] v "/"'
-#	Keymap.program_name = 'Keymap'
-#	Keymap.category = 'System'
-#	Keymap.add_bash_parameter = ['\n#remap tipko [dz] - "/"','\nxmodmap -e "keycode 35 = slash"']			#text ki je za dodat v .bash 
-## BunsenLab personal settings #################################
-	#	global bunsenLabSettings
-	#	bunsenLabSettings = NovProgram()
-	#	bunsenLabSettings.program_name = '_to_do_myBunsenLabSettings'					#ime naj bo brez presledkov
-	#	bunsenLabSettings.category = 'System'
-	#	bunsenLabSettings.description = 'V datoteki "~/.config/openbox/rc.xml" je vpisanih kar nekaj bliznjic, ki jih lahko uporabljate v OS BunsenLab linuxu. Tej datoteki je dodano se nekaj osebnih nastavitev. Naprimer:\n + [Ctrl]+[Space] => Run Linux CMD\n + [S]+[A]+[Up] => Maximize Window... '#neko besedilo za opis
-	#	bunsenLabSettings.extra_cmd = ['mv ~/.config/openbox/rc.xml ~/.config/openbox/rc.xml_original',\
-	#						'wget "https://github.com/davidrihtarsic/BunsenLab/raw/master/rc.xml" -O ~/.config/openbox/rc.xml',\
-	#						'openbox --restart']#se ene extra cmd ... ce je se kaj...
-	#	# obmenu.notes = ''
 ## ARCH config files ###########################################
 	global Arch_config
 	Arch_config = NovProgram()
@@ -625,6 +262,7 @@ def Install_programms():
 	Arch_config.description = 'Moji .config fili iz GitHuba...'
 	Arch_config.arch_zsh_cmds = ['cp -r -v ~/Files/GitHub_noSync/ArchLabs/MyDotFiles/. ~'
 							]
+	Arch_config.check_version_cmd = 'git'
 ## alias WEATHER ###############################################
 #	global weather
 #	weather = NovProgram()
@@ -643,7 +281,6 @@ def Install_programms():
 	#FileZilla.description = 'FileZilla is open source software distributed free of charge under the terms of the GNU General Public License'					
 	#FileZilla.apt_get_name = 'FileZilla'
 	##FileZilla.notes = ''
- 	#
 ## python-serial ###############################################
 	#test OK @ BL 64bit (David)
 	#global python_serial
@@ -653,7 +290,6 @@ def Install_programms():
 	#python_serial.description = 'This module encapsulates the access for the serial port. It provides backends for Python running on Windows, OSX, Linux, BSD (possibly any POSIX compliant system) and IronPython. The module named "serial" automatically selects the appropriate backend.'
 	#python_serial.apt_get_name = 'python-serial'
 	##python-serial.notes = ''
- 	#
 ## FreeFileSync ################################################
 	global FreeFileSync
 	FreeFileSync = NovProgram()
@@ -715,6 +351,7 @@ def Install_programms():
 	Skype.category = 'Media'
 	Skype.description = 'Komunikacija preko interneta...'
 	Skype.arch_yaourt_cmds =['skypeforlinux-stable-bin']
+	Skype.check_version_cmd = 'skypeforlinux'
 ## Stellarium ##################################################
 	global stellarium
 	stellarium = NovProgram()
@@ -880,14 +517,12 @@ def autoInstallProgram(destination, coppied):
 	destination.arch_pacman_cmds = coppied.arch_pacman_cmds
 	destination.arch_yaourt_cmds = coppied.arch_yaourt_cmds
 	destination.arch_zsh_cmds = coppied.arch_zsh_cmds
+	destination.check_version_cmd = coppied.check_version_cmd
 	destination.category = 'Auto'
-
-
-
 
 Install_programms()
 # find programs and categorize them
-#Force System as first
+#Force Auto and System as first
 all_categorys = ['Auto','System']
 category_programs = [0,0]
 all_program_manes = []
@@ -944,26 +579,18 @@ def makeAllProgramForms():
 				editText = '(' + str(programID) + ')'
 				editProgramms.append(Edit(editText, editX, editY))
 				editProgramms[programID-1].new_value(program.program_name)
-		#input()
-
-#makeAllProgramForms()
-#key = input()
 
 def MakeHelpForm():
 	HotKeys = [	'--Menu------------------',
 				'n      - inst. program',
-				'Update - Update & Upgrade',
-				'ENTER  - MAIN MENU',
-				'q      - EXIT'
+				'[u]    - Update & Upgrade',
+				'[ENTER]- MAIN MENU',
+				'[q]    - EXIT'
 				]
 
 	x = allForms[0].x + (allForms[0].dx +1) * colons 
 	y = allForms[0].y
 	dx = allForms[0].dx
-	#if colons == 1:
-	#	dy = allForms[len(allForms)-1].y + allForms[len(allForms)-1].dy -4
-	#else:
-	#	dy = allForms[0].dy * len(allForms)//colons 
 	dy = 0
 	col = len(allForms)%colons
 	row = len(allForms)//colons
@@ -1018,44 +645,19 @@ while (key != 'q'):
 	if key == '':
 		cls()
 		Main()
-	# preglej vse programe...
-	for obj in NovProgram.getinstances():
-		if key == str(obj.index):
-			obj.install()	
-	if key == 'all':
+	else:
+		# preglej vse programe...
 		for obj in NovProgram.getinstances():
-			obj.install()	
-	elif key == 'Update':
-		os.system('sudo pacman -Syu')
-		os.system('yaourt -Syua')
-	elif key in all_categorys:
-		for program in NovProgram.getinstances():
-			if program.category == key:
-				program.install()
-	elif key == 'tit':	
-		Arduino.install()
-		qCAD.install()
-		FreeCAD.install()
-		Sublime.install()
-		stellarium.install()
-		Fritzing.install()
-	elif key == 'System':
-		Update_Upgrade.install()	
-		Terminator.install()
-		Htop.install()
-		nmon.install()
-	elif key == 'pef':
-		Arduino.install()
-		Fritzing.install()
-		Sublime.install()
-		dave_s_conky.install()
-		obmenu.install()
-	else:	
-		#f = os.popen(key)
-		#text = f.read()
-		#print(text)
-		#input()
-		os.system(key)
-	#Main()
-			
+			if key == str(obj.index):
+				obj.install()
+				key = ''
+		if key == 'u' :
+			os.system('sudo pacman -Syu')
+			os.system('yaourt -Syua')
+		elif key in all_categorys:
+			for program in NovProgram.getinstances():
+				if program.category == key:
+					program.install()
+		else:	
+			os.system(key)	
 cls()
