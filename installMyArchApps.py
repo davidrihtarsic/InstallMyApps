@@ -814,6 +814,14 @@ def Install_programms():
 	GoogleChrome.category = 'Internet'
 	GoogleChrome.arch_yaourt_cmds =['google-chrome']
 	GoogleChrome.description = "Chrome is designed to be fast in every possible way. It's quick to start up from your desktop, loads web pages in a snap, and runs complex web applications lightning fast."
+## Dolphin ################################################
+	global Dolphin
+	Dolphin = NovProgram()
+	Dolphin.program_name = 'Dolphin'
+	Dolphin.category = 'Internet'
+	Dolphin.arch_pacman_cmds =['dolphin','konsol']
+	Dolphin.arch_yaourt_cmds = ['fsearch-git']
+	Dolphin.description = 'Dolphin is a lightweight file manager. It has been designed with ease of use and simplicity in mind, while still allowing flexibility and customisation. This means that you can do your file management exactly the way you want to do it.'
 ## MOJ IZBOR ######################
 	global auto_programe1
 	auto_programe1 = NovProgram()
