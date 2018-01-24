@@ -457,7 +457,7 @@ def Install_programms():
 	Dolphin.program_name = 'Dolphin'
 	Dolphin.category = 'Internet'
 	Dolphin.arch_pacman_cmds =['dolphin','konsole']
-	Dolphin.arch_yaourt_cmds = ['fsearch-git']
+	Dolphin.arch_yaourt_cmds = ['fsearch-git','kdegraphics-thumbnailers']
 	Dolphin.description = 'Dolphin is a lightweight file manager. It has been designed with ease of use and simplicity in mind, while still allowing flexibility and customisation. This means that you can do your file management exactly the way you want to do it.'
 ## MOJ IZBOR ######################
 	global auto_programe1
