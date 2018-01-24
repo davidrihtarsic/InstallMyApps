@@ -238,7 +238,7 @@ def Install_programms():
 	nmon.program_name = 'nmon'
 	nmon.category = 'System'
 	nmon.description = 'Spremljanje procesov, diska...'
-	nmon.arch_pacman_cmds = ['pacman -S nmon']
+	nmon.arch_pacman_cmds = ['nmon']
 ## WAVEMON #####################################################
 	global wavemon
 	wavemon = NovProgram()
@@ -409,7 +409,6 @@ def Install_programms():
 	Stencyl.description = "Stencyl isn't your average game creation software. It's a gorgeous, intuitive toolset that accelerates your workflow and then gets out of the way. We take care of the essentials, so you can focus on what's important - making your game yours."
 	Stencyl.arch_yaourt_cmds = ['stencyl']
 ## PopCornTime #################################################
-	#64 bit BL tested
 	global PopCornTime
 	PopCornTime = NovProgram()
 	PopCornTime.program_name = 'PopCornTime'
@@ -451,7 +450,7 @@ def Install_programms():
 	GoogleChrome.category = 'Internet'
 	GoogleChrome.arch_yaourt_cmds =['google-chrome']
 	GoogleChrome.description = "Chrome is designed to be fast in every possible way. It's quick to start up from your desktop, loads web pages in a snap, and runs complex web applications lightning fast."
-## MOJ IZBOR ######################
+## MOJ IZBOR ###################################################
 	global auto_programe1
 	auto_programe1 = NovProgram()
 	autoInstallProgram(auto_programe1,Arch_config)
