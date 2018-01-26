@@ -231,7 +231,25 @@ def Install_programms():
 	Thunar_samba.arch_yaourt_cmds = [	'thunar-shares-plugin',
 										'gvfs-smb']
 	Thunar.notes = 'You shuld REBOOT... (not just log-OUT/log-IN)'
-
+## Nemo ######################################################
+	global Nemo
+	Nemo = NovProgram()
+	Nemo.program_name = 'Nemo'
+	Nemo.category ='System'
+	Nemo.description = 'Nemo is a fork of GNOME Files. It is also the default file manager of the Cinnamon desktop. Nemo is based on the Files 3.4 code. It was created as a response to the changes in Files 3.6 which saw features such as type ahead find and split pane view removed.'
+	Nemo.arch_pacman_cmds = [	'nemo',
+								'nemo-fileroller',
+								'nemo-preview',
+								'nemo-terminal']
+	Nemo.notes = ''
+## PDFtk ######################################################
+	global PDFtk
+	PDFtk = NovProgram()
+	PDFtk.program_name = 'PDFtk'
+	PDFtk.category ='Other'
+	PDFtk.description = 'PDF Tools'
+	PDFtk.arch_yaourt_cmds = [	'pdftk' ]
+	PDFtk.notes = ''
 ## NMON ########################################################
 	global nmon
 	nmon = NovProgram()
