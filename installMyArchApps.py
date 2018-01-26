@@ -250,6 +250,15 @@ def Install_programms():
 	PDFtk.description = 'PDF Tools'
 	PDFtk.arch_yaourt_cmds = [	'pdftk' ]
 	PDFtk.notes = ''
+## PanDoc ######################################################
+	global PanDoc
+	PanDoc = NovProgram()
+	PanDoc.program_name = 'PanDoc'
+	PanDoc.category ='Misc'
+	PanDoc.description = 'PDF Tools'
+	PanDoc.arch_pacman_cmds = [	'pandoc',
+								'texlive-latexextra' ]
+	PanDoc.notes = ''
 ## NMON ########################################################
 	global nmon
 	nmon = NovProgram()
