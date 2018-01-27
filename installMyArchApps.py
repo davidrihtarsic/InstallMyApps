@@ -257,7 +257,8 @@ def Install_programms():
 	PanDoc.category ='Misc'
 	PanDoc.description = 'PDF Tools'
 	PanDoc.arch_pacman_cmds = [	'pandoc',
-								'texlive-latexextra' ]
+								'texlive-latexextra',
+								'texlive-fontsextra' ]
 	PanDoc.notes = ''
 ## NMON ########################################################
 	global nmon
