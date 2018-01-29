@@ -487,6 +487,13 @@ def Install_programms():
 	Dolphin.arch_pacman_cmds =['dolphin','konsole']
 	Dolphin.arch_yaourt_cmds = ['fsearch-git','kdegraphics-thumbnailers']
 	Dolphin.description = 'Dolphin is a lightweight file manager. It has been designed with ease of use and simplicity in mind, while still allowing flexibility and customisation. This means that you can do your file management exactly the way you want to do it.'
+## PySerial ################################################
+	global PySerial
+	PySerial = NovProgram()
+	PySerial.program_name = 'PySerial'
+	PySerial.category = 'Programming'
+	PySerial.arch_yaourt_cmds = ['python-pyserial']
+	PySerial.description = 'PySerial is a needed for python serial communication'
 ## MOJ IZBOR ######################
 	global auto_programe1
 	auto_programe1 = NovProgram()
