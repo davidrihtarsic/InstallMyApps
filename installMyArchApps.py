@@ -207,6 +207,7 @@ def Install_programms():
 	git.notes = ''
 	git.arch_zsh_cmds = ['git config --global user.email "david.rihtarsic@gmail.com"',
 					 'git config --global user.name "davidrihtarsic"',
+					 'git clone https://github.com/davidrihtarsic/Arduino-serial-API.git ~/Files/GitHub_noSync/Arduino-serial-API',
 					 'git clone https://github.com/davidrihtarsic/ArchLabs.git ~/Files/GitHub_noSync/ArchLabs',
 					 'git clone https://github.com/davidrihtarsic/InstallMyApps.git ~/Files/GitHub_noSync/InstallMyApps',
 					 'git clone https://github.com/davidrihtarsic/myLinuxNotes.git ~/Files/GitHub_noSync/myLinuxNotes',
