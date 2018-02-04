@@ -26,11 +26,9 @@ def deBug(info):
 	input()
 
 class NovProgram(object):
-	_instances = set()
 
 	def __init__(self):
 		super(NovProgram, self).__init__()
-		self._instances.add(weakref.ref(self))
 		self.program_name = ''
 		self.index = 0
 		self.category = ''
@@ -41,18 +39,6 @@ class NovProgram(object):
 		self.check_version_cmd = ''
 		self.notes = ''
 		self.auto_install = False
-	"""
-	@classmethod
-	def getinstances(cls):
-		dead = set()
-		for ref in cls._instances:
-			obj = ref()
-			if obj is not None:
-				yield obj
-			else:
-				dead.add(ref)
-			cls._instances -= dead
-	"""
 
 	def arch_yaourt_install(self):
 		## install from terminal command
@@ -570,7 +556,6 @@ def makeAllProgramForms():
 		#filaj programe po kategorijah
 		nthCategoryProgram = 0
 		for program in vsi_programi:
-		#for program in NovProgram.getinstances():
 			if program.category == all_categorys[len(allForms)-1]:
 				programID += 1
 				nthCategoryProgram +=1
@@ -648,7 +633,7 @@ while (key != 'q'):
 			os.system('sudo pacman -Syu')
 			os.system('yaourt -Syua')
 		elif key in all_categorys:
-			for program in NovProgram.getinstances():
+			for program in vsi_programi:
 				if program.category == key:
 					program.install()
 		else:	
