@@ -455,7 +455,7 @@ vsi_programi.append(Gimp)
 LibreOffice = NovProgram()
 LibreOffice.program_name = 'LibreOffice'
 LibreOffice.category = 'Office'
-LibreOffice.arch_pacman_cmds =['libreoffice']
+LibreOffice.arch_pacman_cmds =['libreoffice-fresh']
 LibreOffice.description = "LibreOffice is a powerful office suite – its clean interface and feature-rich tools help you unleash your creativity and enhance your productivity. LibreOffice includes several applications that make it the most powerful Free and Open Source office suite on the market."
 LibreOffice.auto_install = True
 vsi_programi.append(LibreOffice)
