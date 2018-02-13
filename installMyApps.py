@@ -896,12 +896,12 @@ def Install_programms():
 	LibreOffice.description = 'Office suit for linux and other OS...'
 	LibreOffice.apt_get_name =''
 	LibreOffice.check_version_cmd = ''
-	LibreOffice.tar_package_path_32 = 'http://mirrors.uniri.hr/tdf/libreoffice/stable/5.3.2/deb/x86/'
-	LibreOffice.tar_package_file_32 = 'LibreOffice_5.3.2_Linux_x86_deb.tar.gz'
+	LibreOffice.tar_package_path_32 = 'http://download.documentfoundation.org/libreoffice/stable/6.0.1/deb/x86/'
+	LibreOffice.tar_package_file_32 = 'LibreOffice_6.0.1_Linux_x86_deb.tar.gz'
 	LibreOffice.deb_package_path_64 = ''
 	LibreOffice.deb_package_file_64 = ''
-	LibreOffice.tar_package_path_64 = 'https://www.libreoffice.org/donate/dl/deb-x86_64/6.0.0/en-US/'
-	LibreOffice.tar_package_file_64 = 'LibreOffice_6.0.0_Linux_x86-64_deb.tar.gz'
+	LibreOffice.tar_package_path_64 = 'http://download.documentfoundation.org/libreoffice/stable/6.0.1/deb/x86_64/'
+	LibreOffice.tar_package_file_64 = 'LibreOffice_6.0.1_Linux_x86-64_deb.tar.gz'
 	LibreOffice.tar_destination =''
 	LibreOffice.tar_extra_cmds = ['sudo dpkg -i '+ download_dir +'LibreOffice_*_Linux_*_deb/DEBS/*.deb']
 	VsiProgrami.append(LibreOffice.program_name)
