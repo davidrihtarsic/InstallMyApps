@@ -618,24 +618,27 @@ Main()
 #while (editCmd.value != 'q'):
 while (key != 'q'):
 	key = input('Cmd::')
-	programe_index=(i for i in range(50))
-	next(programe_index)
+	#programe_index=(i for i in range(50))
+	#next(programe_index)
 	if key == '':
 		cls()
 		Main()
 	else:
 		# preglej vse programe...
-		for program in vsi_programi:
-			if key == str(program.index):
-				program.install()
-				key = ''
-		if key == 'u' :
-			os.system('sudo pacman -Syu')
-			os.system('yaourt -Syua')
-		elif key in all_categorys:
+		try:
+			prog_id = int(key)-1
 			for program in vsi_programi:
-				if program.category == key:
+				if editProgramms[prog_id].value == str(program.program_name):
 					program.install()
-		else:	
-			os.system(key)	
+					key = ''
+		except ValueError:
+			if key == 'u' :
+				os.system('sudo pacman -Syu')
+				os.system('yaourt -Syua')
+			elif key in all_categorys:
+				for program in vsi_programi:
+					if program.category == key:
+						program.install()
+			else:	
+				os.system(key)	
 cls()
