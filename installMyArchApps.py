@@ -247,7 +247,6 @@ PanDoc.program_name = 'PanDoc'
 PanDoc.category ='Other'
 PanDoc.description = 'PDF Tools'
 PanDoc.arch_pacman_cmds = [	'pandoc',
-							'pandoc-citeproc',
 							'texlive-latexextra',
 							'texlive-fontsextra' ]
 PanDoc.notes = ''
