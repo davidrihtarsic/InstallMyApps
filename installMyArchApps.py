@@ -259,6 +259,14 @@ nmon.category = 'System'
 nmon.description = 'Spremljanje procesov, diska...'
 nmon.arch_pacman_cmds = ['nmon']
 vsi_programi.append(nmon)
+## preload ########################################################
+preload = NovProgram()
+preload.program_name = 'PreLoad'
+preload.category = 'System'
+preload.description = 'Naloži najbolj uporabljene programe v RAM, da se hitreje nalagajo...'
+preload.auto_install = True
+preload.arch_yaourt_cmds = ['preload']
+vsi_programi.append(preload)
 ## WAVEMON #####################################################
 wavemon = NovProgram()
 wavemon.program_name = 'wavemon'					#ime naj bo brez presledkov
@@ -459,7 +467,7 @@ LibreOffice.arch_pacman_cmds =['libreoffice-fresh']
 LibreOffice.description = "LibreOffice is a powerful office suite – its clean interface and feature-rich tools help you unleash your creativity and enhance your productivity. LibreOffice includes several applications that make it the most powerful Free and Open Source office suite on the market."
 LibreOffice.auto_install = True
 vsi_programi.append(LibreOffice)
-## LibreOffice #################################################
+## WSP Office #################################################
 WPS_office = NovProgram()
 WPS_office.program_name = 'WPS_office'
 WPS_office.category = 'Office'
@@ -467,6 +475,14 @@ WPS_office.arch_yaourt_cmds =['wps-office']
 WPS_office.description = "Your dream solution for a low-budget, no-commitment, free productivity office suite. The smallest size office suite consisting of Writer, Presentation, and Spreadsheets, plus PDF tools to fulfill all of your document needs. Includes a brand new Docer Templates page. Available in English, French, German, Spanish, Portuguese, Polish and Russian."
 WPS_office.auto_install = True
 vsi_programi.append(WPS_office)
+## VIM #################################################
+vim = NovProgram()
+vim.program_name = 'vim'
+vim.category = 'Office'
+vim.arch_yaourt_cmds =['vim', 'vim-tagbar']
+vim.description = "Simple terminal text editor"
+vim.auto_install = True
+vsi_programi.append(vim)
 ## SublimeText3 ##################################################
 SublimeText3 = NovProgram()
 SublimeText3.program_name = 'SublimeText3'
@@ -489,7 +505,7 @@ Terminator.program_name = 'Terminator'
 Terminator.category = 'System'
 Terminator.arch_pacman_cmds =['terminator']
 Terminator.description = ""
-Terminator.auto_install = True
+Terminator.auto_install = False
 vsi_programi.append(Terminator)
 ## PhoronixTestSuite ###########################################
 PhoronixTestSuite = NovProgram()
