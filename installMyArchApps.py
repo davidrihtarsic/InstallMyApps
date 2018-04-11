@@ -44,7 +44,7 @@ class NovProgram(object):
 		## install from terminal command
 		if len(self.arch_yaourt_cmds) != 0:
 			for yaourt_cmd in self.arch_yaourt_cmds:
-				if self.category == 'Auto':
+				if self.auto_install:
 					if self.version_check():
 						#it is alredy installed... skip it!
 						pass
@@ -60,7 +60,7 @@ class NovProgram(object):
 		## install from terminal pacman command
 		if len(self.arch_pacman_cmds) != 0:
 			for pacman_install in self.arch_pacman_cmds:
-				if self.category == 'Auto':
+				if self.auto_install:
 					if self.version_check():
 						#it is alredy installed... skip it!
 						pass
@@ -646,6 +646,10 @@ while (key != 'q'):
 			elif key in all_categorys:
 				for program in vsi_programi:
 					if program.category == key:
+						program.install()
+			elif key == 'Auto':
+				for program in vsi_programi:
+					if program.auto_install:
 						program.install()
 			else:	
 				os.system(key)	
