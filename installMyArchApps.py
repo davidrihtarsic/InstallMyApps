@@ -228,7 +228,10 @@ Nemo.description = 'Nemo is a fork of GNOME Files. It is also the default file m
 Nemo.arch_pacman_cmds = [	'nemo',
 							'nemo-fileroller',
 							'nemo-preview',
-							'nemo-terminal']
+							'nemo-terminal',
+							'nemo-share',
+							'samba',
+							'gvfs-smb']
 Nemo.notes = ''
 Nemo.auto_install = True
 vsi_programi.append(Nemo)
@@ -499,7 +502,15 @@ Thunderbird.arch_pacman_cmds =['thunderbird']
 Thunderbird.description = ""
 Thunderbird.auto_install = True
 vsi_programi.append(Thunderbird)
-## Terminator ##################################################
+### Gpic ##################################################
+Gpic = NovProgram()
+Gpic.program_name = 'Gpic'
+Gpic.category = 'System'
+Gpic.arch_pacman_cmds =['gpick']
+Gpic.description = ""
+Gpic.auto_install = False
+vsi_programi.append(Gpic)
+# Terminator ##################################################
 Terminator = NovProgram()
 Terminator.program_name = 'Terminator'
 Terminator.category = 'System'
