@@ -251,7 +251,10 @@ PanDoc.category ='Other'
 PanDoc.description = 'PDF Tools'
 PanDoc.arch_pacman_cmds = [	'pandoc',
 							'texlive-latexextra',
-							'texlive-fontsextra' ]
+							'texlive-fontsextra',
+							'texlive-langextra',
+							'pandoc-citeproc']
+PanDoc.arch_yaourt_cmds = ['pandoc-eqnos']
 PanDoc.notes = ''
 PanDoc.auto_install = True
 vsi_programi.append(PanDoc)
@@ -508,7 +511,7 @@ Gpic.program_name = 'Gpic'
 Gpic.category = 'System'
 Gpic.arch_pacman_cmds =['gpick']
 Gpic.description = ""
-Gpic.auto_install = False
+Gpic.auto_install = True
 vsi_programi.append(Gpic)
 # Terminator ##################################################
 Terminator = NovProgram()
