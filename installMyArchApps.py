@@ -291,7 +291,7 @@ vsi_programi.append(nmap)
 ## ADB  to-do ##################################################
 ## ARCH config files ###########################################
 Arch_config = NovProgram()
-Arch_config.program_name = 'Upadate .config'
+Arch_config.program_name = 'Upadate .config' 
 Arch_config.category = 'System'
 Arch_config.description = 'Moji .config fili iz GitHuba...'
 Arch_config.arch_zsh_cmds = ['cp -r -v ~/Files/GitHub_noSync/ArchLabs/MyDotFiles/. ~'
@@ -497,6 +497,14 @@ SublimeText3.arch_yaourt_cmds = ['sublime-text-dev']
 SublimeText3.description = "Notepad on steroids..."
 SublimeText3.auto_install = True
 vsi_programi.append(SublimeText3)
+## PSPP ##################################################
+PSPP = NovProgram()
+PSPP.program_name = 'PSPP'
+PSPP.category = 'Office'
+PSPP.arch_yaourt_cmds = ['pspp']
+PSPP.description = "GNU PSPP is a program for statistical analysis of sampled data. It is a free as in freedom replacement for the proprietary program SPSS, and appears very similar to it with a few exceptions."
+PSPP.auto_install = True
+vsi_programi.append(PSPP)
 ## Thunderbird ##################################################
 Thunderbird = NovProgram()
 Thunderbird.program_name = 'Thunderbird'
