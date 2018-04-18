@@ -78,6 +78,8 @@ class NovProgram(object):
 			for arch_zsh_cmds in self.arch_zsh_cmds:
 				if self.category == 'Auto':
 					key='y'
+				elif self.program_name == 'Backup_dot_Files':
+					key = 'y'
 				else:
 					key = input(thisAppOutput+'Execute: '+arch_zsh_cmds+ confirmText)
 				if key == 'y':
@@ -93,7 +95,7 @@ class NovProgram(object):
 					pckg_name = self.arch_pacman_cmds[0]
 				else:
 					pckg_name = self.arch_yaourt_cmds[0]
-		info_installed_file = os.popen('pacman -Qs '+ pckg_name)
+		info_installed_file = os.popen('pacman -Qi '+ pckg_name)
 		info_installed_text = info_installed_file.read()
 		if len(info_installed_text)>1 :
 			#it is alredy installed... 
@@ -289,16 +291,47 @@ nmap.arch_pacman_cmds = ['nmap']
 nmap.auto_install = True
 vsi_programi.append(nmap)
 ## ADB  to-do ##################################################
-## ARCH config files ###########################################
-Arch_config = NovProgram()
-Arch_config.program_name = 'Upadate .config' 
-Arch_config.category = 'System'
-Arch_config.description = 'Moji .config fili iz GitHuba...'
-Arch_config.arch_zsh_cmds = ['cp -r -v ~/Files/GitHub_noSync/ArchLabs/MyDotFiles/. ~'
+## restore dot_files ###########################################
+Restore_dot_Files = NovProgram()
+Restore_dot_Files.program_name = 'Restore_dot_Files' 
+Restore_dot_Files.category = 'System'
+Restore_dot_Files.description = 'Moji .config fili iz GitHuba...'
+Restore_dot_Files.arch_zsh_cmds = ['cp -r -v ~/Files/GitHub_noSync/ArchLabs/MyDotFiles/. ~'
 						]
-Arch_config.check_version_cmd = 'git'
-Arch_config.auto_install = True
-vsi_programi.append(Arch_config)
+Restore_dot_Files.check_version_cmd = 'git'
+Restore_dot_Files.auto_install = True
+vsi_programi.append(Restore_dot_Files)
+## Backup_dot_Files ###########################################
+Backup_dot_Files = NovProgram()
+Backup_dot_Files.program_name = 'Backup_dot_Files' 
+Backup_dot_Files.category = 'System'
+Backup_dot_Files.description = 'Moji .config fili iz GitHuba...'
+Backup_dot_Files.arch_zsh_cmds = [	'~/BackUpDotFile.sh .zshrc',
+									'~/BackUpDotFile.sh .config/polybar/modules.conf',
+									'~/BackUpDotFile.sh .config/polybar/config',
+									'~/BackUpDotFile.sh .config/polybar/lounch_polybar.sh',
+									'~/BackUpDotFile.sh .config/polybar/master.conf',
+									'~/BackUpDotFile.sh .config/terminator/config',
+									'~/BackUpDotFile.sh .config/tint2/tint2rc',
+									'~/BackUpDotFile.sh .config/openbox/rc.xml',
+									'~/BackUpDotFile.sh .config/i3/LcdBrightnesUP.sh',
+									'~/BackUpDotFile.sh .config/i3/KbdBrightnesUP.sh',
+									'~/BackUpDotFile.sh .config/i3/myMonitorSetup.sh',
+									'~/BackUpDotFile.sh .config/i3/config',
+									'~/BackUpDotFile.sh .config/i3/LcdBrightnesDOWN.sh',
+									'~/BackUpDotFile.sh .config/i3/KbdBrightnesDOWN.sh',
+									'~/BackUpDotFile.sh .config/conky/dave_s_conky.conkyrc',
+									'~/BackUpDotFile.sh .config/termite/config',
+									'~/BackUpDotFile.sh .local/share/nemo/actions/PDF_extract.nemo_action',
+									'~/BackUpDotFile.sh .local/share/nemo/actions/PDF_unite.nemo_action',
+									'~/BackUpDotFile.sh .local/share/nemo/actions/Office2PDF.nemo_action',
+									'~/BackUpDotFile.sh .local/share/nemo/actions/MD2PDF.nemo_action',
+									'~/BackUpDotFile.sh .local/share/nemo/actions/MD2PDF_bib.nemo_action',
+									'~/BackUpDotFile.sh .vimrc',
+									'~/BackUpDotFile.sh .pandoc/templates/eisvogel.latex'
+									]
+Backup_dot_Files.auto_install = False
+vsi_programi.append(Backup_dot_Files)
 ## alias WEATHER ###############################################
 #	#	weather = NovProgram()
 #	weather.program_name = 'weather'					#ime naj bo brez presledkov
@@ -489,6 +522,14 @@ vim.arch_yaourt_cmds =['vim', 'vim-tagbar']
 vim.description = "Simple terminal text editor"
 vim.auto_install = True
 vsi_programi.append(vim)
+## simpleScan #################################################
+simpleScan = NovProgram()
+simpleScan.program_name = 'Simple Scan'
+simpleScan.category = 'Office'
+simpleScan.arch_pacman_cmds =['simple-scan']
+simpleScan.description = "Simple Scan allows you to get images from a scanner (e.g. a flatbed scanner)."
+simpleScan.auto_install = True
+vsi_programi.append(simpleScan)
 ## SublimeText3 ##################################################
 SublimeText3 = NovProgram()
 SublimeText3.program_name = 'SublimeText3'
