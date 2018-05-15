@@ -530,6 +530,14 @@ simpleScan.arch_pacman_cmds =['simple-scan']
 simpleScan.description = "Simple Scan allows you to get images from a scanner (e.g. a flatbed scanner)."
 simpleScan.auto_install = True
 vsi_programi.append(simpleScan)
+## Mendelay #################################################
+Mendelay = NovProgram()
+Mendelay.program_name = 'Mendelay Desktop'
+Mendelay.category = 'Office'
+Mendelay.arch_yaourt_cmds =['mendeleydesktop']
+Mendelay.description = "Academic software for managing and sharing research papers (desktop client)."
+Mendelay.auto_install = True
+vsi_programi.append(Mendelay)
 ## SublimeText3 ##################################################
 SublimeText3 = NovProgram()
 SublimeText3.program_name = 'SublimeText3'
@@ -562,6 +570,14 @@ Gpic.arch_pacman_cmds =['gpick']
 Gpic.description = ""
 Gpic.auto_install = True
 vsi_programi.append(Gpic)
+### CharMap ##################################################
+CharMap = NovProgram()
+CharMap.program_name = 'CharMap'
+CharMap.category = 'System'
+CharMap.arch_yaourt_cmds =['gucharmap']
+CharMap.description = "Gucharmap is a Unicode character map. It uses the gtk+ toolkit and runs on any platform that gtk+ supports."
+CharMap.auto_install = True
+vsi_programi.append(CharMap)
 # Terminator ##################################################
 Terminator = NovProgram()
 Terminator.program_name = 'Terminator'
