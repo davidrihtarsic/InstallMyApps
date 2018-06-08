@@ -291,47 +291,6 @@ nmap.arch_pacman_cmds = ['nmap']
 nmap.auto_install = True
 vsi_programi.append(nmap)
 ## ADB  to-do ##################################################
-## restore dot_files ###########################################
-Restore_dot_Files = NovProgram()
-Restore_dot_Files.program_name = 'Restore_dot_Files' 
-Restore_dot_Files.category = 'System'
-Restore_dot_Files.description = 'Moji .config fili iz GitHuba...'
-Restore_dot_Files.arch_zsh_cmds = ['cp -r -v ~/Files/GitHub_noSync/ArchLabs/MyDotFiles/. ~'
-						]
-Restore_dot_Files.check_version_cmd = 'git'
-Restore_dot_Files.auto_install = True
-vsi_programi.append(Restore_dot_Files)
-## Backup_dot_Files ###########################################
-Backup_dot_Files = NovProgram()
-Backup_dot_Files.program_name = 'Backup_dot_Files' 
-Backup_dot_Files.category = 'System'
-Backup_dot_Files.description = 'Moji .config fili iz GitHuba...'
-Backup_dot_Files.arch_zsh_cmds = [	'~/BackUpDotFile.sh .zshrc',
-									'~/BackUpDotFile.sh .config/polybar/modules.conf',
-									'~/BackUpDotFile.sh .config/polybar/config',
-									'~/BackUpDotFile.sh .config/polybar/lounch_polybar.sh',
-									'~/BackUpDotFile.sh .config/polybar/master.conf',
-									'~/BackUpDotFile.sh .config/terminator/config',
-									'~/BackUpDotFile.sh .config/tint2/tint2rc',
-									'~/BackUpDotFile.sh .config/openbox/rc.xml',
-									'~/BackUpDotFile.sh .config/i3/LcdBrightnesUP.sh',
-									'~/BackUpDotFile.sh .config/i3/KbdBrightnesUP.sh',
-									'~/BackUpDotFile.sh .config/i3/myMonitorSetup.sh',
-									'~/BackUpDotFile.sh .config/i3/config',
-									'~/BackUpDotFile.sh .config/i3/LcdBrightnesDOWN.sh',
-									'~/BackUpDotFile.sh .config/i3/KbdBrightnesDOWN.sh',
-									'~/BackUpDotFile.sh .config/conky/dave_s_conky.conkyrc',
-									'~/BackUpDotFile.sh .config/termite/config',
-									'~/BackUpDotFile.sh .local/share/nemo/actions/PDF_extract.nemo_action',
-									'~/BackUpDotFile.sh .local/share/nemo/actions/PDF_unite.nemo_action',
-									'~/BackUpDotFile.sh .local/share/nemo/actions/Office2PDF.nemo_action',
-									'~/BackUpDotFile.sh .local/share/nemo/actions/MD2PDF.nemo_action',
-									'~/BackUpDotFile.sh .local/share/nemo/actions/MD2PDF_bib.nemo_action',
-									'~/BackUpDotFile.sh .vimrc',
-									'~/BackUpDotFile.sh .pandoc/templates/eisvogel.latex'
-									]
-Backup_dot_Files.auto_install = False
-vsi_programi.append(Backup_dot_Files)
 ## alias WEATHER ###############################################
 #	#	weather = NovProgram()
 #	weather.program_name = 'weather'					#ime naj bo brez presledkov
@@ -542,7 +501,7 @@ vsi_programi.append(Mendelay)
 SublimeText3 = NovProgram()
 SublimeText3.program_name = 'SublimeText3'
 SublimeText3.category = 'Office'
-SublimeText3.arch_yaourt_cmds = ['sublime-text-dev']
+SublimeText3.arch_yaourt_cmds = ['sublime-text-dev','panzer-git']
 SublimeText3.description = "Notepad on steroids..."
 SublimeText3.auto_install = True
 vsi_programi.append(SublimeText3)
