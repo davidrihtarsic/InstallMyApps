@@ -76,7 +76,7 @@ class NovProgram(object):
 		## Post INSTALL operations #####################################################
 		if len(self.arch_zsh_cmds) != 0:
 			for arch_zsh_cmds in self.arch_zsh_cmds:
-				if self.category == 'Auto':
+				if self.auto_install:
 					key='y'
 				elif self.program_name == 'Backup_dot_Files':
 					key = 'y'
@@ -568,6 +568,14 @@ Dolphin.arch_pacman_cmds =['dolphin','konsole']
 Dolphin.arch_yaourt_cmds = ['fsearch-git','kdegraphics-thumbnailers']
 Dolphin.description = 'Dolphin is a lightweight file manager. It has been designed with ease of use and simplicity in mind, while still allowing flexibility and customisation. This means that you can do your file management exactly the way you want to do it.'
 vsi_programi.append(Dolphin)
+## LinkDotFiles ########################################################
+LinkDotFiles =NovProgram()
+LinkDotFiles.program_name = 'LinkDotFiles'
+LinkDotFiles.category = 'System'
+LinkDotFiles.description = 'Make link for any files in ~/Files/GitHub_noSync/ArchLabs/MyDotFiles/...'
+LinkDotFiles.arch_zsh_cmds = ['/home/david/Files/GitHub_noSync/ArchLabs/MyDotFiles/bin/system/makeSymbolicLinks.sh']
+LinkDotFiles.auto_install = True
+vsi_programi.append(LinkDotFiles)
 
 # find programs and categorize them
 #Force Auto and System as first
