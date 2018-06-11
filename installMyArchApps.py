@@ -290,6 +290,14 @@ nmap.description = 'map ("Network Mapper") is a free and open source (license) u
 nmap.arch_pacman_cmds = ['nmap']
 nmap.auto_install = True
 vsi_programi.append(nmap)
+## GLANCES ########################################################
+glances =NovProgram()
+glances.program_name = 'glances'
+glances.category = 'System'
+glances.description = 'map ("Network Mapper") is a free and open source (license) utility for network discovery and security auditing. Many systems and network administrators also find it useful for tasks such as network inventory, managing service upgrade schedules, and monitoring host or service uptime. glances uses raw IP packets in novel ways to determine what hosts are available on the network, what services (application name and version) those hosts are offering, what operating systems (and OS versions) they are running, what type of packet filters/firewalls are in use, and dozens of other characteristics.'
+glances.arch_pacman_cmds = ['glances']
+glances.auto_install = True
+vsi_programi.append(glances)
 ## ADB  to-do ##################################################
 ## alias WEATHER ###############################################
 #	#	weather = NovProgram()
