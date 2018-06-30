@@ -41,7 +41,7 @@ class NovProgram(object):
 		self.tar_package_path_64 = ''
 		self.tar_package_file_64 = ''
 		self.tar_destination = ''
-		self.tar_extra_cmds = [] 	#extra commande, ce je se kaj za narest...
+		self.tar_extra_cmds = [] 	#extra commande, ce je se kaj za narest
 		self.extra_cmd = []			#se ene extra cmd ... ce je se kaj...
 		self.program_desktop = []	#vsebina v program.desktop
 		self.add_path_profile_variable  = '' 
