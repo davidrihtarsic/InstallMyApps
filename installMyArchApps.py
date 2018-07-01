@@ -308,6 +308,7 @@ OhMyZsh.arch_zsh_cmds = [	'sh -c "$(wget https://raw.githubusercontent.com/robby
 OhMyZsh.auto_install = True
 vsi_programi.append(OhMyZsh)
 
+
 ## ADB  to-do ##################################################
 ## alias WEATHER ###############################################
 #	#	weather = NovProgram()
