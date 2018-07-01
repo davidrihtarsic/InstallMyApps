@@ -303,7 +303,8 @@ OhMyZsh =NovProgram()
 OhMyZsh.program_name = 'Oh-My-Zsh'
 OhMyZsh.category = 'System'
 OhMyZsh.description = 'Oh My Zsh is an open source, community-driven framework for managing your zsh configuration.'
-OhMyZsh.arch_zsh_cmds = ['sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"']
+OhMyZsh.arch_zsh_cmds = [	'sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"',
+							'pacman -R grml-zsh-config']
 OhMyZsh.auto_install = True
 vsi_programi.append(OhMyZsh)
 ## ADB  to-do ##################################################
