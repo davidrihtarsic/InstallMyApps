@@ -291,13 +291,21 @@ nmap.arch_pacman_cmds = ['nmap']
 nmap.auto_install = True
 vsi_programi.append(nmap)
 ## GLANCES ########################################################
-glances =NovProgram()
-glances.program_name = 'glances'
-glances.category = 'System'
-glances.description = 'map ("Network Mapper") is a free and open source (license) utility for network discovery and security auditing. Many systems and network administrators also find it useful for tasks such as network inventory, managing service upgrade schedules, and monitoring host or service uptime. glances uses raw IP packets in novel ways to determine what hosts are available on the network, what services (application name and version) those hosts are offering, what operating systems (and OS versions) they are running, what type of packet filters/firewalls are in use, and dozens of other characteristics.'
-glances.arch_pacman_cmds = ['glances']
-glances.auto_install = True
-vsi_programi.append(glances)
+Glances =NovProgram()
+Glances.program_name = 'Glances'
+Glances.category = 'System'
+Glances.description = 'Glances is a cross-platform monitoring tool which aims to present a large amount of monitoring information through a curses or Web based interface. The information dynamically adapts depending on the size of the user interface.'
+Glances.arch_pacman_cmds = ['Glances']
+Glances.auto_install = True
+vsi_programi.append(Glances)
+## oh-my-zsh ########################################################
+OhMyZsh =NovProgram()
+OhMyZsh.program_name = 'Oh-My-Zsh'
+OhMyZsh.category = 'System'
+OhMyZsh.description = 'Oh My Zsh is an open source, community-driven framework for managing your zsh configuration.'
+OhMyZsh.arch_pacman_cmds = ['sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"']
+OhMyZsh.auto_install = True
+vsi_programi.append(OhMyZsh)
 ## ADB  to-do ##################################################
 ## alias WEATHER ###############################################
 #	#	weather = NovProgram()
