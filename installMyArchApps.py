@@ -532,6 +532,18 @@ PSPP.arch_yaourt_cmds = ['pspp']
 PSPP.description = "GNU PSPP is a program for statistical analysis of sampled data. It is a free as in freedom replacement for the proprietary program SPSS, and appears very similar to it with a few exceptions."
 PSPP.auto_install = True
 vsi_programi.append(PSPP)
+
+## za statistiko bi bilo mogoče dobro da se naloži:
+# python -m pip install --user numpy scipy statsmodels matplotlib ipython jupyter pandas sympy nose
+## PythonStatistics ##################################################
+PythonStatistics = NovProgram()
+PythonStatistics.program_name = 'PythonStatistics'
+PythonStatistics.category = 'Office'
+PythonStatistics.arch_zsh_cmds = ['python -m pip install --user numpy scipy statsmodels matplotlib ipython jupyter pandas sympy nose']
+PythonStatistics.description = "Knjižnice za statistično obdelavo podatkov."
+PythonStatistics.auto_install = True
+vsi_programi.append(PythonStatistics)
+
 ## Thunderbird ##################################################
 Thunderbird = NovProgram()
 Thunderbird.program_name = 'Thunderbird'
