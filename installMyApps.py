@@ -890,7 +890,6 @@ def Install_programms():
 						]
 	VsiProgrami.append(Sublime.program_name)
 ## LibreOffice #################################################
-
 	global LibreOffice
 	LibreOffice = NovProgram()
 	LibreOffice.program_name = 'LibreOffice'
