@@ -44,7 +44,7 @@ class NovProgram(object):
 		## install from terminal command
 		if len(self.arch_yaourt_cmds) != 0:
 			for yaourt_cmd in self.arch_yaourt_cmds:
-				if self.category == 'Auto':
+				if self.auto_install:
 					if self.version_check():
 						#it is alredy installed... skip it!
 						pass
@@ -60,7 +60,7 @@ class NovProgram(object):
 		## install from terminal pacman command
 		if len(self.arch_pacman_cmds) != 0:
 			for pacman_install in self.arch_pacman_cmds:
-				if self.category == 'Auto':
+				if self.auto_install:
 					if self.version_check():
 						#it is alredy installed... skip it!
 						pass
@@ -76,8 +76,10 @@ class NovProgram(object):
 		## Post INSTALL operations #####################################################
 		if len(self.arch_zsh_cmds) != 0:
 			for arch_zsh_cmds in self.arch_zsh_cmds:
-				if self.category == 'Auto':
+				if self.auto_install:
 					key='y'
+				elif self.program_name == 'Backup_dot_Files':
+					key = 'y'
 				else:
 					key = input(thisAppOutput+'Execute: '+arch_zsh_cmds+ confirmText)
 				if key == 'y':
@@ -93,7 +95,7 @@ class NovProgram(object):
 					pckg_name = self.arch_pacman_cmds[0]
 				else:
 					pckg_name = self.arch_yaourt_cmds[0]
-		info_installed_file = os.popen('pacman -Qs '+ pckg_name)
+		info_installed_file = os.popen('pacman -Qi '+ pckg_name)
 		info_installed_text = info_installed_file.read()
 		if len(info_installed_text)>1 :
 			#it is alredy installed... 
@@ -194,7 +196,7 @@ git.arch_pacman_cmds = ['git']
 git.notes = ''
 git.arch_zsh_cmds = ['git config --global user.email "david.rihtarsic@gmail.com"',
 				 'git config --global user.name "davidrihtarsic"',
-				 'git clone https://github.com/davidrihtarsic/Arduino-serial-API.git ~/Files/GitHub_noSync/Arduino-serial-API',
+				 'git clone https://github.com/davidrihtarsic/Arduino-Data-Acquisition-Device.git ~/Files/GitHub_noSync/Arduino-Data-Acquisition-Device',
 				 'git clone https://github.com/davidrihtarsic/ArchLabs.git ~/Files/GitHub_noSync/ArchLabs',
 				 'git clone https://github.com/davidrihtarsic/InstallMyApps.git ~/Files/GitHub_noSync/InstallMyApps',
 				 'git clone https://github.com/davidrihtarsic/myLinuxNotes.git ~/Files/GitHub_noSync/myLinuxNotes',
@@ -228,7 +230,10 @@ Nemo.description = 'Nemo is a fork of GNOME Files. It is also the default file m
 Nemo.arch_pacman_cmds = [	'nemo',
 							'nemo-fileroller',
 							'nemo-preview',
-							'nemo-terminal']
+							'nemo-terminal',
+							'nemo-share',
+							'samba',
+							'gvfs-smb']
 Nemo.notes = ''
 Nemo.auto_install = True
 vsi_programi.append(Nemo)
@@ -248,7 +253,10 @@ PanDoc.category ='Other'
 PanDoc.description = 'PDF Tools'
 PanDoc.arch_pacman_cmds = [	'pandoc',
 							'texlive-latexextra',
-							'texlive-fontsextra' ]
+							'texlive-fontsextra',
+							'texlive-langextra',
+							'pandoc-citeproc']
+PanDoc.arch_yaourt_cmds = ['pandoc-eqnos']
 PanDoc.notes = ''
 PanDoc.auto_install = True
 vsi_programi.append(PanDoc)
@@ -259,6 +267,14 @@ nmon.category = 'System'
 nmon.description = 'Spremljanje procesov, diska...'
 nmon.arch_pacman_cmds = ['nmon']
 vsi_programi.append(nmon)
+## preload ########################################################
+preload = NovProgram()
+preload.program_name = 'PreLoad'
+preload.category = 'System'
+preload.description = 'Naloži najbolj uporabljene programe v RAM, da se hitreje nalagajo...'
+preload.auto_install = True
+preload.arch_yaourt_cmds = ['preload']
+vsi_programi.append(preload)
 ## WAVEMON #####################################################
 wavemon = NovProgram()
 wavemon.program_name = 'wavemon'					#ime naj bo brez presledkov
@@ -274,17 +290,26 @@ nmap.description = 'map ("Network Mapper") is a free and open source (license) u
 nmap.arch_pacman_cmds = ['nmap']
 nmap.auto_install = True
 vsi_programi.append(nmap)
+## GLANCES ########################################################
+Glances =NovProgram()
+Glances.program_name = 'Glances'
+Glances.category = 'System'
+Glances.description = 'Glances is a cross-platform monitoring tool which aims to present a large amount of monitoring information through a curses or Web based interface. The information dynamically adapts depending on the size of the user interface.'
+Glances.arch_pacman_cmds = ['Glances']
+Glances.auto_install = True
+vsi_programi.append(Glances)
+## oh-my-zsh ########################################################
+OhMyZsh =NovProgram()
+OhMyZsh.program_name = 'Oh-My-Zsh'
+OhMyZsh.category = 'System'
+OhMyZsh.description = 'Oh My Zsh is an open source, community-driven framework for managing your zsh configuration.'
+OhMyZsh.arch_zsh_cmds = [	'sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"',
+							'pacman -R grml-zsh-config']
+OhMyZsh.auto_install = True
+vsi_programi.append(OhMyZsh)
+
+
 ## ADB  to-do ##################################################
-## ARCH config files ###########################################
-Arch_config = NovProgram()
-Arch_config.program_name = 'Upadate .config'
-Arch_config.category = 'System'
-Arch_config.description = 'Moji .config fili iz GitHuba...'
-Arch_config.arch_zsh_cmds = ['cp -r -v ~/Files/GitHub_noSync/ArchLabs/MyDotFiles/. ~'
-						]
-Arch_config.check_version_cmd = 'git'
-Arch_config.auto_install = True
-vsi_programi.append(Arch_config)
 ## alias WEATHER ###############################################
 #	#	weather = NovProgram()
 #	weather.program_name = 'weather'					#ime naj bo brez presledkov
@@ -459,14 +484,66 @@ LibreOffice.arch_pacman_cmds =['libreoffice-fresh']
 LibreOffice.description = "LibreOffice is a powerful office suite – its clean interface and feature-rich tools help you unleash your creativity and enhance your productivity. LibreOffice includes several applications that make it the most powerful Free and Open Source office suite on the market."
 LibreOffice.auto_install = True
 vsi_programi.append(LibreOffice)
+## WSP Office #################################################
+WPS_office = NovProgram()
+WPS_office.program_name = 'WPS_office'
+WPS_office.category = 'Office'
+WPS_office.arch_yaourt_cmds =['wps-office']
+WPS_office.description = "Your dream solution for a low-budget, no-commitment, free productivity office suite. The smallest size office suite consisting of Writer, Presentation, and Spreadsheets, plus PDF tools to fulfill all of your document needs. Includes a brand new Docer Templates page. Available in English, French, German, Spanish, Portuguese, Polish and Russian."
+WPS_office.auto_install = True
+vsi_programi.append(WPS_office)
+## VIM #################################################
+vim = NovProgram()
+vim.program_name = 'vim'
+vim.category = 'Office'
+vim.arch_yaourt_cmds =['vim', 'vim-tagbar']
+vim.description = "Simple terminal text editor"
+vim.auto_install = True
+vsi_programi.append(vim)
+## simpleScan #################################################
+simpleScan = NovProgram()
+simpleScan.program_name = 'Simple Scan'
+simpleScan.category = 'Office'
+simpleScan.arch_pacman_cmds =['simple-scan']
+simpleScan.description = "Simple Scan allows you to get images from a scanner (e.g. a flatbed scanner)."
+simpleScan.auto_install = True
+vsi_programi.append(simpleScan)
+## Mendelay #################################################
+Mendelay = NovProgram()
+Mendelay.program_name = 'Mendelay Desktop'
+Mendelay.category = 'Office'
+Mendelay.arch_yaourt_cmds =['mendeleydesktop']
+Mendelay.description = "Academic software for managing and sharing research papers (desktop client)."
+Mendelay.auto_install = True
+vsi_programi.append(Mendelay)
 ## SublimeText3 ##################################################
 SublimeText3 = NovProgram()
 SublimeText3.program_name = 'SublimeText3'
 SublimeText3.category = 'Office'
-SublimeText3.arch_yaourt_cmds = ['sublime-text-dev']
+SublimeText3.arch_yaourt_cmds = ['sublime-text-dev','panzer-git']
 SublimeText3.description = "Notepad on steroids..."
 SublimeText3.auto_install = True
 vsi_programi.append(SublimeText3)
+## PSPP ##################################################
+PSPP = NovProgram()
+PSPP.program_name = 'PSPP'
+PSPP.category = 'Office'
+PSPP.arch_yaourt_cmds = ['pspp']
+PSPP.description = "GNU PSPP is a program for statistical analysis of sampled data. It is a free as in freedom replacement for the proprietary program SPSS, and appears very similar to it with a few exceptions."
+PSPP.auto_install = True
+vsi_programi.append(PSPP)
+
+## za statistiko bi bilo mogoče dobro da se naloži:
+# python -m pip install --user numpy scipy statsmodels matplotlib ipython jupyter pandas sympy nose
+## PythonStatistics ##################################################
+PythonStatistics = NovProgram()
+PythonStatistics.program_name = 'PythonStatistics'
+PythonStatistics.category = 'Office'
+PythonStatistics.arch_zsh_cmds = ['python -m pip install --user numpy scipy statsmodels matplotlib ipython jupyter pandas sympy nose']
+PythonStatistics.description = "Knjižnice za statistično obdelavo podatkov."
+PythonStatistics.auto_install = True
+vsi_programi.append(PythonStatistics)
+
 ## Thunderbird ##################################################
 Thunderbird = NovProgram()
 Thunderbird.program_name = 'Thunderbird'
@@ -475,13 +552,29 @@ Thunderbird.arch_pacman_cmds =['thunderbird']
 Thunderbird.description = ""
 Thunderbird.auto_install = True
 vsi_programi.append(Thunderbird)
-## Terminator ##################################################
+### Gpic ##################################################
+Gpic = NovProgram()
+Gpic.program_name = 'Gpic'
+Gpic.category = 'System'
+Gpic.arch_pacman_cmds =['gpick']
+Gpic.description = ""
+Gpic.auto_install = True
+vsi_programi.append(Gpic)
+### CharMap ##################################################
+CharMap = NovProgram()
+CharMap.program_name = 'CharMap'
+CharMap.category = 'System'
+CharMap.arch_yaourt_cmds =['gucharmap']
+CharMap.description = "Gucharmap is a Unicode character map. It uses the gtk+ toolkit and runs on any platform that gtk+ supports."
+CharMap.auto_install = True
+vsi_programi.append(CharMap)
+# Terminator ##################################################
 Terminator = NovProgram()
 Terminator.program_name = 'Terminator'
 Terminator.category = 'System'
 Terminator.arch_pacman_cmds =['terminator']
 Terminator.description = ""
-Terminator.auto_install = True
+Terminator.auto_install = False
 vsi_programi.append(Terminator)
 ## PhoronixTestSuite ###########################################
 PhoronixTestSuite = NovProgram()
@@ -506,6 +599,14 @@ Dolphin.arch_pacman_cmds =['dolphin','konsole']
 Dolphin.arch_yaourt_cmds = ['fsearch-git','kdegraphics-thumbnailers']
 Dolphin.description = 'Dolphin is a lightweight file manager. It has been designed with ease of use and simplicity in mind, while still allowing flexibility and customisation. This means that you can do your file management exactly the way you want to do it.'
 vsi_programi.append(Dolphin)
+## LinkDotFiles ########################################################
+LinkDotFiles =NovProgram()
+LinkDotFiles.program_name = 'LinkDotFiles'
+LinkDotFiles.category = 'System'
+LinkDotFiles.description = 'Make link for any files in ~/Files/GitHub_noSync/ArchLabs/MyDotFiles/...'
+LinkDotFiles.arch_zsh_cmds = ['/home/david/Files/GitHub_noSync/ArchLabs/MyDotFiles/bin/system/makeSymbolicLinks.sh']
+LinkDotFiles.auto_install = True
+vsi_programi.append(LinkDotFiles)
 
 # find programs and categorize them
 #Force Auto and System as first
@@ -618,24 +719,31 @@ Main()
 #while (editCmd.value != 'q'):
 while (key != 'q'):
 	key = input('Cmd::')
-	programe_index=(i for i in range(50))
-	next(programe_index)
+	#programe_index=(i for i in range(50))
+	#next(programe_index)
 	if key == '':
 		cls()
 		Main()
 	else:
 		# preglej vse programe...
-		for program in vsi_programi:
-			if key == str(program.index):
-				program.install()
-				key = ''
-		if key == 'u' :
-			os.system('sudo pacman -Syu')
-			os.system('yaourt -Syua')
-		elif key in all_categorys:
+		try:
+			prog_id = int(key)-1
 			for program in vsi_programi:
-				if program.category == key:
+				if editProgramms[prog_id].value == str(program.program_name):
 					program.install()
-		else:	
-			os.system(key)	
+					key = ''
+		except ValueError:
+			if key == 'u' :
+				os.system('sudo pacman -Syu')
+				os.system('yaourt -Syua')
+			elif key in all_categorys:
+				for program in vsi_programi:
+					if program.category == key:
+						program.install()
+			elif key == 'Auto':
+				for program in vsi_programi:
+					if program.auto_install:
+						program.install()
+			else:	
+				os.system(key)	
 cls()
