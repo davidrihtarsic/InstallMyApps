@@ -44,7 +44,7 @@ class NovProgram(object):
 		self.tar_extra_cmds = [] 	#extra commande, ce je se kaj za narest
 		self.extra_cmd = []			#se ene extra cmd ... ce je se kaj...
 		self.program_desktop = []	#vsebina v program.desktop
-		self.add_path_profile_variable  = '' 
+		self.add_path_profile_variable  = ''
 		self.add_bash_parameter= []
 		self.notes = ''
 		self.arhitecture_64bit = False
@@ -110,7 +110,7 @@ class NovProgram(object):
 				key = raw_input(thisAppOutput+'Namesti DEB package: ' + temp_deb_package_file + confirmText)
 				if key == 'y':
 					os.system('sudo dpkg -i ' + download_dir + temp_deb_package_file)
-					sys.stdout.write(thisAppOutput+'Namestitev koncana...'+escapeColorDefault+'\n')	
+					sys.stdout.write(thisAppOutput+'Namestitev koncana...'+escapeColorDefault+'\n')
 				key = raw_input(thisAppOutput+'Izbrisi datoteko:'
 								+ download_dir + temp_deb_package_file+'*'
 								+ confirmText)
@@ -156,7 +156,7 @@ class NovProgram(object):
 									+ temp_tar_package_file +
 									' v ' + download_dir + '?'+confirmText)
 					if key == 'y':
-						os.system('tar -xvf '+ download_dir+temp_tar_package_file 
+						os.system('tar -xvf '+ download_dir+temp_tar_package_file
 								+' --directory '+ download_dir)
 				else:
 					key = raw_input(thisAppOutput+'Razpakiraj TAR package: '
@@ -185,15 +185,15 @@ class NovProgram(object):
 				#naprimer kak make, make install, itd
 				#skratka izvrsimo komande, ki jih najdemo v :
 				#self.tar_extra_cmds = ['make','make install']
-			if len(self.tar_extra_cmds) != 0:	
+			if len(self.tar_extra_cmds) != 0:
 				for extra_cmd in self.tar_extra_cmds:
 					key = raw_input(thisAppOutput+'execute:'+extra_cmd+confirmText)
 					if key == 'y':
 						os.system(extra_cmd)
 
 	def add_PATH_parameter(self):
-		## dodajanje v path script #######################################################			
-		#sudo sh -c 'echo "export PATH=\$PATH:/opt/arduino-1.8.1" >> /etc/profile.d/arduino_path.sh'	
+		## dodajanje v path script #######################################################
+		#sudo sh -c 'echo "export PATH=\$PATH:/opt/arduino-1.8.1" >> /etc/profile.d/arduino_path.sh'
 		if len(self.add_path_profile_variable) != 0:
 			# ce in nastavljeno pot... to dodamo v $PATH
 			key = raw_input(thisAppOutput+'Dodaj pot:'+ self.add_path_profile_variable + ' v $PATH ?'+confirmText)
@@ -227,7 +227,7 @@ class NovProgram(object):
 				key = raw_input(thisAppOutput+'execute:'+extra_cmd+ confirmText)
 				if key == 'y':
 					os.system(extra_cmd)
-	
+
 	def make_destop_file(self):
 		## Dodajanje program.desktop datoteke v /usr/share/applications/ ################
 		if len(self.program_desktop) != 0:
@@ -245,19 +245,19 @@ class NovProgram(object):
 						sudo_txt.append(" >> "+ menu_desktop + self.program_name + ".desktop'")
 						#sys.stdout.write(sudo_txt[0]+sudo_txt[1]+sudo_txt[2]+sudo_txt[3])
 						os.system(sudo_txt[0]+sudo_txt[1]+sudo_txt[2]+sudo_txt[3])
-	
+
 	def version_check(self):
-		## KONEC INSTALACIJE samo se navodila in verzija check! ########################		
+		## KONEC INSTALACIJE samo se navodila in verzija check! ########################
 		if self.check_version_cmd != '':
 			#ce smo vpisali preverjanje verzije -> POTEM
 			sys.stdout.write(thisAppOutput+'Preverjam verzijo...'+escapeColorDefault+'\n')
 			os.system(self.check_version_cmd)
-		
+
 	def show_notes(self):
 		if self.notes != '':
-			sys.stdout.write(thisAppOutput+self.notes+''+escapeColorDefault+'\n')	
+			sys.stdout.write(thisAppOutput+self.notes+''+escapeColorDefault+'\n')
 
-				
+
 	def install(self):
 		sys.stdout.write(	 '###########################################################\n'
 							+'## Postopek instalacije programa \n'
@@ -285,7 +285,7 @@ class NovProgram(object):
 					#sys.stdout.write('\n presledek at:'+str(presledek))
 					#sys.stdout.write('\n lst_presl at:'+str(last_presledek)+'\n')
 					print(escapeColorDefault+self.description[new_start:last_presledek])
-					new_start = last_presledek + 1 	
+					new_start = last_presledek + 1
 				else:
 					if (presledek > 0):
 					    last_presledek=presledek
@@ -295,14 +295,14 @@ class NovProgram(object):
 		key = raw_input(thisAppOutput+'Nadaljuj z namestitvijo?'+confirmText)
 		if key == 'y':
 			self.install_apt_cmd()
-			self.install_DEB_package()	
+			self.install_DEB_package()
 			self.install_TAR_package()
 			self.make_destop_file()
 			self.add_PATH_parameter()
 			self.run_bash_cmds()
 			self.add_BASH_parameter()
 			self.version_check()
-			self.show_notes()		
+			self.show_notes()
 			sys.stdout.write(thisAppOutput+'Pritisni [ENTER] za nadaljevanje...'+escapeColorDefault+'\n')
 ## DEFINICIJA PROGRAMOV ZA INSTALACIJO #########################
 def Install_programms():
@@ -314,13 +314,13 @@ def Install_programms():
 	# 	ta besedlni niz se uporabi za prikaz imena programa v menu-ju in
 	# 	tudi za ime datoteke *.desktop (/usr/share/applications/ime_programa.desktop).
 	#	primer uporabe:
-	#	novProgram.program_name='firefox'					
+	#	novProgram.program_name='firefox'
 	#Ime_Novega_Programa.description = ''
 	# 	DESCRIPTON - string se uporablja za nekaj uvodnega besedila v menuju.
 	#	primer uporabe:
 	#	novProgram.description=	'Ta program se uporablja za pisanje besedil.\n Uporabljamo'\
-	#				'pa ga lahko tudi ta urejanje nastavitev...' 
-	#Ime_Novega_Programa.pre_install_cmds = []					
+	#				'pa ga lahko tudi ta urejanje nastavitev...'
+	#Ime_Novega_Programa.pre_install_cmds = []
 	#	PRE_INSTALL_CMDS - niz stringov se izvrsi kakor ce bi jih vpisovali v terminal
 	#	eden za drugim. Izvrsijo se pred vsemi ostalimi ukazi (apt-get install, deb, tar).
 	#	Med vsakim navedenim nizom nas program tudi vprasa ali zelimo izvrsiti ukaz [y/n].
@@ -348,16 +348,16 @@ def Install_programms():
 	#	novProgram.deb_package_file = 'sublime-text_build-all.deb'
 	#Ime_Novega_Programa.deb_package_path_32 = ''
 	#	DEB_PACKAGE_PATH_32 - enako kot pri {deb_package_path}, le da se *.deb paket namesti le
-	#	ce imate 32-bitni sistem. 
+	#	ce imate 32-bitni sistem.
 	#Ime_Novega_Programa.deb_package_file_32 = ''
 	#	DEB_PACKAGE_FILE_32 - enako kot pri {deb_package_path}, le da se *.deb paket namesti le
-	#	ce imate 32-bitni sistem. 
+	#	ce imate 32-bitni sistem.
 	#Ime_Novega_Programa.deb_package_path_64 = ''
 	#	DEB_PACKAGE_PATH_64 - enako kot pri {deb_package_path}, le da se *.deb paket namesti le
-	#	ce imate 64-bitni sistem. 
+	#	ce imate 64-bitni sistem.
 	#Ime_Novega_Programa.deb_package_file_64 = ''
 	#	DEB_PACKAGE_FILE_64 - enako kot pri {deb_package_path}, le da se *.deb paket namesti le
-	#	ce imate 64-bitni sistem. 
+	#	ce imate 64-bitni sistem.
 	#Ime_Novega_Programa.tar_package_path = ''
 	#	TAR_PACKAGE_PATH - pot datoteke na kateri se nahaja *.tar.gz ali *.tar.xz paket. Ta se
 	#	uporablja v primeru, ko vrsta arhitekture ni pomembna ali pa paket ne podpira razlicnih
@@ -374,16 +374,16 @@ def Install_programms():
 	#	novProgram.tar_package_file = 'sublime-text_build-all.tar.gz'
 	#Ime_Novega_Programa.tar_package_path_32 = ''
 	#	TAR_PACKAGE_PATH_32 - enako kot pri {tar_package_path}, le da se *.tar.* paket namesti le
-	#	ce imate 32-bitni sistem. 
+	#	ce imate 32-bitni sistem.
 	#Ime_Novega_Programa.tar_package_file_32 = ''
 	#	TAR_PACKAGE_FILE_32 - enako kot pri {tar_package_file}, le da se *.tar.* paket namesti le
-	#	ce imate 32-bitni sistem. 
+	#	ce imate 32-bitni sistem.
 	#Ime_Novega_Programa.tar_package_path_64 = ''
 	#	TAR_PACKAGE_PATH_64 - enako kot pri {tar_package_path}, le da se *.tar.* paket namesti le
-	#	ce imate 64-bitni sistem. 
+	#	ce imate 64-bitni sistem.
 	#Ime_Novega_Programa.tar_package_file_64 = ''
 	#	DEB_PACKAGE_FILE_64 - enako kot pri {deb_package_path}, le da se *.deb paket namesti le
-	#	ce imate 64-bitni sistem. 
+	#	ce imate 64-bitni sistem.
 	#Ime_Novega_Programa.tar_destination = ''
 	#	TAR_DESTINATION - direktorij, kamor zelite, da se *.tar.* paket od-tara. Ce direktorij se
 	#	ne obstaja, da bo instalacija sama ustvarila...
@@ -417,7 +417,7 @@ def Install_programms():
 	#	Na tem mestu lahko dodate link v /usr/bin/ tako, da lahko zazenete program od koderkoli,
 	#	kakor smo to naredili za program thunderbird...
 	#	primer uporabe:
-	#	Thunderbird.extra_cmd = ['sudo ln -s /opt/thunderbird/thunderbird /usr/bin/thunderbird'] 
+	#	Thunderbird.extra_cmd = ['sudo ln -s /opt/thunderbird/thunderbird /usr/bin/thunderbird']
 	#Ime_Novega_Programa.add_bash_parameter = []
 	#	ADD_BASH_PARAMETER - niz stringov (besedila), ki ga je potrebno dodati v datoteko:
 	#	~/.bashrc. Besedilo se doda na konec dokumenta. Skript vas vprasa za vsak niz posebej,
@@ -429,7 +429,7 @@ def Install_programms():
 	#	CHECK_VERSION_CMD - string se izvrsi kot cmd ukaz v ternimalu in je namenjen
 	#	preverjanju verzije. Ta ukaz se izvede po instalaciji.
 	#	primer uporabe:
-	#	novProgram = 'nano --version' 
+	#	novProgram = 'nano --version'
 	#Ime_Novega_Programa.notes = ''
 	#	NOTES - ko se instalacijski postopek zakljuci se izpise neko besedilo, ki sporoci
 	#	uporabniku kaka nadaljna navodila. Naprimer, ce program potrebuje kake dodatne
@@ -440,7 +440,7 @@ def Install_programms():
 	#Ime_Novega_Programa = NovProgram()
 	#Ime_Novega_Programa.program_name = ''
 	#Ime_Novega_Programa.description = ''
-	#Ime_Novega_Programa.pre_install_cmds = []					
+	#Ime_Novega_Programa.pre_install_cmds = []
 	#Ime_Novega_Programa.apt_get_name = ''
 	#Ime_Novega_Programa.deb_package_path = ''
 	#Ime_Novega_Programa.deb_package_file = ''
@@ -517,7 +517,7 @@ def Install_programms():
 							'Terminal=true',
 							'Type=Application',
 							'Categories=Settings;'
-							] 
+							]
 	# obmenu.notes = ''
 	VsiProgrami.append(obmenu.program_name)
 ## Terminator #################################################5
@@ -568,7 +568,7 @@ def Install_programms():
 				'857MiB 0:01:05 [13.1MiB/s] [===================>] 100%\n'\
 				'> exit\n'\
 				'>'
-	VsiProgrami.append(Pv.program_name)	
+	VsiProgrami.append(Pv.program_name)
 ## NMON #######################################################8
 	global nmon
 	nmon = NovProgram()
@@ -652,7 +652,7 @@ def Install_programms():
 	Keymap = NovProgram()
 	Keymap.description='remap tipke [dz] v "/"'
 	Keymap.program_name = 'Keymap'
-	Keymap.add_bash_parameter = ['\n#remap tipko [dz] - "/"','\nxmodmap -e "keycode 35 = slash"']			#text ki je za dodat v .bash 
+	Keymap.add_bash_parameter = ['\n#remap tipko [dz] - "/"','\nxmodmap -e "keycode 35 = slash"']			#text ki je za dodat v .bash
 	VsiProgrami.append(Keymap.program_name)
 ## conky #####################################################14
 	global conky
@@ -663,7 +663,7 @@ def Install_programms():
 	conky.extra_cmd = ['mkdir '+ user_path +'/.config/conky',
 						'ls -alF '+ user_path +'/.config/conky']					#se ene extra cmd ... ce je se kaj...
 	conky.program_desktop = []				#vsebina v program.desktop
-	conky.add_path_profile_variable  = '' 
+	conky.add_path_profile_variable  = ''
 	conky.notes = ''
 	VsiProgrami.append(conky.program_name)
 ## BunsenLab personal settings ###############################15
@@ -675,7 +675,7 @@ def Install_programms():
 						'wget "https://github.com/davidrihtarsic/BunsenLab/raw/master/rc.xml" -O ~/.config/openbox/rc.xml',\
 						'openbox --restart']#se ene extra cmd ... ce je se kaj...
 	# obmenu.notes = ''
-	VsiProgrami.append(bunsenLabSettings.program_name)	
+	VsiProgrami.append(bunsenLabSettings.program_name)
 ## xBackLight ###################################################11
 	global xBackLight
 	xBackLight = NovProgram()
@@ -697,7 +697,7 @@ def Install_programms():
 	dave_s_conky.add_path_profile_variable  = ''
 	#dave_s_conky.add_bash_parameter = 	['\n# zazeni conky ob zagomu racunalnika...',
 	#									'\nconky --config='+ user_path +'/.config/conky/dave_s_conky.conkyrc']
-	#add to .bashrc file =>'conky -config='+ user_path +'/.config/conky/dave_s_conky.conkyrc' 
+	#add to .bashrc file =>'conky -config='+ user_path +'/.config/conky/dave_s_conky.conkyrc'
 	dave_s_conky.notes = ''
 	VsiProgrami.append(dave_s_conky.program_name)
 ## alias ll -> ls -alF #######################################17
@@ -706,7 +706,7 @@ def Install_programms():
 	ll.program_name = 'alias ll'					#ime naj bo brez presledkov
 	ll.description = 'priredi ll namesto uporabe ls -alF - ukaz se uporablja za bolj detajlni prikaz vsebine v direktoriju'
 						#neko besedilo za opis
-	ll.add_bash_parameter = ['\n#alias',"\nalias ll='ls -alF'"]			#text ki je za dodat v .bash 
+	ll.add_bash_parameter = ['\n#alias',"\nalias ll='ls -alF'"]			#text ki je za dodat v .bash
 	ll.notes = ''
 	VsiProgrami.append(ll.program_name)
 ## alias WEATHER #############################################18
@@ -715,7 +715,7 @@ def Install_programms():
 	weather.program_name = 'alias weather'					#ime naj bo brez presledkov
 	weather.description = 'izpis vremena za tri dni v terminalnem oknu'
 					#neko besedilo za opis
-	weather.add_bash_parameter = ["\nalias weather='curl wttr.in/~begunje'"]			#text ki je za dodat v .bash 
+	weather.add_bash_parameter = ["\nalias weather='curl wttr.in/~begunje'"]			#text ki je za dodat v .bash
 	weather.notes = ''
 	VsiProgrami.append(weather.program_name)
 ## FileZilla #################################################19
@@ -723,10 +723,10 @@ def Install_programms():
 	global FileZilla
 	FileZilla = NovProgram()
 	FileZilla.program_name = 'FileZilla'
-	FileZilla.description = 'FileZilla is open source software distributed free of charge under the terms of the GNU General Public License'					
+	FileZilla.description = 'FileZilla is open source software distributed free of charge under the terms of the GNU General Public License'
 	FileZilla.apt_get_name = 'FileZilla'
 	##FileZilla.notes = ''
- 	VsiProgrami.append(FileZilla.program_name)
+    VsiProgrami.append(FileZilla.program_name)
 ## python-serial #############################################20
 	#test OK @ BL 64bit (David)
 	global python_serial
@@ -735,7 +735,7 @@ def Install_programms():
 	python_serial.description = 'This module encapsulates the access for the serial port. It provides backends for Python running on Windows, OSX, Linux, BSD (possibly any POSIX compliant system) and IronPython. The module named "serial" automatically selects the appropriate backend.'
 	python_serial.apt_get_name = 'python-serial'
 	##python-serial.notes = ''
- 	VsiProgrami.append(python_serial.program_name)
+    VsiProgrami.append(python_serial.program_name)
 ## FreeFileSync ##############################################21
     #Test INFO @ BL64bit (David desktop comp):
     #	- paket deb najden OK
@@ -743,7 +743,7 @@ def Install_programms():
     #	- untar OK
     #	- desktopfile ERROR -> FIX: Categories=(~~Accessories~~)Utility;
     #	- desktopfile ICON added
-    #ne dela dobro na 32bit BL: Ni v kategoriji Acesories, pri zapisanju javi da nima dovoljenja, 
+    #ne dela dobro na 32bit BL: Ni v kategoriji Acesories, pri zapisanju javi da nima dovoljenja,
     #Test INFO @ LB32bit (David Laptop)
     #	- instalacija OK
     #	- noce shranit nastavitev...
@@ -754,7 +754,7 @@ def Install_programms():
 	FreeFileSync = NovProgram()
 	FreeFileSync.program_name = 'FreeFileSync'
 	FreeFileSync.description = 'FreeFileSync is a free Open Source software that helps you synchronize files and synchronize folders for Windows, Linux and macOS. It is designed to save your time setting up and running backup jobs while having nice visual feedback along the way.'
-	FreeFileSync.pre_install_cmds = []					
+	FreeFileSync.pre_install_cmds = []
 	FreeFileSync.apt_get_name = ''
 	FreeFileSync.deb_package_path = ''
 	FreeFileSync.deb_package_file = ''
@@ -781,7 +781,7 @@ def Install_programms():
 	FreeFileSync.add_path_profile_variable  = ''
 	#FreeFileSync.extra_cmd = [	'sudo touch /opt/FreeFileSync/GlobalSettings.xml',
 	#							'sudo chmod ugo+rwx /opt/FreeFileSync/GlobalSettings.xml']
-	FreeFileSync.extra_cmd = [	'sudo chown '+ user +' /opt/FreeFileSync/']	
+	FreeFileSync.extra_cmd = [	'sudo chown '+ user +' /opt/FreeFileSync/']
 	FreeFileSync.add_bash_parameter = []
 	FreeFileSync.check_version_cmd = ''
 	FreeFileSync.notes = ''
@@ -951,7 +951,7 @@ def Install_programms():
 							]
 	FireFox.extra_cmd = ['sudo rm /usr/bin/firefox','sudo ln -s /opt/firefox/firefox /usr/bin/firefox']
 	FireFox.check_version_cmd = 'firefox --version'
-	VsiProgrami.append(FireFox.program_name)	
+	VsiProgrami.append(FireFox.program_name)
 ## GoogleChrome ################################################
 	global GoogleChrome
 	GoogleChrome = NovProgram()
@@ -1036,9 +1036,9 @@ def Install_programms():
 	stellarium = NovProgram()
 	stellarium.program_name = 'stellarium'
 	stellarium.description = 'Zvezvde...'
-	#stellarium.pre_install_cmds = []					
+	#stellarium.pre_install_cmds = []
 	stellarium.apt_get_name = 'stellarium'
-	
+
 	#stellarium.program_desktop = []
 	#stellarium.extra_cmd = []
 	#stellarium.add_bash_parameter = []
@@ -1050,7 +1050,7 @@ def Install_programms():
 	Foxitreader = NovProgram()
 	Foxitreader.program_name = 'Foxitreader'
 	Foxitreader.description = 'Program za urejanje PDF dokumentov'
-	Foxitreader.pre_install_cmds = []					
+	Foxitreader.pre_install_cmds = []
 	Foxitreader.apt_get_name = ''
 	Foxitreader.deb_package_path = ''
 	Foxitreader.deb_package_file = ''
@@ -1079,7 +1079,7 @@ def Install_programms():
 	Fritzing = NovProgram()
 	Fritzing.program_name = 'Fritzing'
 	Fritzing.description = 'Program za risanje vezij oziroma elektrotehniskih shem'
-	Fritzing.pre_install_cmds = []					
+	Fritzing.pre_install_cmds = []
 	Fritzing.apt_get_name = ''
 	Fritzing.deb_package_path = ''
 	Fritzing.deb_package_file = ''
@@ -1095,7 +1095,7 @@ def Install_programms():
 	Fritzing.tar_package_file_64 = 'fritzing-0.9.3b.linux.AMD64.tar.bz2'
 	Fritzing.tar_destination = opt_dir
 	Fritzing.tar_extra_cmds = [	'sudo mv /opt/fritzing-0.9.3b* /opt/fritzing-0.9.3b',
-								'sudo ln -s /opt/fritzing-0.9.3b/Fritzing /usr/bin/fritzing' 
+								'sudo ln -s /opt/fritzing-0.9.3b/Fritzing /usr/bin/fritzing'
 								]
 	Fritzing.program_desktop = ['[Desktop Entry]',
 								'Name=Fritzing',
@@ -1116,7 +1116,7 @@ def Install_programms():
 	texmaker = NovProgram()
 	texmaker.program_name = 'texmaker'
 	texmaker.description = 'Program za pisanje besedil v TeX formatu.'
-	#texmaker.pre_install_cmds = ['sudo apt-get -f install texlive-full texmaker']					
+	#texmaker.pre_install_cmds = ['sudo apt-get -f install texlive-full texmaker']
 	texmaker.apt_get_name = 'texlive-full texmaker'
 	#texmaker.program_desktop = []
 	#texmaker.extra_cmd = []
@@ -1152,7 +1152,7 @@ def Install_programms():
 	global audacity
 	audacity = NovProgram()
 	audacity.program_name = 'audacity'
-	audacity.description = 'Audacity is free, open source, cross-platform audio software for multi-track recording and editing.'					
+	audacity.description = 'Audacity is free, open source, cross-platform audio software for multi-track recording and editing.'
 	audacity.apt_get_name = 'audacity'
 	#audacity.notes = ''
 	VsiProgrami.append(audacity.program_name)
@@ -1161,7 +1161,7 @@ def Install_programms():
 	zathura = NovProgram()
 	zathura.program_name = 'zathura'
 	zathura.description = 'Zathura is a highly customizable and functional document viewer. It provides a minimalistic and space saving interface as well as an easy usage that mainly focuses on keyboard interaction.'
-	zathura.pre_install_cmds = []					
+	zathura.pre_install_cmds = []
 	zathura.apt_get_name = 'zathura'
 	zathura.check_version_cmd = ''
 	zathura.notes = ''
@@ -1170,7 +1170,7 @@ def Install_programms():
 	global evince
 	evince = NovProgram()
 	evince.program_name = 'evince'
-	evince.description = 'Evince is a document viewer for multiple document formats. The goal of evince is to replace the multiple document viewers that exist on the GNOME Desktop with a single simple application. Evince is specifically designed to support the file following formats: PDF, Postscript, djvu, tiff, dvi, XPS, SyncTex support with gedit, comics books (cbr,cbz,cb7 and cbt).'					
+	evince.description = 'Evince is a document viewer for multiple document formats. The goal of evince is to replace the multiple document viewers that exist on the GNOME Desktop with a single simple application. Evince is specifically designed to support the file following formats: PDF, Postscript, djvu, tiff, dvi, XPS, SyncTex support with gedit, comics books (cbr,cbz,cb7 and cbt).'
 	evince.apt_get_name = 'evince'
 	#evince.notes = ''
 	VsiProgrami.append(evince.program_name)
@@ -1179,7 +1179,7 @@ def Install_programms():
 	global k3b
 	k3b = NovProgram()
 	k3b.program_name = 'k3b'
-	k3b.description = 'K3b is a simple, yet powerful and highly-configurable graphical optical disk burning application for audio, video, data projects and more!'					
+	k3b.description = 'K3b is a simple, yet powerful and highly-configurable graphical optical disk burning application for audio, video, data projects and more!'
 	k3b.apt_get_name = 'k3b'
 	##k3b.notes = ''
  	VsiProgrami.append(k3b.program_name)
@@ -1212,7 +1212,7 @@ def Install_programms():
 	global lmms
 	lmms = NovProgram()
 	lmms.program_name = 'lmms'
-	lmms.description = 'Open source digital audio workstation'					
+	lmms.description = 'Open source digital audio workstation'
 	lmms.apt_get_name = 'lmms'
 	lmms.notes ="Dokumentacija za program se nahaja na naslovu: https://lmms.io/documentation/"
  	VsiProgrami.append(lmms.program_name)
@@ -1256,7 +1256,7 @@ def Install_programms():
 									'sudo apt-get install libfontconfig1',
 									'sudo apt-get install mesa-common-dev',
 									'sudo apt-get install libglu1-mesa-dev -y',
-									'sudo apt install qt5-default']					
+									'sudo apt install qt5-default']
 	#QT5_creator.apt_get_name = ''
 	#QT5_creator.deb_package_path = ''
 	#QT5_creator.deb_package_file = ''
@@ -1290,7 +1290,7 @@ def Install_programms():
 	Stencyl = NovProgram()
 	Stencyl.program_name = 'Stencyl'
 	Stencyl.description = "Stencyl isn't your average game creation software. It's a gorgeous, intuitive toolset that accelerates your workflow and then gets out of the way. We take care of the essentials, so you can focus on what's important - making your game yours."
-	Stencyl.pre_install_cmds = []					
+	Stencyl.pre_install_cmds = []
 	Stencyl.apt_get_name = ''
 	Stencyl.deb_package_path = ''
 	Stencyl.deb_package_file = ''
@@ -1305,7 +1305,7 @@ def Install_programms():
 	Stencyl.tar_package_path_64 = 'http://mario.stencyl.net/public/'
 	Stencyl.tar_package_file_64 = 'Stencyl-64-full.tar.gz'
 	Stencyl.tar_destination = opt_dir + "Stencyl/"
-	Stencyl.tar_extra_cmds = [	'sudo ln -s /opt/Stencyl/Stencyl /usr/bin/Stencyl' 
+	Stencyl.tar_extra_cmds = [	'sudo ln -s /opt/Stencyl/Stencyl /usr/bin/Stencyl'
 								]
 	Stencyl.program_desktop = ['[Desktop Entry]',
 								'Name=Stencyl',
@@ -1405,8 +1405,8 @@ while (key != 'q'):
 	if key == '':
 		cls()
 		Main()
-	#---------------------------------------SYSTEM PROGRAMS	
-	elif key == str(programe_index.next()):	Update_Upgrade.install()	
+	#---------------------------------------SYSTEM PROGRAMS
+	elif key == str(programe_index.next()):	Update_Upgrade.install()
 	elif key == str(programe_index.next()):	git.install()
 	elif key == str(programe_index.next()):	java_8.install()
 	elif key == str(programe_index.next()):	obmenu.install()
@@ -1458,7 +1458,7 @@ while (key != 'q'):
 	elif key == str(programe_index.next()):	Stencyl.install()
 	elif key == 'all':
 		#---SYSTEM PROGRAMS
-		Update_Upgrade.install()	
+		Update_Upgrade.install()
 		git.install()
 		java_8.install()
 		obmenu.install()
@@ -1504,7 +1504,7 @@ while (key != 'q'):
 		eclipse.install()
 		QT5_creator.install()
 		Stencyl.install()
-	elif key == 'tit':	
+	elif key == 'tit':
 		Arduino.install()
 		qCAD.install()
 		FreeCAD.install()
@@ -1512,7 +1512,7 @@ while (key != 'q'):
 		stellarium.install()
 		Fritzing.install()
 	elif key == 'system':
-		Update_Upgrade.install()	
+		Update_Upgrade.install()
 		Terminator.install()
 		Htop.install()
 		nmon.install()
@@ -1524,8 +1524,8 @@ while (key != 'q'):
 		obmenu.install()
 	elif key == 'r':
 		os.system('/opt/openbox-menu/obmenu.py')
-	else:	
+	else:
 		os.system(key)
 	#Main()
-			
+
 cls()
