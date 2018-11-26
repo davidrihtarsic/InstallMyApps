@@ -726,7 +726,7 @@ def Install_programms():
 	FileZilla.description = 'FileZilla is open source software distributed free of charge under the terms of the GNU General Public License'
 	FileZilla.apt_get_name = 'FileZilla'
 	##FileZilla.notes = ''
-    VsiProgrami.append(FileZilla.program_name)
+	VsiProgrami.append(FileZilla.program_name)
 ## python-serial #############################################20
 	#test OK @ BL 64bit (David)
 	global python_serial
@@ -735,7 +735,7 @@ def Install_programms():
 	python_serial.description = 'This module encapsulates the access for the serial port. It provides backends for Python running on Windows, OSX, Linux, BSD (possibly any POSIX compliant system) and IronPython. The module named "serial" automatically selects the appropriate backend.'
 	python_serial.apt_get_name = 'python-serial'
 	##python-serial.notes = ''
-    VsiProgrami.append(python_serial.program_name)
+	VsiProgrami.append(python_serial.program_name)
 ## FreeFileSync ##############################################21
     #Test INFO @ BL64bit (David desktop comp):
     #	- paket deb najden OK
