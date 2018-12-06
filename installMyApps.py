@@ -506,7 +506,7 @@ def Install_programms():
 	obmenu.program_name = 'openbox-menu'					#ime naj bo brez presledkov
 	obmenu.description = 'Naredi nov menu v OpenBox UI'		#neko besedilo za opis
 	obmenu.extra_cmd = ['mv ~/.config/openbox/menu.xml ~/.config/openbox/menu_original.xml',\
-						'wget "https://github.com/davidrihtarsic/BunsenLab/raw/master/OpenBox_menu.xml" -O ~/.config/openbox/menu.xml',\
+						'wget "https://github.com/davidrihtarsic/BunsenLabs/raw/master/OpenBox_menu.xml" -O ~/.config/openbox/menu.xml',\
 						'sudo git clone https://github.com/woho/openbox-menu.git '+opt_dir+'openbox-menu',\
 						'/opt/openbox-menu/obmenu.py']#se ene extra cmd ... ce je se kaj...
 	obmenu.program_desktop = ['[Desktop Entry]',
