@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from myTUI import Form, Edit, Text, cls, setCursor
 import sys
 import os
@@ -61,7 +61,7 @@ class NovProgram(object):
 		## Instal from special apt-get command ... #####################################
 		if len(self.pre_install_cmds) != 0:
 			for pre_cmd in self.pre_install_cmds:
-				key = raw_input(thisAppOutput+'execute:'+pre_cmd+ confirmText)
+				key = input(thisAppOutput+'execute:'+pre_cmd+ confirmText)
 				if key == 'y':
 					os.system(pre_cmd)
 		if self.apt_get_name != '':
@@ -69,7 +69,7 @@ class NovProgram(object):
 			#ce smo vpisali apt-get podatke potem...
 			sys.stdout.write(thisAppOutput+'Preverjam apt-get paket: ' + self.apt_get_name +escapeColorDefault+'\n' )
 			os.system('apt-cache policy ' + self.apt_get_name)
-			key = raw_input(thisAppOutput+'Namestim preko apt-get... ?'+confirmText)
+			key = input(thisAppOutput+'Namestim preko apt-get... ?'+confirmText)
 			if key == 'y':
 				os.system('sudo apt-get install ' + self.apt_get_name)
 
@@ -100,18 +100,18 @@ class NovProgram(object):
 				#ce file ne obstaja gremo gledat na internet...
 				sys.stdout.write(thisAppOutput+'Preverjam DEB package...'+escapeColorDefault+'\n')
 				os.system('wget --spider -v '+temp_deb_package_path+temp_deb_package_file)
-				key = raw_input(thisAppOutput+'Prenesi v '+download_dir+ confirmText)
+				key = input(thisAppOutput+'Prenesi v '+download_dir+ confirmText)
 				if key == 'y':
 					os.system('wget '+ temp_deb_package_path + temp_deb_package_file + ' --directory-prefix='+download_dir )
 			#pokazi direktorij Download
 			if os.path.isfile(download_dir+temp_deb_package_file):
 				sys.stdout.write(thisAppOutput+'Nasel:'+escapeColorDefault+'\n')
 				os.system('ls -all ' + download_dir + ' | grep ' + temp_deb_package_file)
-				key = raw_input(thisAppOutput+'Namesti DEB package: ' + temp_deb_package_file + confirmText)
+				key = input(thisAppOutput+'Namesti DEB package: ' + temp_deb_package_file + confirmText)
 				if key == 'y':
 					os.system('sudo dpkg -i ' + download_dir + temp_deb_package_file)
 					sys.stdout.write(thisAppOutput+'Namestitev koncana...'+escapeColorDefault+'\n')
-				key = raw_input(thisAppOutput+'Izbrisi datoteko:'
+				key = input(thisAppOutput+'Izbrisi datoteko:'
 								+ download_dir + temp_deb_package_file+'*'
 								+ confirmText)
 				if key == 'y':
@@ -144,7 +144,7 @@ class NovProgram(object):
 				#ce file ne obstaja gremo gledat na internet...
 				sys.stdout.write(thisAppOutput+'Preverjam TAR package...'+escapeColorDefault+'\n')
 				os.system('wget --spider -v '+temp_tar_package_path+temp_tar_package_file)
-				key = raw_input(thisAppOutput+'Prenesi v '+download_dir+ '?'+confirmText)
+				key = input(thisAppOutput+'Prenesi v '+download_dir+ '?'+confirmText)
 				if key == 'y':
 					os.system('wget '+ temp_tar_package_path + temp_tar_package_file + ' --directory-prefix='+download_dir )
 			#pokazi direktorij Download
@@ -152,14 +152,14 @@ class NovProgram(object):
 				sys.stdout.write(thisAppOutput+'Nasel:'+escapeColorDefault+'\n')
 				os.system('ls -all ' + download_dir + ' | grep ' + temp_tar_package_file)
 				if self.tar_destination == '':
-					key = raw_input(thisAppOutput+'Razpakiraj TAR package: '
+					key = input(thisAppOutput+'Razpakiraj TAR package: '
 									+ temp_tar_package_file +
 									' v ' + download_dir + '?'+confirmText)
 					if key == 'y':
 						os.system('tar -xvf '+ download_dir+temp_tar_package_file
 								+' --directory '+ download_dir)
 				else:
-					key = raw_input(thisAppOutput+'Razpakiraj TAR package: '
+					key = input(thisAppOutput+'Razpakiraj TAR package: '
 									+ temp_tar_package_file +
 									' v ' + self.tar_destination + '?'+confirmText)
 					if key == 'y':
@@ -169,7 +169,7 @@ class NovProgram(object):
 						os.system('sudo tar -xvf '+download_dir+temp_tar_package_file
 									+' --directory '+ self.tar_destination)
 				# Izbrisi kar smo zloadali... da pocistimo za seboj...
-				key = raw_input(thisAppOutput+'Izbrisi datoteko:'
+				key = input(thisAppOutput+'Izbrisi datoteko:'
 									+ download_dir + temp_tar_package_file+'*'
 									+ confirmText)
 				if key == 'y':
@@ -187,7 +187,7 @@ class NovProgram(object):
 				#self.tar_extra_cmds = ['make','make install']
 			if len(self.tar_extra_cmds) != 0:
 				for extra_cmd in self.tar_extra_cmds:
-					key = raw_input(thisAppOutput+'execute:'+extra_cmd+confirmText)
+					key = input(thisAppOutput+'execute:'+extra_cmd+confirmText)
 					if key == 'y':
 						os.system(extra_cmd)
 
@@ -196,7 +196,7 @@ class NovProgram(object):
 		#sudo sh -c 'echo "export PATH=\$PATH:/opt/arduino-1.8.1" >> /etc/profile.d/arduino_path.sh'
 		if len(self.add_path_profile_variable) != 0:
 			# ce in nastavljeno pot... to dodamo v $PATH
-			key = raw_input(thisAppOutput+'Dodaj pot:'+ self.add_path_profile_variable + ' v $PATH ?'+confirmText)
+			key = input(thisAppOutput+'Dodaj pot:'+ self.add_path_profile_variable + ' v $PATH ?'+confirmText)
 			if key == 'y':
 				if (open(user_path + '/.bashrc', 'r').read().find(self.add_path_profile_variable)>0):
 					sys.stdout.write(thisAppOutput+'Pot: '+ self.add_path_profile_variable +' ze dodana v : '+ user_path + '/.bashrc...'+escapeColorDefault+'\n')
@@ -210,7 +210,7 @@ class NovProgram(object):
 		if len(self.add_bash_parameter) != 0:
 			# ce in nastavljeno pot... to dodamo v $PATH
 			for text in self.add_bash_parameter:
-				key = raw_input(thisAppOutput+'Dodaj text: '+ text + ' v ~/.bashrc ?'+confirmText)
+				key = input(thisAppOutput+'Dodaj text: '+ text + ' v ~/.bashrc ?'+confirmText)
 				if key == 'y':
 					if (open(user_path + '/.bashrc', 'r').read().find(text)>0):
 						sys.stdout.write(thisAppOutput+'Text: '+ text +' ze dodano v : '+ user_path + '/.bashrc...'+escapeColorDefault+'\n')
@@ -224,7 +224,7 @@ class NovProgram(object):
 		## Post INSTALL operations #####################################################
 		if len(self.extra_cmd) != 0:
 			for extra_cmd in self.extra_cmd:
-				key = raw_input(thisAppOutput+'execute:'+extra_cmd+ confirmText)
+				key = input(thisAppOutput+'execute:'+extra_cmd+ confirmText)
 				if key == 'y':
 					os.system(extra_cmd)
 
@@ -233,7 +233,7 @@ class NovProgram(object):
 		if len(self.program_desktop) != 0:
 			# test ce je kaj not: sys.stdout.write(self.program_desktop[0])
 			# sudo sh -c 'echo "export PATH=\$PATH:/opt/arduino-1.8.1" >> /etc/profile.d/arduino_path.sh'
-			key = raw_input(thisAppOutput+'Naredi menu:'+ menu_desktop + self.program_name+ '.desktop ?'+confirmText)
+			key = input(thisAppOutput+'Naredi menu:'+ menu_desktop + self.program_name+ '.desktop ?'+confirmText)
 			if key == 'y':
 				#naredi le ce fajl ne obstaja...
 				if not os.path.isfile(menu_desktop + self.program_name+ '.desktop'):
@@ -292,7 +292,7 @@ class NovProgram(object):
 
 			sys.stdout.write(escapeColorDefault+self.description[new_start:]+''+escapeColorDefault+'\n'
 							+'###########################################################\n')
-		key = raw_input(thisAppOutput+'Nadaljuj z namestitvijo?'+confirmText)
+		key = input(thisAppOutput+'Nadaljuj z namestitvijo?'+confirmText)
 		if key == 'y':
 			self.install_apt_cmd()
 			self.install_DEB_package()
@@ -1182,7 +1182,7 @@ def Install_programms():
 	k3b.description = 'K3b is a simple, yet powerful and highly-configurable graphical optical disk burning application for audio, video, data projects and more!'
 	k3b.apt_get_name = 'k3b'
 	##k3b.notes = ''
- 	VsiProgrami.append(k3b.program_name)
+	VsiProgrami.append(k3b.program_name)
 ## bCNC ########################################################
 	#test OK @ BL 64-bit (David)
 	global bCNC
@@ -1215,7 +1215,7 @@ def Install_programms():
 	lmms.description = 'Open source digital audio workstation'
 	lmms.apt_get_name = 'lmms'
 	lmms.notes ="Dokumentacija za program se nahaja na naslovu: https://lmms.io/documentation/"
- 	VsiProgrami.append(lmms.program_name)
+	VsiProgrami.append(lmms.program_name)
 ## ECLIPSEC ####################################################
 	#testing...  @ BL 64-bit (David)
 	# instalacija dela...
@@ -1399,63 +1399,63 @@ Main()
 Main()
 #while (editCmd.value != 'q'):
 while (key != 'q'):
-	key = raw_input('Cmd::')
-	programe_index=(i for i in xrange(50))
-	programe_index.next()
+	key = input('Cmd::')
+	programe_index=(i for i in range(50))
+	next(programe_index)
 	if key == '':
 		cls()
 		Main()
 	#---------------------------------------SYSTEM PROGRAMS
-	elif key == str(programe_index.next()):	Update_Upgrade.install()
-	elif key == str(programe_index.next()):	git.install()
-	elif key == str(programe_index.next()):	java_8.install()
-	elif key == str(programe_index.next()):	obmenu.install()
-	elif key == str(programe_index.next()):	Terminator.install()
-	elif key == str(programe_index.next()):	Htop.install()
-#	elif key == str(programe_index.next()):	vim.install()
-	elif key == str(programe_index.next()):	Pv.install()
-	elif key == str(programe_index.next()):	nmon.install()
-	elif key == str(programe_index.next()):	wavemon.install()
-	elif key == str(programe_index.next()):	Neofetch.install()
-	elif key == str(programe_index.next()):	Fortune.install()
-	elif key == str(programe_index.next()):	Cowsay.install()
-	elif key == str(programe_index.next()):	Keymap.install()
-	elif key == str(programe_index.next()):	conky.install()
-	elif key == str(programe_index.next()):	bunsenLabSettings.install()
-	elif key == str(programe_index.next()):	xBackLight.install()
-	elif key == str(programe_index.next()):	dave_s_conky.install()
-	elif key == str(programe_index.next()):	ll.install()
-	elif key == str(programe_index.next()):	weather.install()
-	elif key == str(programe_index.next()):	FileZilla.install()
-	elif key == str(programe_index.next()):	python_serial.install()
-	elif key == str(programe_index.next()):	FreeFileSync.install()
-	#---------------------------------------OTHET PROGRAMS
-	elif key == str(programe_index.next()):	Arduino.install()
-	elif key == str(programe_index.next()):	qCAD.install()
-	elif key == str(programe_index.next()):	FreeCAD.install()
-	elif key == str(programe_index.next()):	Sublime.install()
-	elif key == str(programe_index.next()):	LibreOffice.install()
-	elif key == str(programe_index.next()):	Thunderbird.install()
-	elif key == str(programe_index.next()):	FireFox.install()
-	elif key == str(programe_index.next()):	GoogleChrome.install()
-	elif key == str(programe_index.next()):	W3M.install()
-	elif key == str(programe_index.next()):	Skype.install()
-	elif key == str(programe_index.next()):	stellarium.install()
-	elif key == str(programe_index.next()):	Foxitreader.install()
-	elif key == str(programe_index.next()):	Fritzing.install()
-	elif key == str(programe_index.next()):	texmaker.install()
-	elif key == str(programe_index.next()):	inkscape.install()
-	elif key == str(programe_index.next()):	gimp.install()
-	elif key == str(programe_index.next()):	mypaint.install()
-	elif key == str(programe_index.next()):	audacity.install()
-	elif key == str(programe_index.next()):	zathura.install()
-	elif key == str(programe_index.next()):	evince.install()
-	elif key == str(programe_index.next()):	k3b.install()
-	elif key == str(programe_index.next()):	bCNC.install()
-	elif key == str(programe_index.next()):	lmms.install()
-	elif key == str(programe_index.next()):	eclipse.install()
-	elif key == str(programe_index.next()):	QT5_creator.install()
-	elif key == str(programe_index.next()):	Stencyl.install()
+	elif key == str(next(programe_index)):	Update_Upgrade.install()
+	elif key == str(next(programe_index)):	git.install()
+	elif key == str(next(programe_index)):	java_8.install()
+	elif key == str(next(programe_index)):	obmenu.install()
+	elif key == str(next(programe_index)):	Terminator.install()
+	elif key == str(next(programe_index)):	Htop.install()
+#	elif key == str(next(programe_index)):	vim.install()
+	elif key == str(next(programe_index)):	Pv.install()
+	elif key == str(next(programe_index)):	nmon.install()
+	elif key == str(next(programe_index)):	wavemon.install()
+	elif key == str(next(programe_index)):	Neofetch.install()
+	elif key == str(next(programe_index)):	Fortune.install()
+	elif key == str(next(programe_index)):	Cowsay.install()
+	elif key == str(next(programe_index)):	Keymap.install()
+	elif key == str(next(programe_index)):	conky.install()
+	elif key == str(next(programe_index)):	bunsenLabSettings.install()
+	elif key == str(next(programe_index)):	xBackLight.install()
+	elif key == str(next(programe_index)):	dave_s_conky.install()
+	elif key == str(next(programe_index)):	ll.install()
+	elif key == str(next(programe_index)):	weather.install()
+	elif key == str(next(programe_index)):	FileZilla.install()
+	elif key == str(next(programe_index)):	python_serial.install()
+	elif key == str(next(programe_index)):	FreeFileSync.install()
+	#---------------next(p-----------------OTHET PROGRAMS
+	elif key == str(next(programe_index)):	Arduino.install()
+	elif key == str(next(programe_index)):	qCAD.install()
+	elif key == str(next(programe_index)):	FreeCAD.install()
+	elif key == str(next(programe_index)):	Sublime.install()
+	elif key == str(next(programe_index)):	LibreOffice.install()
+	elif key == str(next(programe_index)):	Thunderbird.install()
+	elif key == str(next(programe_index)):	FireFox.install()
+	elif key == str(next(programe_index)):	GoogleChrome.install()
+	elif key == str(next(programe_index)):	W3M.install()
+	elif key == str(next(programe_index)):	Skype.install()
+	elif key == str(next(programe_index)):	stellarium.install()
+	elif key == str(next(programe_index)):	Foxitreader.install()
+	elif key == str(next(programe_index)):	Fritzing.install()
+	elif key == str(next(programe_index)):	texmaker.install()
+	elif key == str(next(programe_index)):	inkscape.install()
+	elif key == str(next(programe_index)):	gimp.install()
+	elif key == str(next(programe_index)):	mypaint.install()
+	elif key == str(next(programe_index)):	audacity.install()
+	elif key == str(next(programe_index)):	zathura.install()
+	elif key == str(next(programe_index)):	evince.install()
+	elif key == str(next(programe_index)):	k3b.install()
+	elif key == str(next(programe_index)):	bCNC.install()
+	elif key == str(next(programe_index)):	lmms.install()
+	elif key == str(next(programe_index)):	eclipse.install()
+	elif key == str(next(programe_index)):	QT5_creator.install()
+	elif key == str(next(programe_index)):	Stencyl.install()
 	elif key == 'all':
 		#---SYSTEM PROGRAMS
 		Update_Upgrade.install()
