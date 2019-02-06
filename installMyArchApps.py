@@ -51,11 +51,11 @@ class NovProgram(object):
                         pass
                     else:
                         # it is not installed... install it!
-                        os.system('yaourt -S --noconfirm '+yaourt_cmd)
+                        os.system('aurman -S --noconfirm '+yaourt_cmd)
                 else:
                     key = input(thisAppOutput+'Install with YAOURT: ' + yaourt_cmd + confirmText)
                     if key == 'y':
-                        os.system('yaourt -S '+yaourt_cmd)
+                        os.system('aurman -S '+yaourt_cmd)
 
     def arch_pacman_install(self):
         # install from terminal pacman command
@@ -380,7 +380,7 @@ Arduino.description = 'Arduino je mikrokrmilnik na maticni plosci, ki je zasnova
                     'Mikrokrmilnik so razvili na soli oblikovanja v italijanskem '\
                     'mestu Ivrea in predstavlja enega zgodnjih mejnikov v gibanju '\
                     'odprtokodne strojne opreme.'
-Arduino.arch_pacman_cmds = ['arduino']
+Arduino.arch_pacman_cmds = ['arduino', 'arduino-avr-core']
 Arduino.arch_zsh_cmds = ['sudo usermod -a -G uucp ' + user]
 # tole je treba še zrihtat !!!
 Arduino.notes = 'NASTAVITI JE POTREBNO "SERIAL PORT PERMITIONS"!\n'\
