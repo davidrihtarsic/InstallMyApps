@@ -844,20 +844,20 @@ def Install_programms():
 						'lesarstvo, gradbenistvo, arhitektura, geodezija in elektrotehnika.'
 
 	qCAD.tar_package_path_64 = 'https://www.qcad.org/archives/qcad/'
-	qCAD.tar_package_file_64 = 'qcad-3.21.3-trial-linux-x86_64.tar.gz'
+	qCAD.tar_package_file_64 = 'qcad-3.22.0-trial-linux-x86_64.tar.gz'
 	qCAD.tar_package_path_32 = 'https://www.qcad.org/archives/qcad/'
-	qCAD.tar_package_file_32 = 'qcad-3.21.3-trial-linux-x86_32.tar.gz'
+	qCAD.tar_package_file_32 = 'qcad-3.22.0-trial-linux-x86_32.tar.gz'
 	qCAD.tar_destination = opt_dir
 	qCAD.program_desktop = ['[Desktop Entry]',
 							'Version=1.0',
 							'Name=QCAD',
-							'Exec=/opt/qcad-3.21.3-trial-linux-x86_'+str(qCAD.arhitecture_bit_num)+'/qcad',
-							'Icon=/opt/qcad-3.21.3-trial-linux-x86_'+str(qCAD.arhitecture_bit_num)+'/qcad_icon.png',
+							'Exec=/opt/qcad-3.22.0-trial-linux-x86_'+str(qCAD.arhitecture_bit_num)+'/qcad',
+							'Icon=/opt/qcad-3.22.0-trial-linux-x86_'+str(qCAD.arhitecture_bit_num)+'/qcad_icon.png',
 							'Terminal=false',
 							'Type=Application',
 							'Categories=Graphics;'
 							]
-	qCAD.add_path_profile_variable = '/opt/qcad-3.21.3-trial-linux-x86_'+str(qCAD.arhitecture_bit_num)+'/'
+	qCAD.add_path_profile_variable = '/opt/qcad-3.22.0-trial-linux-x86_'+str(qCAD.arhitecture_bit_num)+'/'
 	VsiProgrami.append(qCAD.program_name)
 ## FREECAD #####################################################
 	global FreeCAD
@@ -897,11 +897,11 @@ def Install_programms():
 	LibreOffice.apt_get_name =''
 	LibreOffice.check_version_cmd = ''
 	LibreOffice.tar_package_path_32 = 'https://download.documentfoundation.org/libreoffice/stable/6.2.0/deb/x86/'
-	LibreOffice.tar_package_file_32 = 'LibreOffice_6.2.0_Linux_x86_deb.tar.gz'
+	LibreOffice.tar_package_file_32 = 'LibreOffice_6.2.2_Linux_x86_deb.tar.gz'
 	LibreOffice.deb_package_path_64 = ''
 	LibreOffice.deb_package_file_64 = ''
 	LibreOffice.tar_package_path_64 = 'https://download.documentfoundation.org/libreoffice/stable/6.2.0/rpm/x86_64'
-	LibreOffice.tar_package_file_64 = 'LibreOffice_6.2.0_Linux_x86-64_deb.tar.gz'
+	LibreOffice.tar_package_file_64 = 'LibreOffice_6.2.2_Linux_x86-64_deb.tar.gz'
 	LibreOffice.tar_destination =''
 	LibreOffice.tar_extra_cmds = ['sudo dpkg -i '+ download_dir +'LibreOffice_*_Linux_*_deb/DEBS/*.deb']
 	VsiProgrami.append(LibreOffice.program_name)
