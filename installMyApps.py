@@ -831,6 +831,25 @@ def Install_programms():
 					'2. -> sudo usermod -a -G group-name username\n'\
 					'3. log-OUT & log-IN'
 	VsiProgrami.append(Arduino.program_name)
+## ArduBLockly ###############################################4
+	global Ardublockly
+	Ardublockly = NovProgram()
+	Ardublockly.program_name = 'Ardublockly'					#ime naj bo brez presledkov
+	Ardublockly.description = 'Ikonsko programiranje Arduino krmilnikov'		#neko besedilo za opis
+	Ardublockly.extra_cmd = ['sudo git clone https://github.com/carlosperate/ardublockly.git '+opt_dir+'ardublockly',\
+						'sudo chmod a+w /opt/ardublockly',\
+						'sudo chmod a+x /opt/ardublockly/start.py']#se ene extra cmd ... ce je se kaj...
+	Ardublockly.program_desktop = ['[Desktop Entry]',
+							'Version=1.0',
+							'Name=Ardublockly',
+							'Exec=python /opt/ardublockly/start.py',
+							'Icon=/opt/ardublockly/package/electron/resources/icon.png',
+							'Terminal=true',
+							'Type=Application',
+							'Categories=Development;Programming;'
+							]
+	# obmenu.notes = ''
+	VsiProgrami.append(Ardublockly.program_name)
 ## QCAD ########################################################
 	global qCAD
 	qCAD = NovProgram()
@@ -1431,6 +1450,7 @@ while (key != 'q'):
 	elif key == str(next(programe_index)):	FreeFileSync.install()
 	#---------------next(p-----------------OTHET PROGRAMS
 	elif key == str(next(programe_index)):	Arduino.install()
+	elif key == str(next(programe_index)):	Ardublockly.install()
 	elif key == str(next(programe_index)):	qCAD.install()
 	elif key == str(next(programe_index)):	FreeCAD.install()
 	elif key == str(next(programe_index)):	Sublime.install()
