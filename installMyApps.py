@@ -870,13 +870,13 @@ def Install_programms():
 	qCAD.program_desktop = ['[Desktop Entry]',
 							'Version=1.0',
 							'Name=QCAD',
-							'Exec=/opt/qcad-3.22.0-trial-linux-x86_'+str(qCAD.arhitecture_bit_num)+'/qcad',
-							'Icon=/opt/qcad-3.22.0-trial-linux-x86_'+str(qCAD.arhitecture_bit_num)+'/qcad_icon.png',
+							'Exec=/opt/qcad-3.23.0-trial-linux-x86_'+str(qCAD.arhitecture_bit_num)+'/qcad',
+							'Icon=/opt/qcad-3.23.0-trial-linux-x86_'+str(qCAD.arhitecture_bit_num)+'/qcad_icon.png',
 							'Terminal=false',
 							'Type=Application',
 							'Categories=Graphics;'
 							]
-	qCAD.add_path_profile_variable = '/opt/qcad-3.22.0-trial-linux-x86_'+str(qCAD.arhitecture_bit_num)+'/'
+	qCAD.add_path_profile_variable = '/opt/qcad-3.23.0-trial-linux-x86_'+str(qCAD.arhitecture_bit_num)+'/'
 	VsiProgrami.append(qCAD.program_name)
 ## FREECAD #####################################################
 	global FreeCAD
